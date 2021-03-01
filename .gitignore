@@ -1,0 +1,10 @@
+# Files
+.DS_Store
+.env
+.eslintcache
+
+# Directories
+dist/
+build/
+node_modules/
+.nyc_output/

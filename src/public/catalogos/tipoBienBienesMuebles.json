@@ -1,0 +1,26 @@
+[
+  {
+    "clave": "MECA",
+    "valor": "MENAJE DE CASA (MUEBLES Y ACCESORIOS DE CASA)"
+  },
+  {
+    "clave": "APAE",
+    "valor": "APARATOS ELECTRÓNICOS Y ELECTRODOMÉSTICOS"
+  },
+  {
+    "clave": "JOYA",
+    "valor": "JOYAS"
+  },
+  {
+    "clave": "COLEC",
+    "valor": "COLECCIONES"
+  },
+  {
+    "clave": "OBRA",
+    "valor": "OBRAS DE ARTE"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTROS (ESPECIFIQUE)"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "clave": "DEC",
+    "valor": "DECLARANTE"
+  },
+  {
+    "clave": "CYG",
+    "valor": "CÓNYUGE"
+  },
+  {
+    "clave": "CBN",
+    "valor": "CONCUBINA O CONCUBINARIO"
+  },
+  {
+    "clave": "CVV",
+    "valor": "CONVIVIENTE"
+  },
+  {
+    "clave": "DEN",
+    "valor": "DEPENDIENTE ECONÓMICO"
+  },
+  {
+    "clave": "CTER",
+    "valor": "COPROPIEDAD CON TERCEROS"
+  }
+]

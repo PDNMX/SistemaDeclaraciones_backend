@@ -1,0 +1,18 @@
+[
+  {
+    "clave": "AUMOT",
+    "valor": "AUTOMÓVIL/MOTOCICLETA"
+  },
+  {
+    "clave": "AERN",
+    "valor": "AERONAVE"
+  },
+  {
+    "clave": "BARYA",
+    "valor": "BARCO/YATE"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTROS (ESPECIFIQUE)"
+  }
+]

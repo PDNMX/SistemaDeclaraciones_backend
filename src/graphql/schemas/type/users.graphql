@@ -1,0 +1,22 @@
+type RFC {
+  rfc: String
+  homoClave: String
+}
+
+type User {
+  _id: ID!
+  username: String!
+  nombre: String!
+  primerApellido: String!
+  segundoApellido: String
+  curp: String!
+  rfc: RFC!
+  roles: [Role!]!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Login {
+  user: User!
+  jwtToken: String!
+}

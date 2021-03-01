@@ -1,0 +1,13 @@
+type Mutation {
+  changeRoles(userID: String!, roles:[Role!]!): User! @hasRole(roles: [SUPER_ADMIN])
+
+  changePassword(oldPassword: String! newPassword: String!): Boolean! @isAuthenticated
+
+  declaracion(id: ID!, declaracion: DeclaracionSeccionesInput!): Declaracion @isAuthenticated
+
+  updateUserProfile(profile: UserProfileInput!): User! @isAuthenticated
+
+  signup(user: UserSignUpInput!): User!
+
+  resetPassword(token: String!, newPassword: String!): Boolean!
+}

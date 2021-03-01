@@ -1,0 +1,30 @@
+[
+  {
+    "clave": "CAP",
+    "valor": "CAPITAL"
+  },
+  {
+    "clave": "FIN",
+    "valor": "FONDOS DE INVERSIÓN"
+  },
+  {
+    "clave": "OPR",
+    "valor": "ORGANIZACIONES PRIVADA"
+  },
+  {
+    "clave": "SSI",
+    "valor": "SEGURO DE SEPARACIÓN INDIVIDUALIZADO"
+  },
+  {
+    "clave": "VBU",
+    "valor": "VALORES BURSÁTILES"
+  },
+  {
+    "clave": "BON",
+    "valor": "BONOS"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTRO(ESPECIFIQUE)"
+  }
+]

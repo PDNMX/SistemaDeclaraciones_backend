@@ -1,0 +1,18 @@
+[
+  {
+    "clave": "VNT",
+    "valor": "VENTA"
+  },
+  {
+    "clave": "DNC",
+    "valor": "DONACIÓN"
+  },
+  {
+    "clave": "SNT",
+    "valor": "SINIESTRO"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTRO(ESPECIFIQUE)"
+  }
+]

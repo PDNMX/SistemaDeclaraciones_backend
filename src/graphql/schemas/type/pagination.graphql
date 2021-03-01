@@ -1,0 +1,14 @@
+type UsersPage {
+  docs: [User!]!
+  pageNumber: Int!
+}
+
+type DeclaracionesPage {
+  docs: [Declaracion!]!
+  pageNumber: Int!
+}
+
+type DeclaracionesMetadataPage {
+  docs: [DeclaracionMetadata!]!
+  pageNumber: Int!
+}

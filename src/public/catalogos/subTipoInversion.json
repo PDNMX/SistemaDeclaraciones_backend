@@ -1,0 +1,132 @@
+[
+  {
+    "tipoInversion": "BANC",
+    "clave": "CNOM",
+    "valor": "CUENTA DE NÓMINA"
+  },
+  {
+    "tipoInversion": "BANC",
+    "clave": "CAHO",
+    "valor": "CUENTA DE AHORRO"
+  },
+  {
+    "tipoInversion": "BANC",
+    "clave": "CCHE",
+    "valor": "CUENTA DE CHEQUES"
+  },
+  {
+    "tipoInversion": "BANC",
+    "clave": "CMAS",
+    "valor": "CUENTA MAESTRA"
+  },
+  {
+    "tipoInversion": "BANC",
+    "clave": "CEJE",
+    "valor": "CUENTA EJE"
+  },
+  {
+    "tipoInversion": "BANC",
+    "clave": "DPLA",
+    "valor": "DEPÓSITO A PLAZOS"
+  },
+  {
+    "tipoInversion": "FINV",
+    "clave": "SOIN",
+    "valor": "SOCIEDADES DE INVERSIÓN"
+  },
+  {
+    "tipoInversion": "FINV",
+    "clave": "IFEX",
+    "valor": "INVERSIONES FINANCIERAS EN EL EXTRANJERO"
+  },
+  {
+    "tipoInversion": "ORPM",
+    "clave": "ACCI",
+    "valor": "ACCIONES"
+  },
+  {
+    "tipoInversion": "ORPM",
+    "clave": "CSAH",
+    "valor": "CAJAS DE AHORRO"
+  },
+  {
+    "tipoInversion": "POMM",
+    "clave": "CENT",
+    "valor": "CENTENARIOS"
+  },
+  {
+    "tipoInversion": "POMM",
+    "clave": "DIVS",
+    "valor": "DIVISAS"
+  },
+  {
+    "tipoInversion": "POMM",
+    "clave": "MONN",
+    "valor": "MONEDA NACIONAL"
+  },
+  {
+    "tipoInversion": "POMM",
+    "clave": "ONZT",
+    "valor": "ONZAS TROY"
+  },
+  {
+    "tipoInversion": "POMM",
+    "clave": "CRIP",
+    "valor": "CRIPTOMONEDAS"
+  },
+  {
+    "tipoInversion": "SEGR",
+    "clave": "SSIN",
+    "valor": "SEGURO DE SEPARACIÓN INDIVIDUALIZADO"
+  },
+  {
+    "tipoInversion": "SEGR",
+    "clave": "SEGI",
+    "valor": "SEGURO DE INVERSIÓN"
+  },
+  {
+    "tipoInversion": "SEGR",
+    "clave": "SEGV",
+    "valor": "SEGURO DE VIDA"
+  },
+  {
+    "tipoInversion": "VBUR",
+    "clave": "ADER",
+    "valor": "ACCIONES Y DERIVADOS"
+  },
+  {
+    "tipoInversion": "VBUR",
+    "clave": "ABAN",
+    "valor": "ACEPTACIONES BANCARIAS"
+  },
+  {
+    "tipoInversion": "VBUR",
+    "clave": "BGUB",
+    "valor": "BONOS GUBERNAMENTALES"
+  },
+  {
+    "tipoInversion": "VBUR",
+    "clave": "PCOM",
+    "valor": "PAPEL COMERCIAL"
+  },
+  {
+    "tipoInversion": "AFOT",
+    "clave": "AFOR",
+    "valor": "AFORES"
+  },
+  {
+    "tipoInversion": "AFOT",
+    "clave": "FIDE",
+    "valor": "FIDEICOMISOS"
+  },
+  {
+    "tipoInversion": "AFOT",
+    "clave": "CTES",
+    "valor": "CERTIFICADOS DE LA TESORERÍA"
+  },
+  {
+    "tipoInversion": "AFOT",
+    "clave": "PFTE",
+    "valor": "PRÉSTAMOS A FAVOR DE UN TERCERO"
+  }
+]

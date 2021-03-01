@@ -1,0 +1,70 @@
+[
+  {
+    "clave": "AGRI",
+    "valor": "AGRICULTURA"
+  },
+  {
+    "clave": "MIN",
+    "valor": "MINERÍA"
+  },
+  {
+    "clave": "EELECT",
+    "valor": "ENERGÍA ELÉCTRICA"
+  },
+  {
+    "clave": "CONS",
+    "valor": "CONSTRUCCIÓN"
+  },
+  {
+    "clave": "INDMANU",
+    "valor": "INDUSTRIA MANUFACTURERA"
+  },
+  {
+    "clave": "CMAYOR",
+    "valor": "COMERCIO AL POR MAYOR"
+  },
+  {
+    "clave": "CMENOR",
+    "valor": "COMERCIO AL POR MENOR"
+  },
+  {
+    "clave": "TRANS",
+    "valor": "TRANSPORTE"
+  },
+  {
+    "clave": "MEDIOM",
+    "valor": "MEDIOS MASIVOS"
+  },
+  {
+    "clave": "SERVFIN",
+    "valor": "SERVICIOS FINANCIEROS"
+  },
+  {
+    "clave": "SERVINM",
+    "valor": "SERVICIOS INMOBILIARIOS"
+  },
+  {
+    "clave": "SERVPROF",
+    "valor": "SERVICIOS PROFESIONALES"
+  },
+  {
+    "clave": "SERVCORP",
+    "valor": "SERVICIOS CORPORATIVOS"
+  },
+  {
+    "clave": "SERVS",
+    "valor": "SERVICIOS DE SALUD"
+  },
+  {
+    "clave": "SERVESPAR",
+    "valor": "SERVICIOS DE ESPARCIMIENTO"
+  },
+  {
+    "clave": "SERVALOJ",
+    "valor": "SERVICIOS DE ALOJAMIENTO"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTRO (ESPECIFIQUE)"
+  }
+]

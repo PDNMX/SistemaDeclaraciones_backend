@@ -1,0 +1,625 @@
+input CatalogoInput {
+  clave: String!
+  valor: String!
+}
+
+input DomicilioMexicoInput {
+  calle: String
+  numeroExterior: String
+  numeroInterior: String
+  coloniaLocalidad: String
+  municipioAlcaldia: CatalogoInput
+  entidadFederativa: CatalogoInput
+  codigoPostal: String
+}
+
+input DomicilioExtranjeroInput {
+  pais: String
+  calle: String
+  numeroExterior: String
+  numeroInterior: String
+  ciudadLocalidad: String
+  estadoProvincia: String
+  codigoPostal: String
+}
+
+input CorreoElectronicoInput {
+  institucional: String
+  personal: String
+}
+
+input TelefonoInput {
+  casa: String
+  celularPersonal: String
+}
+
+input DatosGeneralesInput {
+  nombre: String
+  primerApellido: String
+  segundoApellido: String
+  curp: String
+  rfc: RFCInput
+  correoElectronico: CorreoElectronicoInput
+  telefono: TelefonoInput
+  situacionPersonalEstadoCivil: CatalogoInput
+  regimenMatrimonial: CatalogoInput
+  paisNacimiento: String
+  nacionalidad: String
+  aclaracionesObservaciones: String
+}
+
+input DomicilioDeclaranteInput {
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
+  aclaracionesObservaciones: String
+}
+
+input InstitucionEducativaInput {
+  nombre: String
+  ubicacion: MexicoExtranjero
+}
+
+input EscolaridadInput {
+  tipoOperacion: TipoOperacion
+  nivel: CatalogoInput
+  institucionEducativa: InstitucionEducativaInput
+  carreraAreaConocimiento: String
+  estatus: Estatus
+  documentoObtenido: DocumentoObtenido
+  fechaObtencion: String
+}
+
+input DatosCurricularesDeclaranteInput {
+  escolaridad: [EscolaridadInput]
+  aclaracionesObservaciones: String
+}
+
+input TelefonoOficinaInput {
+  telefono: String
+  extension: String
+}
+
+input DatosEmpleoCargoComisionInput {
+  tipoOperacion: TipoOperacion
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: String
+  areaAdscripcion: String
+  empleoCargoComision: String
+  contratadoPorHonorarios: Boolean
+  nivelEmpleoCargoComision: String
+  funcionPrincipal: String
+  fechaTomaPosesion: String
+  telefonoOficina: TelefonoOficinaInput
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
+  aclaracionesObservaciones: String
+}
+
+input ExperienciaInput {
+  ambitoSector: CatalogoInput
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: String
+  areaAdscripcion: String
+  empleoCargoComision: String
+  funcionPrincipal: String
+  fechaIngreso: String
+  fechaEgreso: String
+  ubicacion: MexicoExtranjero
+  nombreEmpresaSociedadAsociacion: String
+  rfc: String
+  area: String
+  puesto: String
+  sector: CatalogoInput
+}
+
+input ExperienciaLaboralInput {
+  ninguno: Boolean
+  experiencia: [ExperienciaInput]
+  aclaracionesObservaciones: String
+}
+
+input ActividadLaboralSectorPublicoInput {
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: String
+  areaAdscripcion: String
+  empleoCargoComision: String
+  funcionPrincipal: String
+  salarioMensualNeto: MontoInput
+  fechaIngreso: String
+}
+
+input ActividadLaboralSectorPrivadoOtroInput {
+  nombreEmpresaSociedadAsociacion: String
+  empleoCargoComision: String
+  rfc: String
+  fechaIngreso: String
+  sector: CatalogoInput
+  salarioMensualNeto: MontoInput
+  proveedorContratistaGobierno: Boolean
+}
+
+input DatosParejaInput {
+  ninguno: Boolean
+  nombre: String!
+  primerApellido: String!
+  segundoApellido: String
+  fechaNacimiento: String
+  rfc: String
+  relacionConDeclarante: RelacionConDeclarante
+  ciudadanoExtranjero: Boolean
+  curp: String
+  esDependienteEconomico: Boolean
+  habitaDomicilioDeclarante: Boolean
+  lugarDondeReside: LugarResidencia
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
+  actividadLaboral: CatalogoInput
+  actividadLaboralSectorPublico: ActividadLaboralSectorPublicoInput
+  actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtroInput
+  aclaracionesObservaciones: String
+}
+
+input DependienteEconomicoInput {
+  nombre: String!
+  primerApellido: String!
+  segundoApellido: String
+  fechaNacimiento: String
+  rfc: String
+  parentescoRelacion: CatalogoInput
+  extranjero: Boolean
+  curp: String
+  habitaDomicilioDeclarante: Boolean
+  lugarDondeReside: LugarResidencia
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
+  actividadLaboral: CatalogoInput
+  actividadLaboralSectorPublico: ActividadLaboralSectorPublicoInput
+  actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtroInput
+  aclaracionesObservaciones: String
+}
+
+input DatosDependientesEconomicosInput {
+  ninguno: Boolean
+  dependienteEconomico: [DependienteEconomicoInput]
+  aclaracionesObservaciones: String
+}
+
+input MontoInput {
+  valor: Float
+  moneda: String
+}
+
+input ActividadIndustrialInput {
+  remuneracion: MontoInput
+  nombreRazonSocial: String
+  tipoNegocio: String
+}
+
+input ActividadFinancieraInput {
+  remuneracion: MontoInput
+  tipoInstrumento: CatalogoInput
+}
+
+input ServiciosProfesionalesInput {
+  remuneracion: MontoInput
+  tipoServicio: String
+}
+
+input OtrosIngresosInput {
+  remuneracion: MontoInput
+  tipoIngreso: String
+}
+
+input ActividadIndustrialTotalInput {
+  remuneracionTotal: MontoInput
+  actividades: [ActividadIndustrialInput]
+}
+
+input ActividadFinancieraTotalInput {
+  remuneracionTotal: MontoInput
+  actividades: [ActividadFinancieraInput]
+}
+
+input ServiciosProfesionalesTotalInput {
+  remuneracionTotal: MontoInput
+  servicios: [ServiciosProfesionalesInput]
+}
+
+input OtrosIngresosTotalInput {
+  remuneracionTotal: MontoInput
+  ingresos: [OtrosIngresosInput]
+}
+
+input IngresosInput {
+  remuneracionMensualCargoPublico: MontoInput
+  otrosIngresosMensualesTotal: MontoInput
+  actividadIndustrialComercialEmpresarial: ActividadIndustrialTotalInput
+  actividadFinanciera: ActividadFinancieraTotalInput
+  serviciosProfesionales: ServiciosProfesionalesTotalInput
+  otrosIngresos: OtrosIngresosTotalInput
+  ingresoMensualNetoDeclarante: MontoInput
+  ingresoMensualNetoParejaDependiente: MontoInput
+  totalIngresosMensualesNetos: MontoInput
+  aclaracionesObservaciones: String
+}
+
+input EnajenacionBienesInput {
+  remuneracion: MontoInput
+  tipoBienEnajenado: String
+}
+
+input EnajenacionBienesTotalInput {
+  remuneracionTotal: MontoInput
+  bienes: [EnajenacionBienesInput]
+}
+
+input ActividadAnualAnteriorInput {
+  servidorPublicoAnioAnterior: Boolean
+  fechaIngreso: String
+  fechaConclusion: String
+  remuneracionNetaCargoPublico: MontoInput
+  otrosIngresosTotal: MontoInput
+  actividadIndustrialComercialEmpresarial: ActividadIndustrialTotalInput
+  actividadFinanciera:  ActividadFinancieraTotalInput
+  serviciosProfesionales:  ServiciosProfesionalesTotalInput
+  enajenacionBienes: EnajenacionBienesTotalInput
+  otrosIngresos: OtrosIngresosTotalInput
+  ingresoNetoAnualDeclarante: MontoInput
+  ingresoNetoAnualParejaDependiente: MontoInput
+  totalIngresosNetosAnuales: MontoInput
+  aclaracionesObservaciones: String
+}
+
+input SuperficieInput {
+  valor: Float
+  unidad: UnidadMedida
+}
+
+input TerceroInput {
+  tipoPersona: TipoPersona
+  nombreRazonSocial: String
+  rfc: String
+}
+
+input TransmisorInput {
+  tipoPersona: TipoPersona
+  nombreRazonSocial: String
+  rfc: String
+  relacion: CatalogoInput
+}
+
+input BienInmuebleInput {
+  tipoInmueble: CatalogoInput
+  titular: [CatalogoInput]
+  porcentajePropiedad: Int
+  superficieTerreno: SuperficieInput
+  superficieConstruccion: SuperficieInput
+  tercero: [TerceroInput]
+  transmisor: [TransmisorInput]
+  formaAdquisicion: CatalogoInput
+  formaPago: FormaPago
+  valorAdquisicion: MontoInput
+  fechaAdquisicion: String
+  datoIdentificacion: String
+  valorConformeA: ValorConformeA
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
+  motivoBaja: CatalogoInput
+}
+
+input BienesInmueblesInput {
+  ninguno: Boolean
+  bienInmueble: [BienInmuebleInput]
+  aclaracionesObservaciones: String
+}
+
+input VehiculoInput {
+  tipoVehiculo: CatalogoInput
+  titular: [CatalogoInput]
+  transmisor: [TransmisorInput]
+  marca: String
+  modelo: String
+  anio: Int
+  numeroSerieRegistro: String
+  tercero: [TerceroInput]
+  lugarRegistro: UbicacionInput
+  formaAdquisicion: CatalogoInput
+  formaPago: FormaPago
+  valorAdquisicion: MontoInput
+  fechaAdquisicion: String
+  motivoBaja: CatalogoInput
+}
+
+input VehiculosInput {
+  ninguno: Boolean
+  vehiculo: [VehiculoInput]
+  aclaracionesObservaciones: String
+}
+
+input BienMuebleInput {
+  titular: [CatalogoInput]
+  tipoBien: CatalogoInput
+  transmisor: [TransmisorInput]
+  tercero: [TerceroInput]
+  descripcionGeneralBien: String
+  formaAdquisicion: CatalogoInput
+  formaPago: FormaPago
+  valorAdquisicion: MontoInput
+  fechaAdquisicion: String
+  motivoBaja: CatalogoInput
+}
+
+input BienesMueblesInput {
+  ninguno: Boolean
+  bienMueble: [BienMuebleInput]
+  aclaracionesObservaciones: String
+}
+
+input LocalizacionInversionInput {
+  pais: String
+  institucionRazonSocial: String
+  rfc: String
+}
+
+input InversionInput {
+  tipoInversion: CatalogoInput
+  subTipoInversion: CatalogoInput
+  titular: [CatalogoInput]
+  tercero: [TerceroInput]
+  numeroCuentaContrato: String
+  localizacionInversion: LocalizacionInversionInput
+  saldoSituacionActual: MontoInput
+}
+
+input InversionesCuentasValoresInput {
+  ninguno: Boolean
+  inversion: [InversionInput]
+  aclaracionesObservaciones: String
+}
+
+input OtorganteCreditoInput {
+  tipoPersona: TipoPersona
+  nombreInstitucion: String
+  rfc: String
+}
+
+input LocalizacionAdeudoInput {
+  localizacion: MexicoExtranjero
+  pais: String
+}
+
+input AdeudoInput {
+  titular: [CatalogoInput]
+  tipoAdeudo: CatalogoInput
+  numeroCuentaContrato: String
+  fechaAdquisicion: String
+  montoOriginal: MontoInput
+  saldoInsolutoSituacionActual: MontoInput
+  tercero: [TerceroInput]
+  otorganteCredito: OtorganteCreditoInput
+  localizacionAdeudo: LocalizacionAdeudoInput
+}
+
+input AdeudosPasivosInput {
+  ninguno: Boolean
+  adeudo: [AdeudoInput]
+  aclaracionesObservaciones: String
+}
+
+input InmueblePrestamoInput {
+  tipoInmueble: CatalogoInput
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
+}
+
+input VehiculoPrestamoInput {
+  tipo: CatalogoInput
+  marca: String
+  modelo: String
+  anio: Int
+  numeroSerieRegistro: String
+  lugarRegistro: UbicacionInput
+}
+
+input TipoBienPrestamoInput {
+  inmueble: InmueblePrestamoInput
+  vehiculo: VehiculoPrestamoInput
+}
+
+input DuenoTitularPrestamoInput {
+  tipoDuenoTitular: TipoPersona
+  nombreTitular: String
+  rfc: String
+  relacionConTitular: String
+}
+
+input PrestamoInput {
+  tipoBien: TipoBienPrestamoInput
+  duenoTitular: DuenoTitularPrestamoInput
+}
+
+input PrestamoComodatoInput {
+  ninguno: Boolean
+  prestamo: [PrestamoInput]
+  aclaracionesObservaciones: String
+}
+
+input UbicacionInput {
+  pais: String
+  entidadFederativa: CatalogoInput
+}
+
+input ParticipacionInput {
+  tipoOperacion: TipoOperacion
+  tipoRelacion: TipoRelacion
+  nombreEmpresaSociedadAsociacion: String
+  rfc: String
+  porcentajeParticipacion: Int
+  tipoParticipacion: CatalogoInput
+  recibeRemuneracion: Boolean
+  montoMensual: MontoInput
+  ubicacion: UbicacionInput
+  sector: CatalogoInput
+}
+
+input ParticipacionesInput {
+  ninguno: Boolean
+  participacion: [ParticipacionInput]
+  aclaracionesObservaciones: String
+}
+
+input ParticipacionTDInput {
+  tipoOperacion: TipoOperacion
+  tipoRelacion: TipoRelacion
+  tipoInstitucion: CatalogoInput
+  nombreInstitucion: String
+  rfc: String
+  puestoRol: String
+  fechaInicioParticipacion: String
+  recibeRemuneracion: Boolean
+  montoMensual: MontoInput
+  ubicacion: UbicacionInput
+}
+
+input ParticipacionTomaDecisionesInput {
+  ninguno: Boolean
+  participacion: [ParticipacionTDInput]
+  aclaracionesObservaciones: String
+}
+
+input ApoyoInput {
+  tipoOperacion: TipoOperacion
+  tipoPersona: TipoPersona
+  beneficiarioPrograma: CatalogoInput
+  nombrePrograma: String
+  institucionOtorgante: String
+  nivelOrdenGobierno: NivelOrdenGobierno
+  tipoApoyo: CatalogoInput
+  formaRecepcion: FormaRecepcion
+  montoApoyoMensual: MontoInput
+  especifiqueApoyo: String
+}
+
+input ApoyosInput {
+  ninguno: Boolean
+  apoyo: [ApoyoInput]
+  aclaracionesObservaciones: String
+}
+
+input RepresentacionInput {
+  tipoOperacion: TipoOperacion
+  tipoRelacion: TipoRelacion
+  tipoRepresentacion: TipoRepresentacion
+  tipoPersona: TipoPersona
+  nombreRazonSocial: String
+  rfc: String
+  recibeRemuneracion: Boolean
+  montoMensual: MontoInput
+  fechaInicioRepresentacion: String
+  ubicacion: UbicacionInput
+  sector: CatalogoInput
+}
+
+input RepresentacionesInput {
+  ninguno: Boolean
+  representacion: [RepresentacionInput]
+  aclaracionesObservaciones: String
+}
+
+input EmpresaInput {
+  nombreEmpresaServicio: String
+  rfc: String
+}
+
+input ClienteInput {
+  tipoOperacion: TipoOperacion
+  realizaActividadLucrativa: Boolean
+  tipoRelacion: TipoRelacion
+  empresa: EmpresaInput
+  clientePrincipal: TerceroInput
+  sector: CatalogoInput
+  montoAproximadoGanancia: MontoInput
+  ubicacion: UbicacionInput
+}
+
+input ClientesPrincipalesInput {
+  ninguno: Boolean
+  cliente: [ClienteInput]
+  aclaracionesObservaciones: String
+}
+
+input BeneficioInput {
+  tipoOperacion: TipoOperacion
+  tipoPersona: TipoPersona
+  tipoBeneficio: CatalogoInput
+  beneficiario: CatalogoInput
+  otorgante: TerceroInput
+  formaRecepcion: FormaRecepcion
+  especifiqueBeneficio: String
+  montoMensualAproximado: MontoInput
+  sector: CatalogoInput
+}
+
+input BeneficiosPrivadosInput {
+  ninguno: Boolean
+  beneficio: [BeneficioInput]
+  aclaracionesObservaciones: String
+}
+
+
+input FiduciarioInput {
+   nombreRazonSocial: String
+   rfc: String
+}
+
+input FideicomisoInput {
+  tipoOperacion: TipoOperacion
+  tipoRelacion: TipoRelacion
+  tipoFideicomiso: TipoFideicomiso
+  tipoParticipacion: TipoParticipacionFideicomiso
+  rfcFideicomiso: String
+  fideicomitente: TerceroInput
+  fiduciario: FiduciarioInput
+  fideicomisario: TerceroInput
+  sector: CatalogoInput
+  extranjero: MexicoExtranjero
+}
+
+input FideicomisosInput {
+  ninguno: Boolean
+  fideicomiso: [FideicomisoInput]
+  aclaracionesObservaciones: String
+}
+
+input DeclaracionesFilterInput {
+  tipoDeclaracion: TipoDeclaracion
+  simplificada: Boolean
+}
+
+input DeclaracionSeccionesInput {
+  datosGenerales: DatosGeneralesInput
+  domicilioDeclarante: DomicilioDeclaranteInput
+  datosCurricularesDeclarante: DatosCurricularesDeclaranteInput
+  datosEmpleoCargoComision: DatosEmpleoCargoComisionInput
+  experienciaLaboral: ExperienciaLaboralInput
+  datosPareja: DatosParejaInput
+  datosDependientesEconomicos: DatosDependientesEconomicosInput
+  ingresos: IngresosInput
+  actividadAnualAnterior: ActividadAnualAnteriorInput
+  bienesInmuebles: BienesInmueblesInput
+  vehiculos: VehiculosInput
+  bienesMuebles: BienesMueblesInput
+  inversionesCuentasValores: InversionesCuentasValoresInput
+  adeudosPasivos: AdeudosPasivosInput
+  prestamoComodato: PrestamoComodatoInput
+  participacion: ParticipacionesInput
+  participacionTomaDecisiones: ParticipacionTomaDecisionesInput
+  apoyos: ApoyosInput
+  representaciones: RepresentacionesInput
+  clientesPrincipales: ClientesPrincipalesInput
+  beneficiosPrivados: BeneficiosPrivadosInput
+  fideicomisos: FideicomisosInput
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "clave": "OSC",
+    "valor": "ORGANIZACIONES DE LA SOCIEDAD CIVIL"
+  },
+  {
+    "clave": "OB",
+    "valor": "ORGANIZACIONES BENÉFICAS"
+  },
+  {
+    "clave": "PP",
+    "valor": "PARTIDOS POLÍTICOS"
+  },
+  {
+    "clave": "GS",
+    "valor": "GREMIOS/SINDICATOS"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTRO (ESPECIFIQUE)"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "clave": "DC",
+    "valor": "DECLARANTE"
+  },
+  {
+    "clave": "CY",
+    "valor": "CÓNYUGE"
+  },
+  {
+    "clave": "CON",
+    "valor": "CONCUBINA O CONCUBINARIO"
+  },
+  {
+    "clave": "CONV",
+    "valor": "CONVIVIENTE"
+  },
+  {
+    "clave": "HIJ",
+    "valor": "HIJO(A)"
+  },
+  {
+    "clave": "HER",
+    "valor": "HERMANO(A)"
+  },
+  {
+    "clave": "CU",
+    "valor": "CUÑADO(A)"
+  },
+  {
+    "clave": "MA",
+    "valor": "MADRE"
+  },
+  {
+    "clave": "PA",
+    "valor": "PADRE"
+  },
+  {
+    "clave": "TIO",
+    "valor": "TIO(A)"
+  },
+  {
+    "clave": "PRI",
+    "valor": "PRIMO(A)"
+  },
+  {
+    "clave": "SOB",
+    "valor": "SOBRINO(A)"
+  },
+  {
+    "clave": "AHI",
+    "valor": "AHIJADO(A)"
+  },
+  {
+    "clave": "NUE",
+    "valor": "NUERA"
+  },
+  {
+    "clave": "YER",
+    "valor": "YERNO"
+  },
+  {
+    "clave": "ABU",
+    "valor": "ABUELO(A)"
+  },
+  {
+    "clave": "NIE",
+    "valor": "NIETO(A)"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTRO(A)"
+  }
+]

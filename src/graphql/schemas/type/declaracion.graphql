@@ -1,0 +1,637 @@
+type Catalogo {
+  clave: String!
+  valor: String!
+}
+
+type DomicilioMexico {
+  calle: String
+  numeroExterior: String
+  numeroInterior: String
+  coloniaLocalidad: String
+  municipioAlcaldia: Catalogo
+  entidadFederativa: Catalogo
+  codigoPostal: String
+}
+
+type DomicilioExtranjero {
+  pais: String
+  calle: String
+  numeroExterior: String
+  numeroInterior: String
+  ciudadLocalidad: String
+  estadoProvincia: String
+  codigoPostal: String
+}
+
+type CorreoElectronico {
+  institucional: Email
+  personal: Email
+}
+
+type Telefono {
+  casa: String
+  celularPersonal: String
+}
+
+type DatosGenerales {
+  nombre: String
+  primerApellido: String
+  segundoApellido: String
+  curp: String
+  rfc: RFC
+  correoElectronico: CorreoElectronico
+  telefono: Telefono
+  situacionPersonalEstadoCivil: Catalogo
+  regimenMatrimonial: Catalogo
+  paisNacimiento: String
+  nacionalidad: String
+  aclaracionesObservaciones: String
+}
+
+type DomicilioDeclarante {
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
+  aclaracionesObservaciones: String
+}
+
+type InstitucionEducativa {
+  nombre: String
+  ubicacion: MexicoExtranjero
+}
+
+type Escolaridad {
+  tipoOperacion: TipoOperacion
+  nivel: Catalogo
+  institucionEducativa: InstitucionEducativa
+  carreraAreaConocimiento: String
+  estatus: Estatus
+  documentoObtenido: DocumentoObtenido
+  fechaObtencion: Date
+}
+
+type DatosCurricularesDeclarante {
+  escolaridad: [Escolaridad]
+  aclaracionesObservaciones: String
+}
+
+type TelefonoOficina {
+  telefono: String
+  extension: String
+}
+
+type DatosEmpleoCargoComision {
+  tipoOperacion: TipoOperacion
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: String
+  areaAdscripcion: String
+  empleoCargoComision: String
+  contratadoPorHonorarios: Boolean
+  nivelEmpleoCargoComision: String
+  funcionPrincipal: String
+  fechaTomaPosesion: Date
+  telefonoOficina: TelefonoOficina
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
+  aclaracionesObservaciones: String
+}
+
+type Experiencia {
+  ambitoSector: Catalogo
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: String
+  areaAdscripcion: String
+  empleoCargoComision: String
+  funcionPrincipal: String
+  fechaIngreso: Date
+  fechaEgreso: Date
+  ubicacion: MexicoExtranjero
+  nombreEmpresaSociedadAsociacion: String
+  rfc: String
+  area: String
+  puesto: String
+  sector: Catalogo
+}
+
+type ExperienciaLaboral {
+  ninguno: Boolean
+  experiencia: [Experiencia]
+  aclaracionesObservaciones: String
+}
+
+type ActividadLaboralSectorPublico {
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: String
+  areaAdscripcion: String
+  empleoCargoComision: String
+  funcionPrincipal: String
+  salarioMensualNeto: Monto
+  fechaIngreso: Date
+}
+
+type ActividadLaboralSectorPrivadoOtro {
+  nombreEmpresaSociedadAsociacion: String
+  empleoCargoComision: String
+  rfc: String
+  fechaIngreso: Date
+  sector: Catalogo
+  salarioMensualNeto: Monto
+  proveedorContratistaGobierno: Boolean
+}
+
+type DatosPareja {
+  ninguno: Boolean
+  nombre: String!
+  primerApellido: String!
+  segundoApellido: String
+  fechaNacimiento: Date
+  rfc: String
+  relacionConDeclarante: RelacionConDeclarante
+  ciudadanoExtranjero: Boolean
+  curp: String
+  esDependienteEconomico: Boolean
+  habitaDomicilioDeclarante: Boolean
+  lugarDondeReside: LugarResidencia
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
+  actividadLaboral: Catalogo
+  actividadLaboralSectorPublico: ActividadLaboralSectorPublico
+  actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtro
+  aclaracionesObservaciones: String
+}
+
+type DependienteEconomico {
+  nombre: String!
+  primerApellido: String!
+  segundoApellido: String
+  fechaNacimiento: Date
+  rfc: String
+  parentescoRelacion: Catalogo
+  extranjero: Boolean
+  curp: String
+  habitaDomicilioDeclarante: Boolean
+  lugarDondeReside: LugarResidencia
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
+  actividadLaboral: Catalogo
+  actividadLaboralSectorPublico: ActividadLaboralSectorPublico
+  actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtro
+  aclaracionesObservaciones: String
+}
+
+type DatosDependientesEconomicos {
+  ninguno: Boolean
+  dependienteEconomico: [DependienteEconomico]
+  aclaracionesObservaciones: String
+}
+
+type Monto {
+  valor: Float
+  moneda: String
+}
+
+type ActividadIndustrial {
+  remuneracion: Monto
+  nombreRazonSocial: String
+  tipoNegocio: String
+}
+
+type ActividadFinanciera {
+  remuneracion: Monto
+  tipoInstrumento: Catalogo
+}
+
+type ServiciosProfesionales {
+  remuneracion: Monto
+  tipoServicio: String
+}
+
+type OtrosIngresos {
+  remuneracion: Monto
+  tipoIngreso: String
+}
+
+type ActividadIndustrialTotal {
+  remuneracionTotal: Monto
+  actividades: [ActividadIndustrial]
+}
+
+type ActividadFinancieraTotal {
+  remuneracionTotal: Monto
+  actividades: [ActividadFinanciera]
+}
+
+type ServiciosProfesionalesTotal {
+  remuneracionTotal: Monto
+  servicios: [ServiciosProfesionales]
+}
+
+type OtrosIngresosTotal {
+  remuneracionTotal: Monto
+  ingresos: [OtrosIngresos]
+}
+
+type Ingresos {
+  remuneracionMensualCargoPublico: Monto
+  otrosIngresosMensualesTotal: Monto
+  actividadIndustrialComercialEmpresarial: ActividadIndustrialTotal
+  actividadFinanciera: ActividadFinancieraTotal
+  serviciosProfesionales: ServiciosProfesionalesTotal
+  otrosIngresos: OtrosIngresosTotal
+  ingresoMensualNetoDeclarante: Monto
+  ingresoMensualNetoParejaDependiente: Monto
+  totalIngresosMensualesNetos: Monto
+  aclaracionesObservaciones: String
+}
+
+type EnajenacionBienes {
+  remuneracion: Monto
+  tipoBienEnajenado: String
+}
+
+type EnajenacionBienesTotal {
+  remuneracionTotal: Monto
+  bienes: [EnajenacionBienes]
+}
+
+type ActividadAnualAnterior {
+  servidorPublicoAnioAnterior: Boolean
+  fechaIngreso: Date
+  fechaConclusion: Date
+  remuneracionNetaCargoPublico: Monto
+  otrosIngresosTotal: Monto
+  actividadIndustrialComercialEmpresarial: ActividadIndustrialTotal
+  actividadFinanciera:  ActividadFinancieraTotal
+  serviciosProfesionales:  ServiciosProfesionalesTotal
+  enajenacionBienes: EnajenacionBienesTotal
+  otrosIngresos: OtrosIngresosTotal
+  ingresoNetoAnualDeclarante: Monto
+  ingresoNetoAnualParejaDependiente: Monto
+  totalIngresosNetosAnuales: Monto
+  aclaracionesObservaciones: String
+}
+
+type Superficie {
+  valor: Float
+  unidad: UnidadMedida
+}
+
+type Tercero {
+  tipoPersona: TipoPersona
+  nombreRazonSocial: String
+  rfc: String
+}
+
+type Transmisor  {
+  tipoPersona: TipoPersona
+  nombreRazonSocial: String
+  rfc: String
+  relacion: Catalogo
+}
+
+type BienInmueble {
+  tipoInmueble: Catalogo
+  titular: [Catalogo]
+  porcentajePropiedad: Int
+  superficieTerreno: Superficie
+  superficieConstruccion: Superficie
+  tercero: [Tercero]
+  transmisor: [Transmisor]
+  formaAdquisicion: Catalogo
+  formaPago: FormaPago
+  valorAdquisicion: Monto
+  fechaAdquisicion: Date
+  datoIdentificacion: String
+  valorConformeA: ValorConformeA
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
+  motivoBaja: Catalogo
+}
+
+type BienesInmuebles {
+  ninguno: Boolean
+  bienInmueble: [BienInmueble]
+  aclaracionesObservaciones: String
+}
+
+type Vehiculo {
+  tipoVehiculo: Catalogo
+  titular: [Catalogo]
+  transmisor: [Transmisor]
+  marca: String
+  modelo: String
+  anio: Int
+  numeroSerieRegistro: String
+  tercero: [Tercero]
+  lugarRegistro: Ubicacion
+  formaAdquisicion: Catalogo
+  formaPago: FormaPago
+  valorAdquisicion: Monto
+  fechaAdquisicion: Date
+  motivoBaja: Catalogo
+}
+
+type Vehiculos {
+  ninguno: Boolean
+  vehiculo: [Vehiculo]
+  aclaracionesObservaciones: String
+}
+
+type BienMueble {
+  titular: [Catalogo]
+  tipoBien: Catalogo
+  transmisor: [Transmisor]
+  tercero: [Tercero]
+  descripcionGeneralBien: String
+  formaAdquisicion: Catalogo
+  formaPago: FormaPago
+  valorAdquisicion: Monto
+  fechaAdquisicion: Date
+  motivoBaja: Catalogo
+}
+
+type BienesMuebles {
+  ninguno: Boolean
+  bienMueble: [BienMueble]
+  aclaracionesObservaciones: String
+}
+
+type LocalizacionInversion {
+  pais: String
+  institucionRazonSocial: String
+  rfc: String
+}
+
+type Inversion {
+  tipoInversion: Catalogo
+  subTipoInversion: Catalogo
+  titular: [Catalogo]
+  tercero: [Tercero]
+  numeroCuentaContrato: String
+  localizacionInversion: LocalizacionInversion
+  saldoSituacionActual: Monto
+}
+
+type InversionesCuentasValores {
+  ninguno: Boolean
+  inversion: [Inversion]
+  aclaracionesObservaciones: String
+}
+
+type OtorganteCredito {
+  tipoPersona: TipoPersona
+  nombreInstitucion: String
+  rfc: String
+}
+
+type LocalizacionAdeudo {
+  localizacion: MexicoExtranjero
+  pais: String
+}
+
+type Adeudo {
+  titular: [Catalogo]
+  tipoAdeudo: Catalogo
+  numeroCuentaContrato: String
+  fechaAdquisicion: Date
+  montoOriginal: Monto
+  saldoInsolutoSituacionActual: Monto
+  tercero: [Tercero]
+  otorganteCredito: OtorganteCredito
+  localizacionAdeudo: LocalizacionAdeudo
+}
+
+type AdeudosPasivos {
+  ninguno: Boolean
+  adeudo: [Adeudo]
+  aclaracionesObservaciones: String
+}
+
+type InmueblePrestamo  {
+  tipoInmueble: Catalogo
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
+}
+
+type VehiculoPrestamo {
+  tipo: Catalogo
+  marca: String
+  modelo: String
+  anio: Int
+  numeroSerieRegistro: String
+  lugarRegistro: Ubicacion
+}
+
+type TipoBienPrestamo {
+  inmueble: InmueblePrestamo
+  vehiculo: VehiculoPrestamo
+}
+
+type DuenoTitularPrestamo  {
+  tipoDuenoTitular: TipoPersona
+  nombreTitular: String
+  rfc: String
+  relacionConTitular: String
+}
+
+type Prestamo {
+  tipoBien: TipoBienPrestamo
+  duenoTitular: DuenoTitularPrestamo
+}
+
+type PrestamoComodato {
+  ninguno: Boolean
+  prestamo: [Prestamo]
+  aclaracionesObservaciones: String
+}
+
+type Ubicacion {
+  pais: String
+  entidadFederativa: Catalogo
+}
+
+type Participacion {
+  tipoOperacion: TipoOperacion
+  tipoRelacion: TipoRelacion
+  nombreEmpresaSociedadAsociacion: String
+  rfc: String
+  porcentajeParticipacion: Int
+  tipoParticipacion: Catalogo
+  recibeRemuneracion: Boolean
+  montoMensual: Monto
+  ubicacion: Ubicacion
+  sector: Catalogo
+}
+
+type Participaciones {
+  ninguno: Boolean
+  participacion: [Participacion]
+  aclaracionesObservaciones: String
+}
+
+type ParticipacionTD {
+  tipoOperacion: TipoOperacion
+  tipoRelacion: TipoRelacion
+  tipoInstitucion: Catalogo
+  nombreInstitucion: String
+  rfc: String
+  puestoRol: String
+  fechaInicioParticipacion: Date
+  recibeRemuneracion: Boolean
+  montoMensual: Monto
+  ubicacion: Ubicacion
+}
+
+type ParticipacionTomaDecisiones {
+  ninguno: Boolean
+  participacion: [ParticipacionTD]
+  aclaracionesObservaciones: String
+}
+
+type Apoyo {
+  tipoOperacion: TipoOperacion
+  tipoPersona: TipoPersona
+  beneficiarioPrograma: Catalogo
+  nombrePrograma: String
+  institucionOtorgante: String
+  nivelOrdenGobierno: NivelOrdenGobierno
+  tipoApoyo: Catalogo
+  formaRecepcion: FormaRecepcion
+  montoApoyoMensual: Monto
+  especifiqueApoyo: String
+}
+
+type Apoyos {
+  ninguno: Boolean
+  apoyo: [Apoyo]
+  aclaracionesObservaciones: String
+}
+
+type Representacion {
+ tipoOperacion: TipoOperacion
+ tipoRelacion: TipoRelacion
+ tipoRepresentacion: TipoRepresentacion
+ tipoPersona: TipoPersona
+ nombreRazonSocial: String
+ rfc: String
+ recibeRemuneracion: Boolean
+ montoMensual: Monto
+ fechaInicioRepresentacion: Date
+ ubicacion: Ubicacion
+ sector: Catalogo
+}
+
+type Representaciones {
+ ninguno: Boolean
+ representacion: [Representacion]
+ aclaracionesObservaciones: String
+}
+
+type Empresa {
+   nombreEmpresaServicio: String
+   rfc: String
+ }
+
+type Cliente {
+ tipoOperacion: TipoOperacion
+ realizaActividadLucrativa: Boolean
+ tipoRelacion: TipoRelacion
+ empresa: Empresa
+ clientePrincipal: Tercero
+ sector: Catalogo
+ montoAproximadoGanancia: Monto
+ ubicacion: Ubicacion
+}
+
+type ClientesPrincipales {
+ ninguno: Boolean
+ cliente: [Cliente]
+ aclaracionesObservaciones: String
+}
+
+type Beneficio {
+ tipoOperacion: TipoOperacion
+ tipoPersona: TipoPersona
+ tipoBeneficio: Catalogo
+ beneficiario: Catalogo
+ otorgante: Tercero
+ formaRecepcion: FormaRecepcion
+ especifiqueBeneficio: String
+ montoMensualAproximado: Monto
+ sector: Catalogo
+}
+
+type BeneficiosPrivados {
+ ninguno: Boolean
+ beneficio: [Beneficio]
+ aclaracionesObservaciones: String
+}
+
+
+type Fiduciario {
+   nombreRazonSocial: String
+   rfc: String
+}
+
+type Fideicomiso {
+ tipoOperacion: TipoOperacion
+ tipoRelacion: TipoRelacion
+ tipoFideicomiso: TipoFideicomiso
+ tipoParticipacion: TipoParticipacionFideicomiso
+ rfcFideicomiso: String
+ fideicomitente: Tercero
+ fiduciario: Fiduciario
+ fideicomisario: Tercero
+ sector: Catalogo
+ extranjero: MexicoExtranjero
+}
+
+type Fideicomisos {
+ ninguno: Boolean
+ fideicomiso: [Fideicomiso]
+ aclaracionesObservaciones: String
+}
+
+type DeclaracionMetadata {
+  _id: ID!
+  completa: Boolean!
+  simplificada: Boolean
+  tipoDeclaracion: TipoDeclaracion!
+  createdAt: Date!
+  updatedAt: Date!
+  owner: User!
+}
+
+type Declaracion {
+  _id: ID!
+  completa: Boolean!
+  simplificada: Boolean
+  tipoDeclaracion: TipoDeclaracion!
+  createdAt: Date!
+  updatedAt: Date!
+  owner: User!
+  datosGenerales: DatosGenerales
+  domicilioDeclarante: DomicilioDeclarante
+  datosCurricularesDeclarante: DatosCurricularesDeclarante
+  datosEmpleoCargoComision: DatosEmpleoCargoComision
+  experienciaLaboral: ExperienciaLaboral
+  datosPareja: DatosPareja
+  datosDependientesEconomicos: DatosDependientesEconomicos
+  ingresos: Ingresos
+  actividadAnualAnterior: ActividadAnualAnterior
+  bienesInmuebles: BienesInmuebles
+  vehiculos: Vehiculos
+  bienesMuebles: BienesMuebles
+  inversionesCuentasValores: InversionesCuentasValores
+  adeudosPasivos: AdeudosPasivos
+  prestamoComodato: PrestamoComodato
+  participacion: Participaciones
+  participacionTomaDecisiones: ParticipacionTomaDecisiones
+  apoyos: Apoyos
+  representaciones: Representaciones
+  clientesPrincipales: ClientesPrincipales
+  beneficiosPrivados: BeneficiosPrivados
+  fideicomisos: Fideicomisos
+}

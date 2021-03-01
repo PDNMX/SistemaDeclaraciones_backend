@@ -1,0 +1,38 @@
+[
+  {
+    "clave": "CASA",
+    "valor": "CASA"
+  },
+  {
+    "clave": "DPTO",
+    "valor": "DEPARTAMENTO"
+  },
+  {
+    "clave": "EDIF",
+    "valor": "EDIFICIO"
+  },
+  {
+    "clave": "LOCC",
+    "valor": "LOCAL COMERCIAL"
+  },
+  {
+    "clave": "BODG",
+    "valor": "BODEGA"
+  },
+  {
+    "clave": "PALC",
+    "valor": "PALCO"
+  },
+  {
+    "clave": "RACH",
+    "valor": "RANCHO"
+  },
+  {
+    "clave": "TERR",
+    "valor": "TERRENO"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTROS (ESPECIFIQUE)"
+  }
+]

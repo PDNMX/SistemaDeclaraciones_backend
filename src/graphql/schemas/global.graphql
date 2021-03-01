@@ -1,0 +1,6 @@
+scalar Date
+scalar UUID
+scalar Email
+
+directive @hasRole(roles: [Role]) on OBJECT | FIELD_DEFINITION
+directive @isAuthenticated on OBJECT | FIELD_DEFINITION

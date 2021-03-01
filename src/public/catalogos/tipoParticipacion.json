@@ -1,0 +1,34 @@
+[
+  {
+    "clave": "SCIO",
+    "valor": "SOCIO"
+  },
+  {
+    "clave": "ACCI",
+    "valor": "ACCIONISTA"
+  },
+  {
+    "clave": "COMI",
+    "valor": "COMISARIO"
+  },
+  {
+    "clave": "REPR",
+    "valor": "REPRESENTANTE"
+  },
+  {
+    "clave": "APOD",
+    "valor": "APODERADO"
+  },
+  {
+    "clave": "COLB",
+    "valor": "COLABORADOR"
+  },
+  {
+    "clave": "BENE",
+    "valor": "BENEFICIARIO"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTROS (ESPECIFIQUE)"
+  }
+]

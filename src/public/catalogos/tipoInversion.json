@@ -1,0 +1,30 @@
+[
+  {
+    "clave": "BANC",
+    "valor": "BANCARIA"
+  },
+  {
+    "clave": "FINV",
+    "valor": "FONDOS DE INVERSIÓN"
+  },
+  {
+    "clave": "ORPM",
+    "valor": "ORGANIZACIONES PRIVADAS Y/O MERCANTILES"
+  },
+  {
+    "clave": "POMM",
+    "valor": "POSESIÓN DE MONEDAS Y/O METALES"
+  },
+  {
+    "clave": "SEGR",
+    "valor": "SEGUROS"
+  },
+  {
+    "clave": "VBUR",
+    "valor": "VALORES BURSÁTILES"
+  },
+  {
+    "clave": "AFOT",
+    "valor": "AFORES Y OTROS"
+  }
+]

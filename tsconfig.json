@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2020",                       /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "module": "commonjs",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "lib": [                                  /* Specify library files to be included in the compilation. */
+      "ES2020",
+      "dom",
+      "esnext.asynciterable"
+    ],
+    "allowJs": true,                          /* Allow javascript files to be compiled. */
+    "checkJs": true,                          /* Report errors in .js files. */
+    "outDir": "build",                        /* Redirect output structure to the directory. */
+    "rootDir": "src",                         /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "removeComments": true,                   /* Remove all comments except copy-right header comments beginning with ! */
+    "typeRoots": [                            /* List of folders to include type definitions from */
+      "node_modules/@types"
+    ],
+
+    /* Strict Type-Checking Options */
+    "strict": true,                           /* Enable all strict type-checking options. */
+    "noImplicitAny": true,                    /* Raise error on expressions and declarations with an implied 'any' type. */
+    "strictNullChecks": true,                 /* Enable strict null checks. */
+    "strictFunctionTypes": true,              /* Enable strict checking of function types. */
+    "strictPropertyInitialization": false,    /* Ensure that each instance property of a class gets initialized in the constructor body, or by a property initializer */
+
+    /* Additional Checks */
+    "noUnusedLocals": true,                   /* Report errors on unused locals. */
+    "noImplicitReturns": true,                /* Report error when not all code paths in function return a value. */
+    "noFallthroughCasesInSwitch": true,       /* Report errors for fallthrough cases in switch statement. */
+
+    /* Module Resolution Options */
+    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+
+    /* Advanced Options */
+    "resolveJsonModule": true,                /* Include modules imported with '.json' extension */
+    "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
+
+    /* Experiments */
+    "experimentalDecorators": true,           /* Enables experimental support for ES decorators */
+    "emitDecoratorMetadata": true,            /* Emit design-type metadata for decorated declarations in source. */
+
+    "skipLibCheck": true
+  }
+}

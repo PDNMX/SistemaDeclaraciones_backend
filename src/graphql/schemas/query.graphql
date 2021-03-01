@@ -1,0 +1,13 @@
+type Query {
+  declaracion(tipoDeclaracion: TipoDeclaracion!, simplificada: Boolean): Declaracion! @isAuthenticated
+
+  declaracionesMetadata(userID: String, filter: DeclaracionesFilterInput, pageNumber: Int): DeclaracionesMetadataPage! @isAuthenticated
+
+  forgotPassword(username: String!): Boolean!
+
+  login(username: String!, password: String!): Login!
+
+  userProfile: User! @isAuthenticated
+
+  users(pageNumber: Int): UsersPage! @hasRole(roles: [ADMIN, SUPER_ADMIN])
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "clave": "CPV",
+    "valor": "COMPRAVENTA"
+  },
+  {
+    "clave": "CSN",
+    "valor": "CESIÓN"
+  },
+  {
+    "clave": "DNC",
+    "valor": "DONACIÓN"
+  },
+  {
+    "clave": "HRN",
+    "valor": "HERENCIA"
+  },
+  {
+    "clave": "PRM",
+    "valor": "PERMUTA"
+  },
+  {
+    "clave": "RST",
+    "valor": "RIFA O SORTEO"
+  },
+  {
+    "clave": "STC",
+    "valor": "SENTENCIA"
+  }
+]

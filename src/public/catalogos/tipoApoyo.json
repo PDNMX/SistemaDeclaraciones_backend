@@ -1,0 +1,18 @@
+[
+  {
+    "clave": "SUB",
+    "valor": "SUBSIDIO"
+  },
+  {
+    "clave": "SER",
+    "valor": "SERVICIO"
+  },
+  {
+    "clave": "OBRA",
+    "valor": "OBRA"
+  },
+  {
+    "clave": "OTRO",
+    "valor": "OTRO (ESPECIFIQUE)"
+  }
+]

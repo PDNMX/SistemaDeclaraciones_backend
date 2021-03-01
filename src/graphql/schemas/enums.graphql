@@ -1,0 +1,113 @@
+enum AmbitoPublico {
+  EJECUTIVO
+  LEGISLATIVO
+  JUDICIAL
+  ORGANO_AUTONOMO
+}
+
+enum DocumentoObtenido {
+  BOLETA
+  CERTIFICADO
+  CONSTANCIA
+  TITULO
+}
+
+enum Estatus {
+  CURSANDO
+  FINALIZADO
+  TRUNCO
+}
+
+enum FormaPago {
+  CONTADO
+  CREDITO
+  NO_APLICA
+}
+
+enum FormaRecepcion {
+  MONETARIO
+  ESPECIE
+}
+
+enum LugarResidencia {
+  MEXICO
+  EXTRANJERO
+  SE_DESCONOCE
+}
+
+enum MexicoExtranjero {
+  MX
+  EX
+}
+
+enum NivelOrdenGobierno {
+  FEDERAL
+  ESTATAL
+  MUNICIPAL_ALCALDIA
+}
+
+enum RelacionConDeclarante {
+  CONYUGE
+  CONCUBINA_CONCUBINARIO_UNION_LIBRE
+  SOCIEDAD_DE_CONVIVENCIA
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum TipoDeclaracion {
+  INICIAL
+  MODIFICACION
+  CONCLUSION
+}
+
+enum TipoFideicomiso {
+  PUBLICO
+  PRIVADO
+  MIXTO
+}
+
+enum TipoOperacion {
+  AGREGAR
+  MODIFICAR
+  SIN_CAMBIOS
+  BAJA
+}
+
+enum TipoParticipacionFideicomiso {
+  FIDEICOMITENTE
+  FIDUCIARIO
+  FIDEICOMISARIO
+  COMITE_TECNICO
+}
+
+enum TipoPersona {
+  FISICA
+  MORAL
+}
+
+enum TipoRelacion {
+  DECLARANTE
+  PAREJA
+  DEPENDIENTE_ECONOMICO
+}
+
+enum TipoRepresentacion {
+  REPRESENTANTE
+  REPRESENTADO
+}
+
+enum UnidadMedida {
+  m2
+  ha
+  km2
+}
+
+enum ValorConformeA {
+  ESCRITURA_PUBLICA
+  SENTENCIA
+  CONTRATO
+}
