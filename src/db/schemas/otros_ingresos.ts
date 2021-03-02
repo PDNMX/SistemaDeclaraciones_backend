@@ -7,5 +7,6 @@ export const OtrosIngresosSchema = new Schema({
   tipoIngreso: {
     type: String,
     trim: true,
+    uppercase: true,
   },
 });

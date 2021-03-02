@@ -7,5 +7,6 @@ export const ServiciosProfesionalesSchema = new Schema({
   tipoServicio: {
     type: String,
     trim: true,
+    uppercase: true,
   }
 });

@@ -14,6 +14,7 @@ export const EscolaridadSchema = new Schema({
   carreraAreaConocimiento: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   estatus: {
     type: String,
@@ -23,5 +24,5 @@ export const EscolaridadSchema = new Schema({
     type: String,
     enum: EscolaridadDocumentoObtenido,
   },
-  fechaObtencion: String,
+  fechaObtencion: Date,
 });

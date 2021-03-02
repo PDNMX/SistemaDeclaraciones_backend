@@ -1,12 +1,14 @@
 import {
   Context,
   Declaracion,
+  DeclaracionDocument,
   DeclaracionSecciones,
   DeclaracionesFilterInput,
-  DeclaracionesPage,
-  Role,
+  Pagination,
+  PaginationInputOptions,
   TipoDeclaracion,
 } from '../../types';
+import CreateError from 'http-errors';
 import { DeclaracionRepository } from '../../db/repositories/declaracion_repo';
 
 export default {
@@ -19,27 +21,37 @@ export default {
       return DeclaracionRepository.getOrCreate(context.user.id, args.tipoDeclaracion, args.simplificada);
     },
 
-    declaracionesMetadata(_: unknown, args: { userID?: string, filter?: DeclaracionesFilterInput, pageNumber?: number }, context: Context): Promise<DeclaracionesPage> {
-      const roles = context.user.roles;
+    declaracionesMetadata(_: unknown, args: { userID?: string, filter?: DeclaracionesFilterInput, pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<DeclaracionDocument>> {
+      const scopes = context.user.scopes;
       if (args.userID) {
-        if (roles.includes(Role.SUPER_ADMIN) || roles.includes(Role.ADMIN) || args.userID == context.user.id) {
-          return DeclaracionRepository.getAllByUser(args.userID, args.filter, args.pageNumber);
+        if (scopes.includes('DeclarationMetada:read:all')) {
+          return DeclaracionRepository.getAllByUser(args.userID, args.filter, args.pagination);
+        } else if (args.userID == context.user.id && scopes.includes('DeclarationMetada:read:mine')) {
+          return DeclaracionRepository.getAllByUser(args.userID, args.filter, args.pagination);
         }
 
-        throw new Error('Not allowed to perform this call');
+        throw new CreateError.Unauthorized(`User[${context.user.id}] is not allowed to perform this operation.`);
       }
 
-      if (roles.includes(Role.SUPER_ADMIN)) {
-        return DeclaracionRepository.getAll(args.filter, args.pageNumber);
+      if (scopes.includes('DeclarationMetada:read:all')) {
+        return DeclaracionRepository.getAll(args.filter, args.pagination);
+      } else if (scopes.includes('DeclarationMetada:read:mine')) {
+        return DeclaracionRepository.getAllByUser(context.user.id, args.filter, args.pagination);
       }
 
-      return DeclaracionRepository.getAllByUser(context.user.id, args.filter, args.pageNumber);
+      throw new CreateError.Unauthorized(`User[${context.user.id}] is not allowed to perform this operation.`);
     },
   },
 
   Mutation: {
     declaracion(_: unknown, args: { id: string, declaracion: DeclaracionSecciones }, context: Context): Promise<Declaracion> {
       return DeclaracionRepository.update(args.id, context.user.id, args.declaracion);
+    },
+    deleteDeclaracion(_: unknown, args: { id: string }, context: Context): Promise<boolean> {
+      return DeclaracionRepository.delete(args.id, context.user.id);
+    },
+    firmarDeclaracion(_: unknown, args: { id: string }, context: Context): Promise<Record<string, any> | null> {
+      return DeclaracionRepository.sign(args.id, context.user.id);
     },
   }
 };

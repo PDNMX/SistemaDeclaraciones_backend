@@ -1,14 +1,9 @@
-interface RFCInput {
-  rfc: string
-  homoClave: string
-}
-
 export interface UserProfileInput {
   nombre: string;
 	primerApellido: string;
 	segundoApellido?: string;
 	curp: string;
-  rfc: RFCInput;
+  rfc: string;
 }
 
 export interface UserSignUpInput extends UserProfileInput {

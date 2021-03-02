@@ -14,7 +14,8 @@
     "rootDir": "src",                         /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "removeComments": true,                   /* Remove all comments except copy-right header comments beginning with ! */
     "typeRoots": [                            /* List of folders to include type definitions from */
-      "node_modules/@types"
+      "node_modules/@types",
+      "@types"
     ],
 
     /* Strict Type-Checking Options */

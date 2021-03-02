@@ -1,9 +1,11 @@
+import { ApolloError, ApolloServer } from 'apollo-server-express';
 import { GraphQLError, GraphQLFormattedError, GraphQLSchema } from 'graphql';
-import { ApolloServer } from 'apollo-server-express';
+import CreateError from 'http-errors';
 import Directives from './directives';
 import Express from 'express';
 import GlobalSchema from './schemas';
 import Resolvers from './resolvers';
+import { getReasonPhrase } from 'http-status-codes';
 import { makeExecutableSchema } from 'graphql-tools';
 import { schemaComposer} from 'graphql-compose';
 import { stitchSchemas } from '@graphql-tools/stitch';
@@ -19,7 +21,8 @@ class GraphqlAPI {
     this.schema = schema;
     this.server = new ApolloServer({
       schema: this.schema,
-      // playground: Config.get('NODE_ENV') === 'development',
+      debug: process.env.NODE_ENV == 'development',
+      playground: process.env.NODE_ENV == 'development',
       formatError: GraphqlAPI.formatError,
       context: ({ req }) => req,
     });
@@ -79,7 +82,22 @@ class GraphqlAPI {
    * Function to format the error before displaying it to the user
    */
   private static formatError(error: GraphQLError): GraphQLFormattedError {
-    return error;
+    console.log(error);
+    console.log(error.originalError);
+    if (!error.originalError) {
+      return error;
+    } else if (CreateError.isHttpError(error.originalError)) {
+      const httpError = error.originalError as CreateError.HttpError;
+      console.log(httpError);
+      console.log(httpError.status);
+      console.log(getReasonPhrase(httpError.status));
+      console.log(httpError.statusCode);
+      return new ApolloError(httpError.message, getReasonPhrase(httpError.status), httpError.properties);
+    }
+
+    return new ApolloError('Something went wrong', 'INTERNAL_SERVER_ERROR', {
+      originalError: error.originalError,
+    });
   }
 }
 

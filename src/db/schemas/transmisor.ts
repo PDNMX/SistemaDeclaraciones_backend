@@ -10,11 +10,13 @@ export const TransmisorSchema = new Schema({
   },
   nombreRazonSocial: {
     type: String,
-    trim: true
+    trim: true,
+    uppercase: true,
   },
   rfc: {
     type: String,
-    trim: true
+    trim: true,
+    uppercase: true,
   },
   relacion: CatalogoSchema
 });

@@ -7,6 +7,7 @@ import { TelefonoSchema } from './telefono';
 const string_type = {
   type: String,
   trim: true,
+  uppercase: true,
 };
 
 export const DatosGeneralesSchema = new Schema({
@@ -21,5 +22,8 @@ export const DatosGeneralesSchema = new Schema({
   regimenMatrimonial: CatalogoSchema,
   paisNacimiento: string_type,
   nacionalidad: string_type,
-  aclaracionesObservaciones: string_type,
+  aclaracionesObservaciones: {
+    type: String,
+    trim: true,
+  },
 });

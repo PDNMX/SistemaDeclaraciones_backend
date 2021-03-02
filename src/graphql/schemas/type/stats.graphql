@@ -1,0 +1,9 @@
+type CounterStat {
+  tipoDeclaracion: TipoDeclaracion!
+  count: Int!
+}
+
+type Stats {
+  total: Int!
+  counters: [CounterStat!]!
+}

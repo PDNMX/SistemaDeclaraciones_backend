@@ -10,5 +10,6 @@ export const LocalizacionAdeudoSchema = new Schema({
   pais: {
     type: String,
     trim: true,
+    uppercase: true,
   },
 });

@@ -31,6 +31,7 @@ export const FideicomisoSchema = new Schema({
   rfcFideicomiso: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   fideicomitente: TerceroSchema,
   fiduciario: FiduciarioSchema,

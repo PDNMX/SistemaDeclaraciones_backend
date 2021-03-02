@@ -1,13 +1,25 @@
 type Query {
-  declaracion(tipoDeclaracion: TipoDeclaracion!, simplificada: Boolean): Declaracion! @isAuthenticated
+  "Get or create a new declaration."
+  declaracion(tipoDeclaracion: TipoDeclaracion!, simplificada: Boolean): Declaracion! @hasRole(roles:[USER])
 
-  declaracionesMetadata(userID: String, filter: DeclaracionesFilterInput, pageNumber: Int): DeclaracionesMetadataPage! @isAuthenticated
+  "Fetch declaration metadata"
+  declaracionesMetadata(userID: LimitedString, filter: DeclaracionesFilterInput, pagination: PaginationOptionsInput): DeclaracionesMetadataPage! @isAuthenticated
 
-  forgotPassword(username: String!): Boolean!
+  "Send an email with a token to reset the password."
+  forgotPassword(username: LimitedString!): Boolean!
 
-  login(username: String!, password: String!): Login!
+  "Authenticate a user in the system."
+  login(username: Email!, password: LimitedString!): Login!
 
-  userProfile: User! @isAuthenticated
+  "Search users"
+  search(keyword: LimitedString!, pagination: PaginationOptionsInput): UsersPage @hasRole(roles: [ADMIN, SUPER_ADMIN, ROOT])
 
-  users(pageNumber: Int): UsersPage! @hasRole(roles: [ADMIN, SUPER_ADMIN])
+  "Retrieve all the stats by declaration type"
+  stats: Stats! @isAuthenticated
+
+  "Get the user profile"
+  userProfile(id: ID): User! @isAuthenticated
+
+  "Get all the users"
+  users(pagination: PaginationOptionsInput): UsersPage! @hasRole(roles: [ADMIN, SUPER_ADMIN, ROOT])
 }

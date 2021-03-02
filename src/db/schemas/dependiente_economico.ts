@@ -10,17 +10,20 @@ import { Schema } from 'mongoose';
 const string_type = {
   type: String,
   trim: true,
+  uppercase: true,
 };
 
 export const DependienteEconomicoSchema = new Schema({
   nombre: {
     type: String,
     trim: true,
+    uppercase: true,
     required: true,
   },
   primerApellido: {
     type: String,
     trim: true,
+    uppercase: true,
     required: true,
   },
   segundoApellido: string_type,
@@ -39,5 +42,8 @@ export const DependienteEconomicoSchema = new Schema({
   actividadLaboral: CatalogoSchema,
   actividadLaboralSectorPublico: ActividadLaboralSectorPublicoSchema,
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoSchema,
-  aclaracionesObservaciones: string_type,
+  aclaracionesObservaciones: {
+    type: String,
+    trim: true,
+  },
 });

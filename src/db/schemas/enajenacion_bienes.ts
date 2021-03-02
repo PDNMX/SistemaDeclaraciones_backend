@@ -7,5 +7,6 @@ export const EnajenacionBienesSchema = new Schema({
   tipoBienEnajenado: {
     type: String,
     trim: true,
+    uppercase: true,
   },
 });

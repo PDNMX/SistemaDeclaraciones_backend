@@ -10,20 +10,13 @@ import { Schema } from 'mongoose';
 const string_type = {
   type: String,
   trim: true,
+  uppercase: true,
 };
 
 export const DatosParejaSchema = new Schema({
   ninguno: Boolean,
-  nombre: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-  primerApellido: {
-    type: String,
-    trim: true,
-    required: true,
-  },
+  nombre: string_type,
+  primerApellido: string_type,
   segundoApellido: string_type,
   fechaNacimiento: Date,
   rfc: string_type,
@@ -44,5 +37,8 @@ export const DatosParejaSchema = new Schema({
   actividadLaboral: CatalogoSchema,
   actividadLaboralSectorPublico: ActividadLaboralSectorPublicoSchema,
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoSchema,
-  aclaracionesObservaciones: string_type,
+  aclaracionesObservaciones: {
+    type: String,
+    trim: true,
+  },
 });

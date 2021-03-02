@@ -6,124 +6,124 @@ interface Catalogo {
 }
 
 interface Monto {
-  valor: number;
-  moneda: string;
+  valor?: number;
+  moneda?: string;
 }
 
 interface Ubicacion {
-  pais: string;
-  entidadFederativa: Catalogo;
+  pais?: string;
+  entidadFederativa?: Catalogo;
 }
 
 interface RFC {
   rfc: string;
-  homoClave: string;
+  homoClave?: string;
 }
 
 interface CorreoElectronico {
-  institucional: string;
-  personal: string;
+  institucional?: string;
+  personal?: string;
 }
 
 interface Telefono {
-  casa: string;
-  celularPersonal: string;
+  casa?: string;
+  celularPersonal?: string;
 }
 
 interface DatosGenerales {
-  nombre: string;
-  primerApellido: string;
-  segundoApellido: string;
-  curp: string;
-  rfc: RFC;
-  correoElectronico: CorreoElectronico;
-  telefono: Telefono;
-  situacionPersonalEstadoCivil: Catalogo;
+  nombre?: string;
+  primerApellido?: string;
+  segundoApellido?: string;
+  curp?: string;
+  rfc?: RFC;
+  correoElectronico?: CorreoElectronico;
+  telefono?: Telefono;
+  situacionPersonalEstadoCivil?: Catalogo;
   regimenMatrimonial?: Catalogo;
-  paisNacimiento: string;
-  nacionalidad: string;
-  aclaracionesObservaciones: string;
+  paisNacimiento?: string;
+  nacionalidad?: string;
+  aclaracionesObservaciones?: string;
 }
 
 interface DomicilioMexico {
-  calle: string;
-  numeroExterior: string;
-  numeroInterior: string;
-  coloniaLocalidad: string;
-  municipioAlcaldia: Catalogo;
-  entidadFederativa: Catalogo;
-  codigoPostal: string;
+  calle?: string;
+  numeroExterior?: string;
+  numeroInterior?: string;
+  coloniaLocalidad?: string;
+  municipioAlcaldia?: Catalogo;
+  entidadFederativa?: Catalogo;
+  codigoPostal?: string;
 }
 
 interface DomicilioExtranjero {
-  calle: string;
-  numeroExterior: string;
-  numeroInterior: string;
-  ciudadLocalidad: string;
-  estadoProvincia: string;
-  pais: string;
-  codigoPostal: string;
+  calle?: string;
+  numeroExterior?: string;
+  numeroInterior?: string;
+  ciudadLocalidad?: string;
+  estadoProvincia?: string;
+  pais?: string;
+  codigoPostal?: string;
 }
 
 interface DomicilioDeclarante {
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
-  aclaracionesObservaciones: string;
+  aclaracionesObservaciones?: string;
 }
 
 interface InstitucionEducativa {
-  nombre: string;
-  ubicacion: string;
+  nombre?: string;
+  ubicacion?: string;
 }
 
 interface Escolaridad {
   tipoOperacion?: string;
-  nivel: Catalogo;
-  institucionEducativa: InstitucionEducativa;
-  carreraAreaConocimiento: string;
-  estatus: enums.EscolaridadEstatus;
-  documentoObtenido: enums.EscolaridadDocumentoObtenido;
-  fechaObtencion: string;
+  nivel?: Catalogo;
+  institucionEducativa?: InstitucionEducativa;
+  carreraAreaConocimiento?: string;
+  estatus?: enums.EscolaridadEstatus;
+  documentoObtenido?: enums.EscolaridadDocumentoObtenido;
+  fechaObtencion?: string;
 }
 
 interface DatosCurricularesDeclarante {
-  escolaridad: Escolaridad[];
+  escolaridad?: Escolaridad[];
   aclaracionesObservaciones?: string;
 }
 
 interface TelefonoOficina {
-  telefono: string;
-  extension: string;
+  telefono?: string;
+  extension?: string;
 }
 
 interface DatosEmpleoCargoComision {
   tipoOperacion?: enums.TipoOperacion;
-  nivelOrdenGobierno: enums.NivelOrdenGobierno;
+  nivelOrdenGobierno?: enums.NivelOrdenGobierno;
   ambitoPublico?: enums.AmbitoPublico;
   nombreEntePublico?: string;
-  areaAdscripcion: string;
-  empleoCargoComision: string;
-  contratadoPorHonorarios: boolean;
-  nivelEmpleoCargoComision: string;
-  funcionPrincipal: string;
-  fechaTomaPosesion: string;
-  telefonoOficina: TelefonoOficina;
+  areaAdscripcion?: string;
+  empleoCargoComision?: string;
+  contratadoPorHonorarios?: boolean;
+  nivelEmpleoCargoComision?: string;
+  funcionPrincipal?: string;
+  fechaTomaPosesion?: string;
+  telefonoOficina?: TelefonoOficina;
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
   aclaracionesObservaciones?: string;
 }
 
 interface Experiencia {
-  ambitoSector: Catalogo;
-  nivelOrdenGobierno: enums.NivelOrdenGobierno;
-  ambitoPublico: enums.AmbitoPublico;
-  nombreEntePublico: string;
-  areaAdscripcion: string;
-  empleoCargoComision: string;
-  funcionPrincipal: string;
-  fechaIngreso: string;
-  fechaEgreso: string;
-  ubicacion: enums.MexicoExtranjero;
+  ambitoSector?: Catalogo;
+  nivelOrdenGobierno?: enums.NivelOrdenGobierno;
+  ambitoPublico?: enums.AmbitoPublico;
+  nombreEntePublico?: string;
+  areaAdscripcion?: string;
+  empleoCargoComision?: string;
+  funcionPrincipal?: string;
+  fechaIngreso?: string;
+  fechaEgreso?: string;
+  ubicacion?: enums.MexicoExtranjero;
   nombreEmpresaSociedadAsociacion?: string;
   rfc?: string;
   area?: string;
@@ -138,24 +138,24 @@ interface ExperienciaLaboral {
 }
 
 interface ActividadLaboralSectorPublico {
-  nivelOrdenGobierno: enums.NivelOrdenGobierno;
-  ambitoPublico: enums.AmbitoPublico;
-  nombreEntePublico: string;
-  areaAdscripcion: string;
-  empleoCargoComision: string;
-  funcionPrincipal: string;
-  salarioMensualNeto: Monto;
-  fechaIngreso: string;
+  nivelOrdenGobierno?: enums.NivelOrdenGobierno;
+  ambitoPublico?: enums.AmbitoPublico;
+  nombreEntePublico?: string;
+  areaAdscripcion?: string;
+  empleoCargoComision?: string;
+  funcionPrincipal?: string;
+  salarioMensualNeto?: Monto;
+  fechaIngreso?: string;
 }
 
 interface ActividadLaboralSectorPrivadoOtro {
-  nombreEmpresaSociedadAsociacion: string;
-  empleoCargoComision: string;
-  rfc: string;
-  fechaIngreso: string;
-  sector: Catalogo;
-  salarioMensualNeto: Monto;
-  proveedorContratistaGobierno: boolean;
+  nombreEmpresaSociedadAsociacion?: string;
+  empleoCargoComision?: string;
+  rfc?: string;
+  fechaIngreso?: string;
+  sector?: Catalogo;
+  salarioMensualNeto?: Monto;
+  proveedorContratistaGobierno?: boolean;
 }
 
 interface DatosPareja {
@@ -181,14 +181,14 @@ interface DatosPareja {
 interface DependienteEconomico {
   nombre: string;
   primerApellido: string;
-  segundoApellido: string;
-  fechaNacimiento: string;
-  rfc: string;
-  parentescoRelacion: Catalogo;
-  extranjero: boolean;
-  curp: string;
-  habitaDomicilioDeclarante: boolean;
-  lugarDondeReside: enums.LugarResidencia;
+  segundoApellido?: string;
+  fechaNacimiento?: string;
+  rfc?: string;
+  parentescoRelacion?: Catalogo;
+  extranjero?: boolean;
+  curp?: string;
+  habitaDomicilioDeclarante?: boolean;
+  lugarDondeReside?: enums.LugarResidencia;
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
   actividadLaboralSectorPublico?: ActividadLaboralSectorPublico;
@@ -203,71 +203,71 @@ interface DatosDependientesEconomicos {
 }
 
 interface ActividadIndustrial {
-  remuneracion: Monto;
-  nombreRazonSocial: string;
-  tipoNegocio: string;
+  remuneracion?: Monto;
+  nombreRazonSocial?: string;
+  tipoNegocio?: string;
 }
 
 interface ActividadFinanciera {
-  remuneracion: Monto;
-  tipoInstrumento: Catalogo;
+  remuneracion?: Monto;
+  tipoInstrumento?: Catalogo;
 }
 
 interface ServiciosProfesionales {
-  remuneracion: Monto;
-  tipoServicio: string;
+  remuneracion?: Monto;
+  tipoServicio?: string;
 }
 
 interface OtrosIngresos {
-  remuneracion: Monto;
-  tipoIngreso: string;
+  remuneracion?: Monto;
+  tipoIngreso?: string;
 }
 
 interface ActividadIndustrialTotal {
-  remuneracionTotal: Monto;
-  actividades: ActividadIndustrial[];
+  remuneracionTotal?: Monto;
+  actividades?: ActividadIndustrial[];
 }
 
 interface ActividadFinancieraTotal {
-  remuneracionTotal: Monto;
-  actividades: ActividadFinanciera[];
+  remuneracionTotal?: Monto;
+  actividades?: ActividadFinanciera[];
 }
 
 interface ServiciosProfesionalesTotal {
-  remuneracionTotal: Monto;
-  servicios: ServiciosProfesionales[];
+  remuneracionTotal?: Monto;
+  servicios?: ServiciosProfesionales[];
 }
 
 interface OtrosIngresosTotal {
-  remuneracionTotal: Monto;
-  ingresos: OtrosIngresos[];
+  remuneracionTotal?: Monto;
+  ingresos?: OtrosIngresos[];
 }
 
 interface Ingresos {
-  remuneracionMensualCargoPublico: Monto; //
-  otrosIngresosMensualesTotal: Monto;
-  actividadIndustrialComercialEmpresarial: ActividadIndustrialTotal;
-  actividadFinanciera: ActividadFinancieraTotal;
-  serviciosProfesionales: ServiciosProfesionalesTotal;
-  otrosIngresos: OtrosIngresosTotal;
-  ingresoMensualNetoDeclarante: Monto;
-  ingresoMensualNetoParejaDependiente: Monto;
-  totalIngresosMensualesNetos: Monto;
-  aclaracionesObservaciones: string;
+  remuneracionMensualCargoPublico?: Monto; //
+  otrosIngresosMensualesTotal?: Monto;
+  actividadIndustrialComercialEmpresarial?: ActividadIndustrialTotal;
+  actividadFinanciera?: ActividadFinancieraTotal;
+  serviciosProfesionales?: ServiciosProfesionalesTotal;
+  otrosIngresos?: OtrosIngresosTotal;
+  ingresoMensualNetoDeclarante?: Monto;
+  ingresoMensualNetoParejaDependiente?: Monto;
+  totalIngresosMensualesNetos?: Monto;
+  aclaracionesObservaciones?: string;
 }
 
 interface EnajenacionBienes {
-  remuneracion: Monto;
-  tipoBienEnajenado: string;
+  remuneracion?: Monto;
+  tipoBienEnajenado?: string;
 }
 
 interface EnajenacionBienesTotal {
-  remuneracionTotal: Monto;
-  bienes: EnajenacionBienes[];
+  remuneracionTotal?: Monto;
+  bienes?: EnajenacionBienes[];
 }
 
 interface ActividadAnualAnterior {
-  servidorPublicoAnioAnterior: boolean;
+  servidorPublicoAnioAnterior?: boolean;
   fechaIngreso?: string;
   fechaConclusion?: string;
   remuneracionNetaCargoPublico?: Monto;
@@ -284,37 +284,37 @@ interface ActividadAnualAnterior {
 }
 
 interface Superficie {
-  valor: number;
-  unidad: enums.UnidadMedida;
+  valor?: number;
+  unidad?: enums.UnidadMedida;
 }
 
 interface Tercero {
-  tipoPersona: enums.TipoPersona;
-  nombreRazonSocial: string;
-  rfc: string;
+  tipoPersona?: enums.TipoPersona;
+  nombreRazonSocial?: string;
+  rfc?: string;
 }
 
 interface Transmisor {
-  tipoPersona: enums.TipoPersona;
-  nombreRazonSocial: string;
-  rfc: string;
-  relacion: Catalogo;
+  tipoPersona?: enums.TipoPersona;
+  nombreRazonSocial?: string;
+  rfc?: string;
+  relacion?: Catalogo;
 }
 
 interface BienInmueble {
-  tipoInmueble: Catalogo;
-  titular: Catalogo[];
-  porcentajePropiedad: number;
-  superficieTerreno: Superficie;
-  superficieConstruccion: Superficie;
-  tercero: Tercero[];
-  transmisor: Transmisor[];
-  formaAdquisicion: Catalogo;
-  formaPago: enums.FormaPago;
-  valorAdquisicion: Monto;
-  fechaAdquisicion: string;
-  datoIdentificacion: string;
-  valorConformeA: enums.ValorConformeA;
+  tipoInmueble?: Catalogo;
+  titular?: Catalogo[];
+  porcentajePropiedad?: number;
+  superficieTerreno?: Superficie;
+  superficieConstruccion?: Superficie;
+  tercero?: Tercero[];
+  transmisor?: Transmisor[];
+  formaAdquisicion?: Catalogo;
+  formaPago?: enums.FormaPago;
+  valorAdquisicion?: Monto;
+  fechaAdquisicion?: string;
+  datoIdentificacion?: string;
+  valorConformeA?: enums.ValorConformeA;
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
   motivoBaja?: Catalogo;
@@ -327,19 +327,19 @@ interface BienesInmuebles {
 }
 
 interface Vehiculo {
-  tipoVehiculo: Catalogo;
-  titular: Catalogo[];
-  transmisor: Transmisor[];
-  marca: string;
-  modelo: string;
-  anio: number;
-  numeroSerieRegistro: string;
-  tercero: Tercero[];
-  lugarRegistro: Ubicacion;
-  formaAdquisicion: Catalogo;
-  formaPago: enums.FormaPago;
-  valorAdquisicion: Monto;
-  fechaAdquisicion: string;
+  tipoVehiculo?: Catalogo;
+  titular?: Catalogo[];
+  transmisor?: Transmisor[];
+  marca?: string;
+  modelo?: string;
+  anio?: number;
+  numeroSerieRegistro?: string;
+  tercero?: Tercero[];
+  lugarRegistro?: Ubicacion;
+  formaAdquisicion?: Catalogo;
+  formaPago?: enums.FormaPago;
+  valorAdquisicion?: Monto;
+  fechaAdquisicion?: string;
   motivoBaja?: Catalogo;
 }
 
@@ -350,15 +350,15 @@ interface Vehiculos {
 }
 
 interface BienMueble {
-  titular: Catalogo[];
-  tipoBien: Catalogo;
-  transmisor: Transmisor[];
-  tercero: Tercero[];
-  descripcionGeneralBien: string;
-  formaAdquisicion: Catalogo;
-  formaPago: enums.FormaPago;
-  valorAdquisicion: Monto;
-  fechaAdquisicion: string;
+  titular?: Catalogo[];
+  tipoBien?: Catalogo;
+  transmisor?: Transmisor[];
+  tercero?: Tercero[];
+  descripcionGeneralBien?: string;
+  formaAdquisicion?: Catalogo;
+  formaPago?: enums.FormaPago;
+  valorAdquisicion?: Monto;
+  fechaAdquisicion?: string;
   motivoBaja?: Catalogo;
 }
 
@@ -369,19 +369,19 @@ interface BienesMuebles {
 }
 
 interface LocalizacionInversion {
-  pais: string;
-  institucionRazonSocial: string;
-  rfc: string;
+  pais?: string;
+  institucionRazonSocial?: string;
+  rfc?: string;
 }
 
 interface Inversion {
-  tipoInversion: Catalogo;
-  subTipoInversion: Catalogo;
-  titular: Catalogo[];
-  tercero: Tercero[];
-  numeroCuentaContrato: string;
-  localizacionInversion: LocalizacionInversion;
-  saldoSituacionActual: Monto;
+  tipoInversion?: Catalogo;
+  subTipoInversion?: Catalogo;
+  titular?: Catalogo[];
+  tercero?: Tercero[];
+  numeroCuentaContrato?: string;
+  localizacionInversion?: LocalizacionInversion;
+  saldoSituacionActual?: Monto;
 }
 
 interface InversionesCuentasValores {
@@ -391,26 +391,26 @@ interface InversionesCuentasValores {
 }
 
 interface OtorganteCredito {
-  tipoPersona: enums.TipoPersona;
-  nombreInstitucion: string;
-  rfc: string;
+  tipoPersona?: enums.TipoPersona;
+  nombreInstitucion?: string;
+  rfc?: string;
 }
 
 interface LocalizacionAdeudo {
   localizacion?: enums.MexicoExtranjero;
-  pais: string;
+  pais?: string;
 }
 
 interface Adeudo {
-  titular: Catalogo[];
-  tipoAdeudo: Catalogo;
-  numeroCuentaContrato: string;
-  fechaAdquisicion: string;
-  montoOriginal: Monto;
-  saldoInsolutoSituacionActual: Monto;
-  tercero: Tercero[];
-  otorganteCredito: OtorganteCredito;
-  localizacionAdeudo: LocalizacionAdeudo;
+  titular?: Catalogo[];
+  tipoAdeudo?: Catalogo;
+  numeroCuentaContrato?: string;
+  fechaAdquisicion?: string;
+  montoOriginal?: Monto;
+  saldoInsolutoSituacionActual?: Monto;
+  tercero?: Tercero[];
+  otorganteCredito?: OtorganteCredito;
+  localizacionAdeudo?: LocalizacionAdeudo;
 }
 
 interface AdeudosPasivos {
@@ -420,18 +420,18 @@ interface AdeudosPasivos {
 }
 
 interface InmueblePrestamo {
-  tipoInmueble: Catalogo;
+  tipoInmueble?: Catalogo;
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
 }
 
 interface VehiculoPrestamo {
-  tipo: Catalogo;
-  marca: string;
-  modelo: string;
-  anio: number;
-  numeroSerieRegistro: string;
-  lugarRegistro: Ubicacion;
+  tipo?: Catalogo;
+  marca?: string;
+  modelo?: string;
+  anio?: number;
+  numeroSerieRegistro?: string;
+  lugarRegistro?: Ubicacion;
 }
 
 interface TipoBienPrestamo {
@@ -440,15 +440,15 @@ interface TipoBienPrestamo {
 }
 
 interface DuenoTitularPrestamo {
-  tipoDuenoTitular: enums.TipoPersona;
-  nombreTitular: string;
-  rfc: string;
-  relacionConTitular: string;
+  tipoDuenoTitular?: enums.TipoPersona;
+  nombreTitular?: string;
+  rfc?: string;
+  relacionConTitular?: string;
 }
 
 interface Prestamo {
-  tipoBien: TipoBienPrestamo;
-  duenoTitular: DuenoTitularPrestamo;
+  tipoBien?: TipoBienPrestamo;
+  duenoTitular?: DuenoTitularPrestamo;
 }
 
 interface PrestamoComodato {
@@ -459,15 +459,15 @@ interface PrestamoComodato {
 
 interface Participacion {
   tipoOperacion?: enums.TipoOperacion;
-  tipoRelacion: enums.TipoRelacion;
-  nombreEmpresaSociedadAsociacion: string;
-  rfc: string;
-  porcentajeParticipacion: number;
-  tipoParticipacion: Catalogo;
-  recibeRemuneracion: boolean;
-  montoMensual: Monto;
-  ubicacion: Ubicacion;
-  sector: Catalogo;
+  tipoRelacion?: enums.TipoRelacion;
+  nombreEmpresaSociedadAsociacion?: string;
+  rfc?: string;
+  porcentajeParticipacion?: number;
+  tipoParticipacion?: Catalogo;
+  recibeRemuneracion?: boolean;
+  montoMensual?: Monto;
+  ubicacion?: Ubicacion;
+  sector?: Catalogo;
 }
 
 interface Participaciones {
@@ -478,15 +478,15 @@ interface Participaciones {
 
 interface ParticipacionTD {
   tipoOperacion?: enums.TipoOperacion;
-  tipoRelacion: enums.TipoRelacion;
-  tipoInstitucion: Catalogo;
-  nombreInstitucion: string;
-  rfc: string;
-  puestoRol: string;
-  fechaInicioParticipacion: string;
-  recibeRemuneracion: boolean;
-  montoMensual: Monto;
-  ubicacion: Ubicacion;
+  tipoRelacion?: enums.TipoRelacion;
+  tipoInstitucion?: Catalogo;
+  nombreInstitucion?: string;
+  rfc?: string;
+  puestoRol?: string;
+  fechaInicioParticipacion?: string;
+  recibeRemuneracion?: boolean;
+  montoMensual?: Monto;
+  ubicacion?: Ubicacion;
 }
 
 interface ParticipacionTomaDecisiones {
@@ -497,15 +497,15 @@ interface ParticipacionTomaDecisiones {
 
 interface Apoyo {
   tipoOperacion?: enums.TipoOperacion;
-  tipoPersona: enums.TipoPersona;
-  beneficiarioPrograma: Catalogo;
-  nombrePrograma: string;
-  institucionOtorgante: string;
-  nivelOrdenGobierno: enums.NivelOrdenGobierno;
-  tipoApoyo: Catalogo;
-  formaRecepcion: enums.FormaRecepcion;
-  montoApoyoMensual: Monto;
-  especifiqueApoyo: string;
+  tipoPersona?: enums.TipoPersona;
+  beneficiarioPrograma?: Catalogo;
+  nombrePrograma?: string;
+  institucionOtorgante?: string;
+  nivelOrdenGobierno?: enums.NivelOrdenGobierno;
+  tipoApoyo?: Catalogo;
+  formaRecepcion?: enums.FormaRecepcion;
+  montoApoyoMensual?: Monto;
+  especifiqueApoyo?: string;
 }
 
 interface Apoyos {
@@ -516,16 +516,16 @@ interface Apoyos {
 
 interface Representacion {
   tipoOperacion?: enums.TipoOperacion;
-  tipoRelacion: enums.TipoRelacion;
-  tipoRepresentacion: enums.TipoRepresentacion;
-  tipoPersona: enums.TipoPersona;
-  nombreRazonSocial: string;
-  rfc: string;
-  recibeRemuneracion: boolean;
-  montoMensual: Monto;
-  fechaInicioRepresentacion: string;
-  ubicacion: Ubicacion;
-  sector: Catalogo;
+  tipoRelacion?: enums.TipoRelacion;
+  tipoRepresentacion?: enums.TipoRepresentacion;
+  tipoPersona?: enums.TipoPersona;
+  nombreRazonSocial?: string;
+  rfc?: string;
+  recibeRemuneracion?: boolean;
+  montoMensual?: Monto;
+  fechaInicioRepresentacion?: string;
+  ubicacion?: Ubicacion;
+  sector?: Catalogo;
 }
 
 interface Representaciones {
@@ -535,19 +535,19 @@ interface Representaciones {
 }
 
 interface Empresa {
-  nombreEmpresaServicio: string;
-  rfc: string;
+  nombreEmpresaServicio?: string;
+  rfc?: string;
 }
 
 interface Cliente {
   tipoOperacion?: enums.TipoOperacion;
-  realizaActividadLucrativa: boolean;
-  tipoRelacion: enums.TipoRelacion;
-  empresa: Empresa;
-  clientePrincipal: Tercero;
-  sector: Catalogo;
-  montoAproximadoGanancia: Monto;
-  ubicacion: Ubicacion;
+  realizaActividadLucrativa?: boolean;
+  tipoRelacion?: enums.TipoRelacion;
+  empresa?: Empresa;
+  clientePrincipal?: Tercero;
+  sector?: Catalogo;
+  montoAproximadoGanancia?: Monto;
+  ubicacion?: Ubicacion;
 }
 
 interface ClientesPrincipales {
@@ -558,14 +558,14 @@ interface ClientesPrincipales {
 
 interface Beneficio {
   tipoOperacion?: enums.TipoOperacion;
-  tipoPersona: enums.TipoPersona;
-  tipoBeneficio: Catalogo;
-  beneficiario: Catalogo;
-  otorgante: Tercero;
-  formaRecepcion: enums.FormaRecepcion;
-  especifiqueBeneficio: string;
-  montoMensualAproximado: Monto;
-  sector: Catalogo
+  tipoPersona?: enums.TipoPersona;
+  tipoBeneficio?: Catalogo;
+  beneficiario?: Catalogo;
+  otorgante?: Tercero;
+  formaRecepcion?: enums.FormaRecepcion;
+  especifiqueBeneficio?: string;
+  montoMensualAproximado?: Monto;
+  sector?: Catalogo
 }
 
 interface BeneficiosPrivados {
@@ -575,21 +575,21 @@ interface BeneficiosPrivados {
 }
 
 interface Fiduciario {
-  nombreRazonSocial: string;
-  rfc: string;
+  nombreRazonSocial?: string;
+  rfc?: string;
 }
 
 interface Fideicomiso {
   tipoOperacion?: enums.TipoOperacion;
-  tipoRelacion: enums.TipoRelacion;
-  tipoFideicomiso: enums.TipoFideicomiso;
-  tipoParticipacion: enums.TipoParticipacionFideicomiso;
-  rfcFideicomiso: string;
+  tipoRelacion?: enums.TipoRelacion;
+  tipoFideicomiso?: enums.TipoFideicomiso;
+  tipoParticipacion?: enums.TipoParticipacionFideicomiso;
+  rfcFideicomiso?: string;
   fideicomitente?: Tercero;
   fiduciario?: Fiduciario;
   fideicomisario?: Tercero;
-  sector: Catalogo;
-  extranjero: enums.MexicoExtranjero;
+  sector?: Catalogo;
+  extranjero?: enums.MexicoExtranjero;
 }
 
 interface Fideicomisos {
@@ -624,8 +624,8 @@ export interface DeclaracionSecciones {
 }
 
 export interface Declaracion extends DeclaracionSecciones {
-  simplificada: boolean;
   tipoDeclaracion: enums.TipoDeclaracion;
+  simplificada: boolean;
   completa: boolean;
   createAt: Date;
   updatedAt: Date;

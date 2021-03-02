@@ -1,4 +1,10 @@
-import { GraphQLDateTime, GraphQLEmail, GraphQLUUID } from 'graphql-custom-types';
+import {
+  GraphQLDateTime,
+  GraphQLEmail,
+  GraphQLLimitedString,
+  GraphQLUUID
+} from 'graphql-custom-types';
+import GraphQLJSON from 'graphql-type-json';
 import { GraphQLScalarType } from 'graphql';
 
 
@@ -9,8 +15,10 @@ class ScalarDefinitions {
   public static build(): Record<string, GraphQLScalarType> {
     return {
       Date: GraphQLDateTime,
-      UUID: GraphQLUUID,
       Email: GraphQLEmail,
+      JSON: GraphQLJSON,
+      LimitedString: new GraphQLLimitedString(0, 255),
+      UUID: GraphQLUUID,
     };
   }
 }

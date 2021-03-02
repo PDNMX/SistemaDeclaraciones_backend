@@ -12,6 +12,7 @@ export const AdeudoSchema = new Schema({
   numeroCuentaContrato: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   fechaAdquisicion: Date,
   montoOriginal: MontoSchema,

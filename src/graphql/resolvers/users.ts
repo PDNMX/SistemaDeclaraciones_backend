@@ -1,12 +1,15 @@
 import {
   Context,
   Login,
+  Pagination,
+  PaginationInputOptions,
   Role,
   UserDocument,
+  UserES,
   UserProfileInput,
   UserSignUpInput,
-  UsersPage,
 } from '../../types';
+import CreateError from 'http-errors';
 import { UserRepository } from '../../db/repositories/user_repo';
 
 export default {
@@ -19,12 +22,23 @@ export default {
       return UserRepository.login(args.username, args.password);
     },
 
-    userProfile(_: unknown, args: unknown, context: Context): Promise<UserDocument> {
-      return UserRepository.getUser(context.user.id);
+    search(_: unknown, args: { keyword: string, pagination?: PaginationInputOptions }): Promise<Pagination<UserES>> {
+      return UserRepository.search(args.keyword, args.pagination);
     },
 
-    users(_: unknown, args: { pageNumber?: number }): Promise<UsersPage> {
-      return UserRepository.getAll(args.pageNumber);
+    userProfile(_: unknown, args: { id?: string }, context: Context): Promise<UserDocument> {
+      const scopes = context.user.scopes;
+      if (scopes.includes('UserProfile:read:all')) {
+        return UserRepository.getUser(args.id || context.user.id);
+      } else if ((!args.id || args.id === context.user.id) && scopes.includes('UserProfile:read:mine')) {
+        return UserRepository.getUser(context.user.id);
+      }
+
+      throw new CreateError.Unauthorized(`User[${context.user.id}] is not allowed to perform this operation.`);
+    },
+
+    users(_: unknown, args: { pagination?: PaginationInputOptions }): Promise<Pagination<UserDocument>> {
+      return UserRepository.getAll(args.pagination);
     },
   },
 

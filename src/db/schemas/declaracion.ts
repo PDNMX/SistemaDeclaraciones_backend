@@ -57,6 +57,7 @@ export const DeclaracionSchema = new Schema({
   tipoDeclaracion: {
     type: String,
     enum: TipoDeclaracion,
+    required: true,
   },
   simplificada: {
     type: Boolean,

@@ -2,47 +2,77 @@ import {
   DeclaracionDocument,
   DeclaracionSecciones,
   DeclaracionesFilterInput,
-  DeclaracionesPage,
+  Pagination,
+  PaginationInputOptions,
   TipoDeclaracion,
 } from '../../types';
+import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
+import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
 
 
 export class DeclaracionRepository {
-  public static async getAll(filter?: DeclaracionesFilterInput, pageNumber: number = 0): Promise<DeclaracionesPage> {
-    const nPerPage = 20;
-    const offset: number = (pageNumber > 0) ? ((pageNumber - 1) * nPerPage) : 0;
-    const declaraciones = await DeclaracionModel.find({ ...filter })
-      .populate('owner')
-      .sort({ createAt: 'desc' })
-      .skip(offset)
-      .limit(nPerPage);
-
-    return {
-      docs: declaraciones,
-      pageNumber: 0,
-    };
-  }
-
-  public static async getAllByUser(userID: string, filter?: DeclaracionesFilterInput, pageNumber: number = 0): Promise<DeclaracionesPage> {
-    const user = await UserModel.findById(userID);
-    if (!user) {
-      throw Error('USER DOES NOT EXIST');
+  public static async delete(declaracionID: string, userID: string): Promise<boolean> {
+    const declaracion = await DeclaracionModel.findById({ _id: declaracionID });
+    if (!declaracion) {
+      throw new CreateError.NotFound(`Declaration[${declaracionID}] does not exist.`);
+    } else if (declaracion.owner._id != userID) {
+      throw new CreateError.Forbidden(`User: ${userID} is not allowed to delete declaracion[${declaracionID}]`);
+    } else if (declaracion.completa) {
+      throw new CreateError.NotAcceptable(`Declaracion[${declaracionID}] is signed and can not be deleted`);
     }
 
-    const nPerPage = 20;
-    const offset: number = (pageNumber > 0) ? ((pageNumber - 1) * nPerPage) : 0;
-    const declaraciones = await DeclaracionModel.find({ owner: user, ...filter })
-      .populate('owner')
-      .sort({ createAt: 'desc' })
-      .skip(offset)
-      .limit(nPerPage);
+    declaracion.delete();
+    return true;
+  }
 
-    return {
-      docs: declaraciones,
-      pageNumber: 0,
-    };
+  public static async get(declaracionID: string): Promise<DeclaracionDocument> {
+    const declaracion = await DeclaracionModel.findById({ _id: declaracionID });
+    if (!declaracion) {
+      throw new CreateError.NotFound(`Declaration[${declaracionID}] does not exist.`);
+    }
+
+    return declaracion;
+  }
+
+  public static async getAll(filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
+    const page: number = pagination.page || 0;
+    const limit: number = pagination.size || 20;
+    const declaraciones = await DeclaracionModel.paginate({
+      query: { ...filter },
+      sort: { createdAt: 'desc'},
+      populate: 'owner',
+      page: page + 1,
+      limit: Math.min(limit, 100),
+    });
+    if (declaraciones) {
+      return declaraciones;
+    }
+
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false }
+  }
+
+  public static async getAllByUser(userID: string, filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
+    const user = await UserModel.findById({ _id: userID });
+    if (!user) {
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
+    }
+
+    const page: number = pagination.page || 0;
+    const limit: number = pagination.size || 20;
+    const declaraciones = await DeclaracionModel.paginate({
+      query: { owner: user, ...filter },
+      sort: { createdAt: 'desc'},
+      populate: 'owner',
+      page: page + 1,
+      limit: Math.min(limit, 100),
+    });
+    if (declaraciones) {
+      return declaraciones;
+    }
+
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false }
   }
 
   public static async getOrCreate(
@@ -50,9 +80,9 @@ export class DeclaracionRepository {
     tipoDeclaracion: TipoDeclaracion,
     simplificada = false,
   ): Promise<DeclaracionDocument> {
-    const user = await UserModel.findById(userID);
+    const user = await UserModel.findById({ _id: userID });
     if (!user) {
-      throw Error('USER DOES NOT EXIST');
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
     }
     const filter = {
       tipoDeclaracion: tipoDeclaracion,
@@ -62,31 +92,54 @@ export class DeclaracionRepository {
     };
 
     const declaracion = await DeclaracionModel.findOneAndUpdate(filter, {}, {new: true, upsert: true});
-    console.log('FIND DECLARACION');
-    console.log(declaracion);
-
     user.declaraciones.push(declaracion);
     user.save();
+
     return declaracion;
   }
 
-  public static async update(id: string, userID: string, props: DeclaracionSecciones): Promise<DeclaracionDocument> {
-    const declaracion = await DeclaracionModel.findById(id);
+  public static async sign(declaracionID: string, userID: string): Promise<Record<string, any> | null> {
+    const declaracion = await DeclaracionModel.findById({ _id: declaracionID });
     if (!declaracion) {
-      throw new Error('DECLARACION NO EXISTE');
+      throw new CreateError.NotFound(`Declaration[${declaracionID}] does not exist.`);
+    } else if (declaracion.owner._id != userID) {
+      throw new CreateError.Forbidden(`User: ${userID} is not allowed to sign declaracion[${declaracionID}]`);
     }
-    if (declaracion.owner._id != userID || declaracion.completa) {
-      throw new Error('NO SE PUEDE MODIFICAR');
+
+    const missingFields = ['a', 'b', 'c'];
+    declaracion.completa = true;
+    declaracion.save();
+
+    return missingFields;
+  }
+
+  public static async update(declaracionID: string, userID: string, props: DeclaracionSecciones): Promise<DeclaracionDocument> {
+    const declaracion = await DeclaracionModel.findById({ _id: declaracionID });
+    if (!declaracion) {
+      throw new CreateError.NotFound(`Declaration with ID: ${declaracionID} does not exist.`);
+    } else if (declaracion.owner._id != userID) {
+      throw new CreateError.Forbidden(`User: ${userID} is not allowed to update declaracion[${declaracionID}]`);
+    } else if (declaracion.completa) {
+      throw new CreateError.NotAcceptable(`Declaracion[${declaracionID}] is arlready signed, it cannot be updated.`);
     }
 
     const filter = {
-      _id: id,
+      _id: declaracionID,
       completa: false,
     };
+    const options = {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    };
 
-    const updatedDeclaracion = await DeclaracionModel.findOneAndUpdate(filter, {$set: props}, {new: true});
+    const updatedDeclaracion = await DeclaracionModel.findOneAndUpdate(filter, {$set: props}, options);
     if (!updatedDeclaracion) {
-      throw new Error('ERROR ON UPDATING');
+      throw CreateError(
+          StatusCodes.INTERNAL_SERVER_ERROR,
+          'Something went wrong at Declaracion.update',
+          { debug_info: { declaracionID, userID, props }},
+      );
     }
 
     return updatedDeclaracion;

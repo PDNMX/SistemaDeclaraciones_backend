@@ -1,24 +1,31 @@
 import {
   Context,
   Login,
+  Pagination,
+  PaginationInputOptions,
   Role,
-  UserDocument,
+    UserDocument,
+  UserES,
   UserProfileInput,
   UserSignUpInput,
-  UsersPage
 } from '../../types';
 import BCrypt from '../../library/BCrypt';
+import CreateError from 'http-errors';
+import Crypto from 'crypto';
+import ElasticSearchAPI from '../../elasticsearch/es_api';
 import Jwt from '../../library/jwt';
+import { Scopes } from '../../config';
+import Sendgrid from '@sendgrid/mail';
+import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
-import crypto from 'crypto';
-import sendgrid from '@sendgrid/mail';
+
 
 export class UserRepository {
 
   public static async changeRoles(userID: string, roles:[Role]): Promise<UserDocument> {
-    const user = await UserModel.findById(userID);
+    const user = await UserModel.findById({ _id: userID });
     if (!user) {
-      throw new Error('USER DOES NOT EXIST');
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
     }
 
     user.roles = roles;
@@ -27,13 +34,13 @@ export class UserRepository {
   }
 
   public static async changePassword(userID: string, oldPassword: string, newPassword: string): Promise<boolean> {
-    const user = await UserModel.findById(userID);
+    const user = await UserModel.findById({ _id: userID });
     if (!user) {
-      throw new Error('USER DOES NOT EXIST');
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
     }
 
     if (!BCrypt.compare(oldPassword, user.password)) {
-      throw new Error('PASSWORD DOES NOT MATCH');
+      throw new CreateError.Forbidden('Provided old password does not match.');
     }
 
     user.password = BCrypt.hash(newPassword);
@@ -46,54 +53,58 @@ export class UserRepository {
   public static async forgotPassword(username: string): Promise<boolean> {
     const user = await UserModel.findOne({ username: username });
     if (!user) {
-      throw new Error('USER DOES NOT EXIST');
+      throw new CreateError.NotFound(`User[${username}] does not exist.`);
     }
 
-    const SENDGRID_API_KEY: string = process.env.SENDGRID_API_KEY as unknown as string;
-    sendgrid.setApiKey(SENDGRID_API_KEY);
-
     const data = {
-      salt: crypto.randomBytes(20).toString('hex'),
-      exp: Date.now() + (60 * 60 * 1000), // 1HOUR
+      id: user._id,
+      salt: Crypto.randomBytes(20).toString('hex'),
+      expiration: Date.now() + (60 * 60 * 1000), // 1HOUR
     };
-
     const token = Jwt.sign(data);
     const message = {
       to: username,
-      from: 'gguerrero@sertech.mx', // Change to your verified sender
-      subject: 'Recuperación de contraseña',
-      text: `Para recuperar tu contraseña por favor da click en el siguiente link: ${token}`
+      from: 'gguerrero@sertech.mx',
+      subject: 'Recuperación de Contraseña',
+      text: `Para recuperar tu contraseña por favor usa el siguiente enlace: ${process.env.FE_RESET_PASSWORD_URL}?token=${token}`,
     };
 
+    Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
+    user.resetToken = data;
     try {
-      await sendgrid.send(message);
-      user.resetToken = data;
-      await user.save();
+      await Sendgrid.send(message);
+      user.save();
 
       return true;
     } catch(e) {
+      throw CreateError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        'Something went wrong at forgotPassword',
+        {debug_info: {username, error: e}},
+      );
       return false;
     }
   }
 
-  public static async getAll(pageNumber = 0): Promise<UsersPage> {
-    const nPerPage = 20;
-    const offset: number = (pageNumber > 0) ? ((pageNumber - 1) * nPerPage) : 0;
-    const users = await UserModel.find()
-      .sort({ createdAt: 'desc'})
-      .skip(offset)
-      .limit(nPerPage);
+  public static async getAll(pagination: PaginationInputOptions = {}): Promise<Pagination<UserDocument>> {
+    const page: number = pagination.page || 0;
+    const limit: number = pagination.size || 20;
+    const users = await UserModel.paginate({
+      sort: { createdAt: 'desc'},
+      page: page + 1,
+      limit: Math.min(limit, 100),
+    });
+    if (users) {
+      return users;
+    }
 
-    return {
-      docs: users,
-      pageNumber: pageNumber,
-    };
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false }
   }
 
   public static async getUser(userID: string): Promise<UserDocument> {
-    const user = await UserModel.findById(userID);
+    const user = await UserModel.findById({ _id: userID });
     if (!user) {
-      throw new Error('USER DOES NOT EXIST');
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
     }
 
     return user;
@@ -102,16 +113,15 @@ export class UserRepository {
   public static async login(username: string, password: string): Promise<Login> {
     const user = await UserModel.findOne({ username: username });
     if (!user) {
-      throw new Error('USER DOES NOT EXIST');
-    }
-
-    if (!BCrypt.compare(password, user.password)) {
-      throw new Error('PASSWORD DOES NOT MATCH');
+      throw new CreateError.NotFound(`User[${username}] does not exist.`);
+    } else if (!BCrypt.compare(password, user.password)) {
+      throw new CreateError.Forbidden('The provided password does not match.');
     }
 
     const data = {
       id: user._id,
-      roles: [user.roles],
+      roles: user.roles,
+      scopes: Scopes.createByRoles(user.roles),
     };
 
     return {
@@ -122,13 +132,13 @@ export class UserRepository {
 
   public static async resetPassword(token: string, newPassword: string): Promise<boolean> {
     const decodedToken = Jwt.decodeToken(token);
-    const user = await UserModel.findById(decodedToken.username);
+    const user = await UserModel.findById({ _id: decodedToken.id });
     if (!user) {
-      throw new Error('USER DOES NOT EXIST');
+      throw new CreateError.NotFound(`User[${decodedToken.id}] does not exist.`);
     } else if (user.resetToken.salt !== decodedToken.salt) {
-      throw new Error('SALT IS INVALID');
-    } else if(user.resetToken.exp && user.resetToken.exp < Date.now()) {
-      throw new Error('RESET TOKEN EXPIRED');
+      throw new CreateError.Forbidden('Token is invalid');
+    } else if(user.resetToken.expiration && user.resetToken.expiration < Date.now()) {
+      throw new CreateError.BadRequest('Token is already expired');
     }
 
     user.password = BCrypt.hash(newPassword);
@@ -139,20 +149,36 @@ export class UserRepository {
 
   public static async signup(user: UserSignUpInput): Promise<UserDocument> {
     user.password = BCrypt.hash(user.password);
-    return UserModel.create(user);
+    try {
+      const createdUser = await UserModel.create(user);
+      await ElasticSearchAPI.add(createdUser);
+
+      return createdUser;
+    } catch(err) {
+      throw new CreateError.BadRequest(`User with username: ${user.username} already exist`);
+    }
+  }
+
+  public static search(keyword: string, pagination: PaginationInputOptions = {}): Promise<Pagination<UserES>> {
+    return ElasticSearchAPI.search(keyword, pagination);
   }
 
   public static async updateProfile(profile: UserProfileInput, context: Context): Promise<UserDocument> {
     const updatedProfile = await UserModel.findOneAndUpdate(
       { _id: context.user.id },
       { $set: profile },
-      { new: true },
+      { new: true, runValidators: true, context: 'query'},
     );
 
     if (!updatedProfile) {
-      throw new Error('USER DOES NOT EXIST');
+      throw CreateError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        'Something went wrong on updateProfile',
+        { debug_info: { profile, context } },
+      );
     }
 
+    await ElasticSearchAPI.update(updatedProfile);
     return updatedProfile;
   }
 }

@@ -1,26 +1,31 @@
+type RFC {
+  rfc: LimitedString!
+  homoClave: LimitedString
+}
+
 type Catalogo {
-  clave: String!
-  valor: String!
+  clave: LimitedString!
+  valor: LimitedString!
 }
 
 type DomicilioMexico {
-  calle: String
-  numeroExterior: String
-  numeroInterior: String
-  coloniaLocalidad: String
+  calle: LimitedString
+  numeroExterior: LimitedString
+  numeroInterior: LimitedString
+  coloniaLocalidad: LimitedString
   municipioAlcaldia: Catalogo
   entidadFederativa: Catalogo
-  codigoPostal: String
+  codigoPostal: LimitedString
 }
 
 type DomicilioExtranjero {
-  pais: String
-  calle: String
-  numeroExterior: String
-  numeroInterior: String
-  ciudadLocalidad: String
-  estadoProvincia: String
-  codigoPostal: String
+  pais: LimitedString
+  calle: LimitedString
+  numeroExterior: LimitedString
+  numeroInterior: LimitedString
+  ciudadLocalidad: LimitedString
+  estadoProvincia: LimitedString
+  codigoPostal: LimitedString
 }
 
 type CorreoElectronico {
@@ -29,33 +34,33 @@ type CorreoElectronico {
 }
 
 type Telefono {
-  casa: String
-  celularPersonal: String
+  casa: LimitedString
+  celularPersonal: LimitedString
 }
 
 type DatosGenerales {
-  nombre: String
-  primerApellido: String
-  segundoApellido: String
-  curp: String
+  nombre: LimitedString
+  primerApellido: LimitedString
+  segundoApellido: LimitedString
+  curp: LimitedString
   rfc: RFC
   correoElectronico: CorreoElectronico
   telefono: Telefono
   situacionPersonalEstadoCivil: Catalogo
   regimenMatrimonial: Catalogo
-  paisNacimiento: String
-  nacionalidad: String
-  aclaracionesObservaciones: String
+  paisNacimiento: LimitedString
+  nacionalidad: LimitedString
+  aclaracionesObservaciones: LimitedString
 }
 
 type DomicilioDeclarante {
   domicilioMexico: DomicilioMexico
   domicilioExtranjero: DomicilioExtranjero
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type InstitucionEducativa {
-  nombre: String
+  nombre: LimitedString
   ubicacion: MexicoExtranjero
 }
 
@@ -63,7 +68,7 @@ type Escolaridad {
   tipoOperacion: TipoOperacion
   nivel: Catalogo
   institucionEducativa: InstitucionEducativa
-  carreraAreaConocimiento: String
+  carreraAreaConocimiento: LimitedString
   estatus: Estatus
   documentoObtenido: DocumentoObtenido
   fechaObtencion: Date
@@ -71,70 +76,70 @@ type Escolaridad {
 
 type DatosCurricularesDeclarante {
   escolaridad: [Escolaridad]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type TelefonoOficina {
-  telefono: String
-  extension: String
+  telefono: LimitedString
+  extension: LimitedString
 }
 
 type DatosEmpleoCargoComision {
   tipoOperacion: TipoOperacion
   nivelOrdenGobierno: NivelOrdenGobierno
   ambitoPublico: AmbitoPublico
-  nombreEntePublico: String
-  areaAdscripcion: String
-  empleoCargoComision: String
+  nombreEntePublico: LimitedString
+  areaAdscripcion: LimitedString
+  empleoCargoComision: LimitedString
   contratadoPorHonorarios: Boolean
-  nivelEmpleoCargoComision: String
-  funcionPrincipal: String
+  nivelEmpleoCargoComision: LimitedString
+  funcionPrincipal: LimitedString
   fechaTomaPosesion: Date
   telefonoOficina: TelefonoOficina
   domicilioMexico: DomicilioMexico
   domicilioExtranjero: DomicilioExtranjero
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Experiencia {
   ambitoSector: Catalogo
   nivelOrdenGobierno: NivelOrdenGobierno
   ambitoPublico: AmbitoPublico
-  nombreEntePublico: String
-  areaAdscripcion: String
-  empleoCargoComision: String
-  funcionPrincipal: String
+  nombreEntePublico: LimitedString
+  areaAdscripcion: LimitedString
+  empleoCargoComision: LimitedString
+  funcionPrincipal: LimitedString
   fechaIngreso: Date
   fechaEgreso: Date
   ubicacion: MexicoExtranjero
-  nombreEmpresaSociedadAsociacion: String
-  rfc: String
-  area: String
-  puesto: String
+  nombreEmpresaSociedadAsociacion: LimitedString
+  rfc: LimitedString
+  area: LimitedString
+  puesto: LimitedString
   sector: Catalogo
 }
 
 type ExperienciaLaboral {
   ninguno: Boolean
   experiencia: [Experiencia]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type ActividadLaboralSectorPublico {
   nivelOrdenGobierno: NivelOrdenGobierno
   ambitoPublico: AmbitoPublico
-  nombreEntePublico: String
-  areaAdscripcion: String
-  empleoCargoComision: String
-  funcionPrincipal: String
+  nombreEntePublico: LimitedString
+  areaAdscripcion: LimitedString
+  empleoCargoComision: LimitedString
+  funcionPrincipal: LimitedString
   salarioMensualNeto: Monto
   fechaIngreso: Date
 }
 
 type ActividadLaboralSectorPrivadoOtro {
-  nombreEmpresaSociedadAsociacion: String
-  empleoCargoComision: String
-  rfc: String
+  nombreEmpresaSociedadAsociacion: LimitedString
+  empleoCargoComision: LimitedString
+  rfc: LimitedString
   fechaIngreso: Date
   sector: Catalogo
   salarioMensualNeto: Monto
@@ -143,14 +148,14 @@ type ActividadLaboralSectorPrivadoOtro {
 
 type DatosPareja {
   ninguno: Boolean
-  nombre: String!
-  primerApellido: String!
-  segundoApellido: String
+  nombre: LimitedString
+  primerApellido: LimitedString
+  segundoApellido: LimitedString
   fechaNacimiento: Date
-  rfc: String
+  rfc: LimitedString
   relacionConDeclarante: RelacionConDeclarante
   ciudadanoExtranjero: Boolean
-  curp: String
+  curp: LimitedString
   esDependienteEconomico: Boolean
   habitaDomicilioDeclarante: Boolean
   lugarDondeReside: LugarResidencia
@@ -159,18 +164,18 @@ type DatosPareja {
   actividadLaboral: Catalogo
   actividadLaboralSectorPublico: ActividadLaboralSectorPublico
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtro
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type DependienteEconomico {
-  nombre: String!
-  primerApellido: String!
-  segundoApellido: String
+  nombre: LimitedString!
+  primerApellido: LimitedString!
+  segundoApellido: LimitedString
   fechaNacimiento: Date
-  rfc: String
+  rfc: LimitedString
   parentescoRelacion: Catalogo
   extranjero: Boolean
-  curp: String
+  curp: LimitedString
   habitaDomicilioDeclarante: Boolean
   lugarDondeReside: LugarResidencia
   domicilioMexico: DomicilioMexico
@@ -178,24 +183,24 @@ type DependienteEconomico {
   actividadLaboral: Catalogo
   actividadLaboralSectorPublico: ActividadLaboralSectorPublico
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtro
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type DatosDependientesEconomicos {
   ninguno: Boolean
   dependienteEconomico: [DependienteEconomico]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Monto {
   valor: Float
-  moneda: String
+  moneda: LimitedString
 }
 
 type ActividadIndustrial {
   remuneracion: Monto
-  nombreRazonSocial: String
-  tipoNegocio: String
+  nombreRazonSocial: LimitedString
+  tipoNegocio: LimitedString
 }
 
 type ActividadFinanciera {
@@ -205,12 +210,12 @@ type ActividadFinanciera {
 
 type ServiciosProfesionales {
   remuneracion: Monto
-  tipoServicio: String
+  tipoServicio: LimitedString
 }
 
 type OtrosIngresos {
   remuneracion: Monto
-  tipoIngreso: String
+  tipoIngreso: LimitedString
 }
 
 type ActividadIndustrialTotal {
@@ -243,12 +248,12 @@ type Ingresos {
   ingresoMensualNetoDeclarante: Monto
   ingresoMensualNetoParejaDependiente: Monto
   totalIngresosMensualesNetos: Monto
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type EnajenacionBienes {
   remuneracion: Monto
-  tipoBienEnajenado: String
+  tipoBienEnajenado: LimitedString
 }
 
 type EnajenacionBienesTotal {
@@ -270,7 +275,7 @@ type ActividadAnualAnterior {
   ingresoNetoAnualDeclarante: Monto
   ingresoNetoAnualParejaDependiente: Monto
   totalIngresosNetosAnuales: Monto
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Superficie {
@@ -280,14 +285,14 @@ type Superficie {
 
 type Tercero {
   tipoPersona: TipoPersona
-  nombreRazonSocial: String
-  rfc: String
+  nombreRazonSocial: LimitedString
+  rfc: LimitedString
 }
 
 type Transmisor  {
   tipoPersona: TipoPersona
-  nombreRazonSocial: String
-  rfc: String
+  nombreRazonSocial: LimitedString
+  rfc: LimitedString
   relacion: Catalogo
 }
 
@@ -303,7 +308,7 @@ type BienInmueble {
   formaPago: FormaPago
   valorAdquisicion: Monto
   fechaAdquisicion: Date
-  datoIdentificacion: String
+  datoIdentificacion: LimitedString
   valorConformeA: ValorConformeA
   domicilioMexico: DomicilioMexico
   domicilioExtranjero: DomicilioExtranjero
@@ -313,17 +318,17 @@ type BienInmueble {
 type BienesInmuebles {
   ninguno: Boolean
   bienInmueble: [BienInmueble]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Vehiculo {
   tipoVehiculo: Catalogo
   titular: [Catalogo]
   transmisor: [Transmisor]
-  marca: String
-  modelo: String
+  marca: LimitedString
+  modelo: LimitedString
   anio: Int
-  numeroSerieRegistro: String
+  numeroSerieRegistro: LimitedString
   tercero: [Tercero]
   lugarRegistro: Ubicacion
   formaAdquisicion: Catalogo
@@ -336,7 +341,7 @@ type Vehiculo {
 type Vehiculos {
   ninguno: Boolean
   vehiculo: [Vehiculo]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type BienMueble {
@@ -344,7 +349,7 @@ type BienMueble {
   tipoBien: Catalogo
   transmisor: [Transmisor]
   tercero: [Tercero]
-  descripcionGeneralBien: String
+  descripcionGeneralBien: LimitedString
   formaAdquisicion: Catalogo
   formaPago: FormaPago
   valorAdquisicion: Monto
@@ -355,13 +360,13 @@ type BienMueble {
 type BienesMuebles {
   ninguno: Boolean
   bienMueble: [BienMueble]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type LocalizacionInversion {
-  pais: String
-  institucionRazonSocial: String
-  rfc: String
+  pais: LimitedString
+  institucionRazonSocial: LimitedString
+  rfc: LimitedString
 }
 
 type Inversion {
@@ -369,7 +374,7 @@ type Inversion {
   subTipoInversion: Catalogo
   titular: [Catalogo]
   tercero: [Tercero]
-  numeroCuentaContrato: String
+  numeroCuentaContrato: LimitedString
   localizacionInversion: LocalizacionInversion
   saldoSituacionActual: Monto
 }
@@ -377,24 +382,24 @@ type Inversion {
 type InversionesCuentasValores {
   ninguno: Boolean
   inversion: [Inversion]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type OtorganteCredito {
   tipoPersona: TipoPersona
-  nombreInstitucion: String
-  rfc: String
+  nombreInstitucion: LimitedString
+  rfc: LimitedString
 }
 
 type LocalizacionAdeudo {
   localizacion: MexicoExtranjero
-  pais: String
+  pais: LimitedString
 }
 
 type Adeudo {
   titular: [Catalogo]
   tipoAdeudo: Catalogo
-  numeroCuentaContrato: String
+  numeroCuentaContrato: LimitedString
   fechaAdquisicion: Date
   montoOriginal: Monto
   saldoInsolutoSituacionActual: Monto
@@ -406,7 +411,7 @@ type Adeudo {
 type AdeudosPasivos {
   ninguno: Boolean
   adeudo: [Adeudo]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type InmueblePrestamo  {
@@ -417,10 +422,10 @@ type InmueblePrestamo  {
 
 type VehiculoPrestamo {
   tipo: Catalogo
-  marca: String
-  modelo: String
+  marca: LimitedString
+  modelo: LimitedString
   anio: Int
-  numeroSerieRegistro: String
+  numeroSerieRegistro: LimitedString
   lugarRegistro: Ubicacion
 }
 
@@ -431,9 +436,9 @@ type TipoBienPrestamo {
 
 type DuenoTitularPrestamo  {
   tipoDuenoTitular: TipoPersona
-  nombreTitular: String
-  rfc: String
-  relacionConTitular: String
+  nombreTitular: LimitedString
+  rfc: LimitedString
+  relacionConTitular: LimitedString
 }
 
 type Prestamo {
@@ -444,19 +449,19 @@ type Prestamo {
 type PrestamoComodato {
   ninguno: Boolean
   prestamo: [Prestamo]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Ubicacion {
-  pais: String
+  pais: LimitedString
   entidadFederativa: Catalogo
 }
 
 type Participacion {
   tipoOperacion: TipoOperacion
   tipoRelacion: TipoRelacion
-  nombreEmpresaSociedadAsociacion: String
-  rfc: String
+  nombreEmpresaSociedadAsociacion: LimitedString
+  rfc: LimitedString
   porcentajeParticipacion: Int
   tipoParticipacion: Catalogo
   recibeRemuneracion: Boolean
@@ -468,16 +473,16 @@ type Participacion {
 type Participaciones {
   ninguno: Boolean
   participacion: [Participacion]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type ParticipacionTD {
   tipoOperacion: TipoOperacion
   tipoRelacion: TipoRelacion
   tipoInstitucion: Catalogo
-  nombreInstitucion: String
-  rfc: String
-  puestoRol: String
+  nombreInstitucion: LimitedString
+  rfc: LimitedString
+  puestoRol: LimitedString
   fechaInicioParticipacion: Date
   recibeRemuneracion: Boolean
   montoMensual: Monto
@@ -487,26 +492,26 @@ type ParticipacionTD {
 type ParticipacionTomaDecisiones {
   ninguno: Boolean
   participacion: [ParticipacionTD]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Apoyo {
   tipoOperacion: TipoOperacion
   tipoPersona: TipoPersona
   beneficiarioPrograma: Catalogo
-  nombrePrograma: String
-  institucionOtorgante: String
+  nombrePrograma: LimitedString
+  institucionOtorgante: LimitedString
   nivelOrdenGobierno: NivelOrdenGobierno
   tipoApoyo: Catalogo
   formaRecepcion: FormaRecepcion
   montoApoyoMensual: Monto
-  especifiqueApoyo: String
+  especifiqueApoyo: LimitedString
 }
 
 type Apoyos {
   ninguno: Boolean
   apoyo: [Apoyo]
-  aclaracionesObservaciones: String
+  aclaracionesObservaciones: LimitedString
 }
 
 type Representacion {
@@ -514,8 +519,8 @@ type Representacion {
  tipoRelacion: TipoRelacion
  tipoRepresentacion: TipoRepresentacion
  tipoPersona: TipoPersona
- nombreRazonSocial: String
- rfc: String
+ nombreRazonSocial: LimitedString
+ rfc: LimitedString
  recibeRemuneracion: Boolean
  montoMensual: Monto
  fechaInicioRepresentacion: Date
@@ -526,12 +531,12 @@ type Representacion {
 type Representaciones {
  ninguno: Boolean
  representacion: [Representacion]
- aclaracionesObservaciones: String
+ aclaracionesObservaciones: LimitedString
 }
 
 type Empresa {
-   nombreEmpresaServicio: String
-   rfc: String
+   nombreEmpresaServicio: LimitedString
+   rfc: LimitedString
  }
 
 type Cliente {
@@ -548,7 +553,7 @@ type Cliente {
 type ClientesPrincipales {
  ninguno: Boolean
  cliente: [Cliente]
- aclaracionesObservaciones: String
+ aclaracionesObservaciones: LimitedString
 }
 
 type Beneficio {
@@ -558,7 +563,7 @@ type Beneficio {
  beneficiario: Catalogo
  otorgante: Tercero
  formaRecepcion: FormaRecepcion
- especifiqueBeneficio: String
+ especifiqueBeneficio: LimitedString
  montoMensualAproximado: Monto
  sector: Catalogo
 }
@@ -566,13 +571,13 @@ type Beneficio {
 type BeneficiosPrivados {
  ninguno: Boolean
  beneficio: [Beneficio]
- aclaracionesObservaciones: String
+ aclaracionesObservaciones: LimitedString
 }
 
 
 type Fiduciario {
-   nombreRazonSocial: String
-   rfc: String
+   nombreRazonSocial: LimitedString
+   rfc: LimitedString
 }
 
 type Fideicomiso {
@@ -580,7 +585,7 @@ type Fideicomiso {
  tipoRelacion: TipoRelacion
  tipoFideicomiso: TipoFideicomiso
  tipoParticipacion: TipoParticipacionFideicomiso
- rfcFideicomiso: String
+ rfcFideicomiso: LimitedString
  fideicomitente: Tercero
  fiduciario: Fiduciario
  fideicomisario: Tercero
@@ -591,13 +596,13 @@ type Fideicomiso {
 type Fideicomisos {
  ninguno: Boolean
  fideicomiso: [Fideicomiso]
- aclaracionesObservaciones: String
+ aclaracionesObservaciones: LimitedString
 }
 
 type DeclaracionMetadata {
   _id: ID!
   completa: Boolean!
-  simplificada: Boolean
+  simplificada: Boolean!
   tipoDeclaracion: TipoDeclaracion!
   createdAt: Date!
   updatedAt: Date!
@@ -607,7 +612,7 @@ type DeclaracionMetadata {
 type Declaracion {
   _id: ID!
   completa: Boolean!
-  simplificada: Boolean
+  simplificada: Boolean!
   tipoDeclaracion: TipoDeclaracion!
   createdAt: Date!
   updatedAt: Date!

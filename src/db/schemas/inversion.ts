@@ -13,6 +13,7 @@ export const InversionSchema = new Schema({
   numeroCuentaContrato: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   localizacionInversion: LocalizacionInversionSchema,
   saldoSituacionActual: MontoSchema,

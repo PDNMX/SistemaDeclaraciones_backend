@@ -1,4 +1,5 @@
 import { CatalogoSchema } from './catalogo';
+import { FormaPago } from '../../types/enums';
 import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
 import { TerceroSchema } from './tercero';
@@ -13,11 +14,12 @@ export const BienMuebleSchema = new Schema({
   descripcionGeneralBien: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   formaAdquisicion: CatalogoSchema,
   formaPago: {
     type: String,
-    trim: true,
+    enum: FormaPago,
   },
   valorAdquisicion: MontoSchema,
   fechaAdquisicion: Date,

@@ -1,14 +1,41 @@
 type UsersPage {
+  totalDocs: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+  hasMore: Boolean
   docs: [User!]!
-  pageNumber: Int!
 }
 
 type DeclaracionesPage {
+  totalDocs: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+  hasMore: Boolean
   docs: [Declaracion!]!
-  pageNumber: Int!
 }
 
 type DeclaracionesMetadataPage {
+  totalDocs: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+  hasMore: Boolean
   docs: [DeclaracionMetadata!]!
-  pageNumber: Int!
 }

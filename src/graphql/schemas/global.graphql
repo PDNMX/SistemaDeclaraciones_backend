@@ -1,6 +1,9 @@
 scalar Date
-scalar UUID
 scalar Email
+scalar JSON
+scalar LimitedString
+scalar UUID
 
 directive @hasRole(roles: [Role]) on OBJECT | FIELD_DEFINITION
+directive @hasScope(scopes: [String]) on OBJECT | FIELD_DEFINITION
 directive @isAuthenticated on OBJECT | FIELD_DEFINITION

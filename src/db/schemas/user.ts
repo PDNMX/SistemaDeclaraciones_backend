@@ -1,4 +1,3 @@
-import { RFCSchema } from './rfc';
 import { ResetTokenSchema } from './reset_token';
 import { Role } from '../../types/enums';
 import { Schema } from 'mongoose';
@@ -15,20 +14,27 @@ export const UserSchema = new Schema({
   },
   nombre: {
     type: String,
-    required: true
+    required: true,
+    uppercase: true,
   },
 	primerApellido: {
     type: String,
-    required: true
+    required: true,
+    uppercase: true,
   },
-	segundoApellido: String,
+	segundoApellido: {
+    type: String,
+    uppercase: true,
+  },
 	curp: {
     type: String,
-    required: true
+    required: true,
+    uppercase: true,
   },
   rfc: {
-    type: RFCSchema,
+    type: String,
     required: true,
+    uppercase: true,
   },
 
   // ----- READ ONLY ------
@@ -44,10 +50,12 @@ export const UserSchema = new Schema({
     type: [String],
     enum: Role,
     required: true,
-    default: [Role.SUPER_ADMIN],
+    default: [Role.USER],
   },
   declaraciones: [{
     type: Schema.Types.ObjectId,
     ref: 'Declaracion',
+    required: true,
+    index: true,
   }],
 }, options);

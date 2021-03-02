@@ -1,8 +1,11 @@
 import 'reflect-metadata';
-import DBConnection from './db/Connection';
+import BodyParser from 'body-parser';
+import Cors from 'cors';
+import DBConnection from './db/connection';
 import Express from 'express';
 import GraphqlAPI from './graphql';
-import bodyParser from 'body-parser';
+import ReportsAPI from './pdf_preview/reports_api';
+import { corsOptions } from './config';
 import path from 'path';
 
 class App {
@@ -22,6 +25,7 @@ class App {
     if (!App.instance) {
       App.instance = new App();
 
+      ReportsAPI.create(App.instance.app);
       await GraphqlAPI.create(App.instance.app);
       await DBConnection.connect();
     }
@@ -33,17 +37,19 @@ class App {
    * Function to attach middlewares to the application.
    */
   private applyMiddlewares(): void {
+    // Enable CORS
+    this.app.options('*', Cors(corsOptions));
+    this.app.use('*', Cors(corsOptions));
+
     // parse application/x-www-form-urlencoded
-    this.app.use(bodyParser.urlencoded({ extended: false }));
+    this.app.use(BodyParser.urlencoded({ extended: false }));
 
     // To mount static files
-    console.log(path.join(__dirname,'./public'));
-    console.log(Express.static(path.join(__dirname,'./public')));
-
-    this.app.use(Express.static(path.join(__dirname,'./public')));
+    // TODO: This does not work
+    this.app.use('/static', Express.static(path.join(__dirname,'./static')));
 
     // parse application/json
-    this.app.use(bodyParser.json());
+    this.app.use(BodyParser.json());
   }
 }
 

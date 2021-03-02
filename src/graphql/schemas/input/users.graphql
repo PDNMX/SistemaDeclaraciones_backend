@@ -1,22 +1,17 @@
-input RFCInput {
-  rfc: String
-  homoClave: String
-}
-
 input UserProfileInput {
-  nombre: String!
-  primerApellido: String!
-  segundoApellido: String
-  curp: String!
-  rfc: RFCInput!
+  nombre: LimitedString!
+  primerApellido: LimitedString!
+  segundoApellido: LimitedString
+  curp: LimitedString!
+  rfc: LimitedString!
 }
 
 input UserSignUpInput {
-  username: String!
-  password: String!
-  nombre: String!
-  primerApellido: String!
-  segundoApellido: String
-  curp: String!
-  rfc: RFCInput!
+  username: Email!
+  password: LimitedString!
+  nombre: LimitedString!
+  primerApellido: LimitedString!
+  segundoApellido: LimitedString
+  curp: LimitedString!
+  rfc: LimitedString!
 }

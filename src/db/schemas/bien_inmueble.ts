@@ -27,6 +27,7 @@ export const BienInmuebleSchema = new Schema({
   datoIdentificacion: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   valorConformeA: {
     type: String,

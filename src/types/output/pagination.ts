@@ -1,13 +1,13 @@
-import { DeclaracionDocument, UserDocument } from './documents';
-
-interface Pagination {
-  pageNumber: number;
-}
-
-export interface UsersPage extends Pagination {
-  docs: UserDocument[];
-}
-
-export interface DeclaracionesPage extends Pagination {
-  docs: DeclaracionDocument[];
+export interface Pagination<T> {
+  totalDocs?: number;
+  limit?: number;
+  totalPages?: number;
+  page?: number;
+  pagingCounter?: number;
+  hasPrevPage?: Boolean;
+  hasNextPage?: Boolean;
+  prevPage?: number;
+  nextPage?: number;
+  hasMore?: Boolean;
+  docs: T[];
 }

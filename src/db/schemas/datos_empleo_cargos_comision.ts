@@ -8,6 +8,7 @@ import { TelefonoOficinaSchema } from './telefono_oficina';
 const string_type = {
   type: String,
   trim: true,
+  uppercase: true,
 };
 
 export const DatosEmpleoCargoComisionSchema = new Schema({
@@ -33,5 +34,8 @@ export const DatosEmpleoCargoComisionSchema = new Schema({
   telefonoOficina: TelefonoOficinaSchema,
   domicilioMexico: DomicilioMexicoSchema,
   domicilioExtranjero: DomicilioExtranjeroSchema,
-  aclaracionesObservaciones: string_type,
+  aclaracionesObservaciones: {
+    type: String,
+    trim: true,
+  },
 });

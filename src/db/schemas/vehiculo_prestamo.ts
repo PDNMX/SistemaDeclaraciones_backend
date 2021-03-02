@@ -6,6 +6,7 @@ import { UbicacionSchema } from './ubicacion';
 const string_type = {
   type: String,
   trim: true,
+  uppercase: true,
 };
 
 export const VehiculoPrestamoSchema = new Schema({

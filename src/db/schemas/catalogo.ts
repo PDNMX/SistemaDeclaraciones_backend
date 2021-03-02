@@ -10,6 +10,6 @@ export const CatalogoSchema = new Schema({
   valor: {
     type: String,
     trim: true,
-    require: true,
+    required: true,
   },
 });

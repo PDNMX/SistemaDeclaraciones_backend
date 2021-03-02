@@ -24,6 +24,7 @@ export const BeneficioSchema = new Schema({
   especifiqueBeneficio: {
     type: String,
     trim: true,
+    uppercase: true,
   },
   montoMensualAproximado: MontoSchema,
   sector: CatalogoSchema,

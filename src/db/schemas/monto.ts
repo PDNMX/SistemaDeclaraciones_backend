@@ -5,5 +5,6 @@ export const MontoSchema = new Schema({
   moneda: {
     type: String,
     trim: true,
+    uppercase: true,
   },
 });

@@ -1,13 +1,25 @@
 type Mutation {
-  changeRoles(userID: String!, roles:[Role!]!): User! @hasRole(roles: [SUPER_ADMIN])
+  "Change roles of a User"
+  changeRoles(userID: LimitedString!, roles:[Role!]!): User! @hasRole(roles: [ROOT])
 
-  changePassword(oldPassword: String! newPassword: String!): Boolean! @isAuthenticated
+  "Change password"
+  changePassword(oldPassword: LimitedString! newPassword: LimitedString!): Boolean! @isAuthenticated
 
-  declaracion(id: ID!, declaracion: DeclaracionSeccionesInput!): Declaracion @isAuthenticated
+  "Update a declaration data"
+  declaracion(id: ID!, declaracion: DeclaracionSeccionesInput!): Declaracion @hasRole(roles: [USER])
 
+  "Delete a declaration"
+  deleteDeclaracion(id: ID!): Boolean! @hasRole(roles: [USER])
+
+  "Sign declaration"
+  firmarDeclaracion(id: ID!): JSON @hasRole(roles: [USER])
+
+  "Update user profile"
   updateUserProfile(profile: UserProfileInput!): User! @isAuthenticated
 
+  "Add new User"
   signup(user: UserSignUpInput!): User!
 
-  resetPassword(token: String!, newPassword: String!): Boolean!
+  "Reset password"
+  resetPassword(token: String!, newPassword: LimitedString!): Boolean!
 }

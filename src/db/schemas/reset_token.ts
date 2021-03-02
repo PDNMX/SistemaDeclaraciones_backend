@@ -5,7 +5,7 @@ export const ResetTokenSchema = new Schema({
     type: String,
     require: true,
   },
-  exp: {
+  expiration: {
     type: Number,
     require: true,
   }
