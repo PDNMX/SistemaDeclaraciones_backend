@@ -12,12 +12,13 @@ class DBConnection {
     const MONGO_USERNAME = process.env.MONGO_USERNAME;
     const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 
-    return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
+    return `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
   }
 
   public static async connect(): Promise<void> {
     if (!DBConnection.hasBeenConnected) {
       const uri = DBConnection.buildURI();
+      console.log(uri);
       const options = {
         useNewUrlParser: true,
         // Mongoose will automatically build indexes defined in your schema when it connects.

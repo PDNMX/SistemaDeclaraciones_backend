@@ -1,8 +1,5 @@
 #### Stage 1: Build the Application
-FROM node:15 as builder
-
-# Update packages
-RUN apt-get update && apt-get upgrade -y && apt-get install -y make gcc build-essential
+FROM node:14-alpine as builder
 
 # Set the current working directory inside the image
 WORKDIR /usr/app
@@ -22,16 +19,12 @@ COPY ./ ./
 RUN npm run build
 
 #### Stage 2: Run the Application in slim container
-FROM node:15-alpine
+FROM node:14-alpine
 
 WORKDIR /usr/app
 
-COPY package*.json ./
-
-RUN npm install --only=production
-
 COPY --from=builder /usr/app/build ./build
 
-EXPOSE 3000
+EXPOSE ${PORT}
 
-CMD npm start
+CMD ["npm", "start"]

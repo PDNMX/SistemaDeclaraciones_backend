@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
-import DBConnection from './db/connection';
+import DBConnection from './db/Connection';
 import Express from 'express';
 import GraphqlAPI from './graphql';
 import ReportsAPI from './pdf_preview/reports_api';
