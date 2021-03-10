@@ -3,7 +3,6 @@ version: "3"
 services:
   database:
     image: mongo:4-bionic
-    container_name: GMM_Database
     restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
@@ -13,15 +12,13 @@ services:
       - dbdata:/usr/data/db
 
   reports:
-    container_name: GMM_Reports
     build:
       context: ../SistemaDeclaraciones_reportes
       args:
         - NODE_ENV=${NODE_ENV}
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
-    container_name: GMM-Elasticsearch
+    image: elasticsearch:7.11.1
     restart: unless-stopped
     environment:
       - xpack.security.enabled=false
@@ -48,7 +45,6 @@ services:
       dockerfile: Dockerfile
       args:
         - NODE_ENV=${NODE_ENV}
-    container_name: GMM
     restart: unless-stopped
     depends_on:
       - database
