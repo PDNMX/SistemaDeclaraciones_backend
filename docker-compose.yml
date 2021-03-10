@@ -1,21 +1,13 @@
 version: "3"
 
 services:
-  database:
-    image: mongo:4-bionic
-    restart: unless-stopped
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_INITDB_DATABASE=${MONGO_DB}
-    volumes:
-      - dbdata:/usr/data/db
-
   reports:
     build:
       context: ../SistemaDeclaraciones_reportes
       args:
         - NODE_ENV=${NODE_ENV}
+    ports:
+      - 3001:3001
 
   elasticsearch:
     image: elasticsearch:7.11.1
@@ -46,19 +38,12 @@ services:
       args:
         - NODE_ENV=${NODE_ENV}
     restart: unless-stopped
+    network_mode: host
     depends_on:
-      - database
       - elasticsearch
       - reports
-    links:
-      - database
-      - elasticsearch
-      - reports
-    ports:
-      - ${PORT}:${PORT}
     volumes:
       - .:/usr/app
 
 volumes:
-  dbdata:
   esdata:
