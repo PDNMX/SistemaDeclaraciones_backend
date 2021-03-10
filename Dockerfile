@@ -1,30 +1,17 @@
-#### Stage 1: Build the Application
-FROM node:14-alpine as builder
+FROM node:14-alpine
 
-# Set the current working directory inside the image
-WORKDIR /usr/app
+MAINTAINER Sergio Rodríguez <sergio.rdzsg@gmail.com>
+
+ADD . /backend
+WORKDIR /backend
 
 ARG NODE_ENV
 
-# First copy package.json and package-lock.json to optimize cache hits
-COPY package*.json ./
-
-# Install dependencies.
-RUN npm install
-
-# After installing dependencies, copy everything
-COPY ./ ./
-
-# Compile
-RUN npm run build
-
-#### Stage 2: Run the Application in slim container
-FROM node:14-alpine
-
-WORKDIR /usr/app
-
-COPY --from=builder /usr/app/build ./build
+RUN yarn add global yarn \
+&& yarn install \
+&& yarn build \
+&& yarn cache clean
 
 EXPOSE ${PORT}
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
