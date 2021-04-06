@@ -39,14 +39,14 @@ services:
       args:
         - NODE_ENV=${NODE_ENV}
     restart: unless-stopped
-    #network_mode: host # Comentar o remover línea para desplegar en Windows/MacOS
+    network_mode: host # Comentar o remover línea para desplegar en Windows/MacOS
     depends_on:
       - elasticsearch
       - reports
     volumes:
       - .:/usr/app
-    ports:           # Descomentar para desplegar en Windows/MacOS
-      - 3000:3000    # Descomentar para desplegar en Windows/MacOS
+    #ports:           # Descomentar para desplegar en Windows/MacOS
+    #  - 3000:3000    # Descomentar para desplegar en Windows/MacOS
 
 volumes:
   esdata:
