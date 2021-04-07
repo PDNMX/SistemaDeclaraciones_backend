@@ -66,7 +66,7 @@ export class UserRepository {
       to: username,
       from: `${process.env.SENDGRID_MAIL_SENDER}`,
       subject: 'Recuperación de Contraseña',
-      text: `Para recuperar tu contraseña por favor usa el siguiente enlace: ${process.env.FE_RESET_PASSWORD_URL}?token=${token}`,
+      text: `Para recuperar tu contraseña por favor usa el siguiente enlace: ${process.env.FE_RESET_PASSWORD_URL}/restablecer-contrasena?token=${token}`,
     };
 
     Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
