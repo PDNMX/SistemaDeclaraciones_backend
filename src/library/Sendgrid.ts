@@ -20,10 +20,10 @@ export class SendgridClient {
   public static async sendRecoveryPassword(email: string, token: string): Promise<void> {
     const message = {
       to: email,
-      from: `${process.env.SENDGRID_FROM_EMAIL}`,
+      from: `${process.env.SENDGRID_MAIL_SENDER}`,
       subject: strings.subjectRecoveryEmail,
       text: strings.formatString(strings.textRecoveryEmail, {
-        url: `${process.env.FE_RESET_PASSWORD_URL}`,
+        url: `${process.env.FE_RESET_PASSWORD_URL}/restablecer-contrasena`,
         token: token,
       }),
     };
@@ -36,7 +36,7 @@ export class SendgridClient {
     const today = now.toISOString();
     const message = {
       to: email,
-      from: `${process.env.SENDGRID_FROM_EMAIL}`,
+      from: `${process.env.SENDGRID_MAIL_SENDER}`,
       subject: strings.subjectDeclarationFile,
       text: strings.textDeclarationFile,
       attachments: [{
