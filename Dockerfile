@@ -7,10 +7,11 @@ WORKDIR /backend
 
 ARG NODE_ENV
 
-RUN npm install \
-&& npm build \
-&& npm cache clean --force
+RUN yarn add global yarn \
+&& yarn install \
+&& yarn build \
+&& yarn cache clean
 
 EXPOSE ${PORT}
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

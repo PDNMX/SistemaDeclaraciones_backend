@@ -1,5 +1,5 @@
 {
-  "name": "Declaracion Servidores Publicos",
+  "name": "declaracion-servidores-publicos",
   "version": "1.0.0",
   "private": true,
   "description": "Graphql API",
@@ -15,9 +15,6 @@
     "GraphQL",
     "Mongoose"
   ],
-  "engines": {
-    "node": ">=15.8.0"
-  },
   "dependencies": {
     "@elastic/elasticsearch": "~7.12.0",
     "@graphql-tools/load-files": "~6.3.1",
