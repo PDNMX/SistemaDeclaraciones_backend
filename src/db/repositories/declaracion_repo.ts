@@ -1,3 +1,4 @@
+import { BCrypt, SendgridClient } from '../../library';
 import {
   DeclaracionDocument,
   DeclaracionSecciones,
@@ -8,6 +9,7 @@ import {
 } from '../../types';
 import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
+import ReportsClient from '../../pdf_preview/reports_client';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
 
@@ -19,7 +21,7 @@ export class DeclaracionRepository {
       throw new CreateError.NotFound(`Declaration[${declaracionID}] does not exist.`);
     } else if (declaracion.owner._id != userID) {
       throw new CreateError.Forbidden(`User: ${userID} is not allowed to delete declaracion[${declaracionID}]`);
-    } else if (declaracion.completa) {
+    } else if (declaracion.firmada) {
       throw new CreateError.NotAcceptable(`Declaracion[${declaracionID}] is signed and can not be deleted`);
     }
 
@@ -50,7 +52,7 @@ export class DeclaracionRepository {
       return declaraciones;
     }
 
-    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false }
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
   }
 
   public static async getAllByUser(userID: string, filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
@@ -72,13 +74,13 @@ export class DeclaracionRepository {
       return declaraciones;
     }
 
-    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false }
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
   }
 
   public static async getOrCreate(
     userID: string,
     tipoDeclaracion: TipoDeclaracion,
-    simplificada = false,
+    declaracionCompleta = true,
   ): Promise<DeclaracionDocument> {
     const user = await UserModel.findById({ _id: userID });
     if (!user) {
@@ -86,8 +88,8 @@ export class DeclaracionRepository {
     }
     const filter = {
       tipoDeclaracion: tipoDeclaracion,
-      simplificada: simplificada,
-      completa: false,
+      declaracionCompleta: declaracionCompleta,
+      firmada: false,
       owner: user,
     };
 
@@ -98,7 +100,7 @@ export class DeclaracionRepository {
     return declaracion;
   }
 
-  public static async sign(declaracionID: string, userID: string): Promise<Record<string, any> | null> {
+  public static async sign(declaracionID: string, password: string, userID: string): Promise<Record<string, any> | null> {
     const declaracion = await DeclaracionModel.findById({ _id: declaracionID });
     if (!declaracion) {
       throw new CreateError.NotFound(`Declaration[${declaracionID}] does not exist.`);
@@ -106,10 +108,24 @@ export class DeclaracionRepository {
       throw new CreateError.Forbidden(`User: ${userID} is not allowed to sign declaracion[${declaracionID}]`);
     }
 
-    const missingFields = ['a', 'b', 'c'];
-    declaracion.completa = true;
-    declaracion.save();
+    const user = await UserModel.findById({ _id: userID });
+    if (!user) {
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
+    }
+    if (!BCrypt.compare(password, user.password)) {
+      throw new CreateError.Forbidden('Provided password does not match.');
+    }
 
+    declaracion.firmada = true;
+    declaracion.save();
+    try {
+      const responsePreview = await ReportsClient.getReport(declaracion);
+      await SendgridClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));
+    } catch(e) {
+      throw new CreateError.InternalServerError('There was a problem sending the Report');
+    }
+
+    const missingFields = ['a', 'b', 'c'];
     return missingFields;
   }
 
@@ -119,13 +135,13 @@ export class DeclaracionRepository {
       throw new CreateError.NotFound(`Declaration with ID: ${declaracionID} does not exist.`);
     } else if (declaracion.owner._id != userID) {
       throw new CreateError.Forbidden(`User: ${userID} is not allowed to update declaracion[${declaracionID}]`);
-    } else if (declaracion.completa) {
-      throw new CreateError.NotAcceptable(`Declaracion[${declaracionID}] is arlready signed, it cannot be updated.`);
+    } else if (declaracion.firmada) {
+      throw new CreateError.NotAcceptable(`Declaracion[${declaracionID}] is already signed, it cannot be updated.`);
     }
 
     const filter = {
       _id: declaracionID,
-      completa: false,
+      firmada: false,
     };
     const options = {
       new: true,

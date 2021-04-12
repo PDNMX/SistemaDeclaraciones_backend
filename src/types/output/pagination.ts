@@ -4,10 +4,10 @@ export interface Pagination<T> {
   totalPages?: number;
   page?: number;
   pagingCounter?: number;
-  hasPrevPage?: Boolean;
-  hasNextPage?: Boolean;
+  hasPrevPage?: Boolean; // eslint-disable-line
+  hasNextPage?: Boolean; // eslint-disable-line
   prevPage?: number;
   nextPage?: number;
-  hasMore?: Boolean;
+  hasMore?: Boolean; // eslint-disable-line
   docs: T[];
 }

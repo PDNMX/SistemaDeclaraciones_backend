@@ -601,7 +601,7 @@ input FideicomisosInput {
 
 input DeclaracionesFilterInput {
   tipoDeclaracion: TipoDeclaracion
-  simplificada: Boolean
+  declaracionCompleta: Boolean
 }
 
 input DeclaracionSeccionesInput {

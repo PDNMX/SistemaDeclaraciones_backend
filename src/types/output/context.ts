@@ -7,3 +7,8 @@ export interface Context {
     scopes: string[];
   };
 }
+
+export interface JWTConfig {
+  secret: string;
+  expiresIn: string;
+}

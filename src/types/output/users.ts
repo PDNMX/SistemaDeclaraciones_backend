@@ -13,6 +13,11 @@ export interface UserES {
   updatedAt: string;
 }
 
+export interface RefreshToken {
+  salt?: string;
+  expiration?: number;
+}
+
 export interface User {
   username: string;
   nombre: string;
@@ -23,13 +28,12 @@ export interface User {
   roles: Role[];
   createdAt: Date;
   updatedAt: Date;
-  resetToken: {
-    salt?: string;
-    expiration?: number;
-  }
+  refreshJwtToken: RefreshToken;
+  resetToken: RefreshToken;
 }
 
 export interface Login {
   user: User;
   jwtToken: string;
+  refreshJwtToken: string;
 }

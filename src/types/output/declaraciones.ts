@@ -625,8 +625,8 @@ export interface DeclaracionSecciones {
 
 export interface Declaracion extends DeclaracionSecciones {
   tipoDeclaracion: enums.TipoDeclaracion;
-  simplificada: boolean;
-  completa: boolean;
+  declaracionCompleta: boolean;
+  firmada: boolean;
   createAt: Date;
   updatedAt: Date;
 }

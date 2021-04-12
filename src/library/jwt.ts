@@ -1,24 +1,26 @@
+import CreateError from 'http-errors';
+import { JWTConfig } from '../types';
 import jwt from 'jsonwebtoken';
 
-export default class Jwt {
 
-  public static sign(data: any): string {
-    return jwt.sign(data, `${process.env.JWT_SECRET}`, {
-      expiresIn: '8h',
+export class Jwt {
+  public static sign(config: JWTConfig, data: any): string {
+    return jwt.sign(data, config.secret, {
+      expiresIn: config.expiresIn,
     });
   }
 
-  public static decodeToken(token: string): any {
+  public static decodeToken(secret: string, token: string): any {
     try {
-      return jwt.verify(token, `${process.env.JWT_SECRET}`, {
+      return jwt.verify(token, secret, {
         algorithms: ['HS256', 'RS256']
       });
     } catch(err) {
       if (err.name === 'TokenExpiredError') {
-        throw new Error('Your token is expired');
+        throw new CreateError.Unauthorized('Your token is expired');
       }
 
-      throw new Error('You are not authorized for this resource');
+      throw new CreateError.Unauthorized('You are not authorized for this resource');
     }
   }
 }

@@ -39,6 +39,7 @@ export const UserSchema = new Schema({
 
   // ----- READ ONLY ------
   resetToken: ResetTokenSchema,
+  refreshJwtToken: ResetTokenSchema,
   username: {
     type: String,
     lowercase: true,

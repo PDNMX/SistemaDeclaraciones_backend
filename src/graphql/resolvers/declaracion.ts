@@ -15,10 +15,10 @@ export default {
   Query: {
     declaracion(
       _: unknown,
-      args: { tipoDeclaracion: TipoDeclaracion, simplificada?: boolean },
+      args: { tipoDeclaracion: TipoDeclaracion, declaracionCompleta?: boolean },
       context: Context,
     ): Promise<Declaracion> {
-      return DeclaracionRepository.getOrCreate(context.user.id, args.tipoDeclaracion, args.simplificada);
+      return DeclaracionRepository.getOrCreate(context.user.id, args.tipoDeclaracion, args.declaracionCompleta);
     },
 
     declaracionesMetadata(_: unknown, args: { userID?: string, filter?: DeclaracionesFilterInput, pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<DeclaracionDocument>> {
@@ -50,8 +50,8 @@ export default {
     deleteDeclaracion(_: unknown, args: { id: string }, context: Context): Promise<boolean> {
       return DeclaracionRepository.delete(args.id, context.user.id);
     },
-    firmarDeclaracion(_: unknown, args: { id: string }, context: Context): Promise<Record<string, any> | null> {
-      return DeclaracionRepository.sign(args.id, context.user.id);
+    firmarDeclaracion(_: unknown, args: { id: string, password: string }, context: Context): Promise<Record<string, any> | null> {
+      return DeclaracionRepository.sign(args.id, args.password, context.user.id);
     },
   }
 };

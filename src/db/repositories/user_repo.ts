@@ -1,24 +1,23 @@
+import { BCrypt, SendgridClient } from '../../library';
 import {
   Context,
   Login,
   Pagination,
   PaginationInputOptions,
   Role,
-    UserDocument,
+  UserDocument,
   UserES,
   UserProfileInput,
   UserSignUpInput,
 } from '../../types';
-import BCrypt from '../../library/BCrypt';
+import { EnvironmentConfig, Scopes } from '../../config';
 import CreateError from 'http-errors';
 import Crypto from 'crypto';
 import ElasticSearchAPI from '../../elasticsearch/es_api';
-import Jwt from '../../library/jwt';
-import { Scopes } from '../../config';
-import Sendgrid from '@sendgrid/mail';
+import { Jwt } from '../../library';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
-
+import ms from 'ms';
 
 export class UserRepository {
 
@@ -30,6 +29,8 @@ export class UserRepository {
 
     user.roles = roles;
     user.save();
+    await ElasticSearchAPI.update(user);
+
     return user;
   }
 
@@ -56,34 +57,19 @@ export class UserRepository {
       throw new CreateError.NotFound(`User[${username}] does not exist.`);
     }
 
-    const data = {
+    const salt = Crypto.randomBytes(20).toString('hex');
+    const token = Jwt.sign(EnvironmentConfig.EmailJWTConfig, {
       id: user._id,
-      salt: Crypto.randomBytes(20).toString('hex'),
-      expiration: Date.now() + (60 * 60 * 1000), // 1HOUR
+      salt: salt,
+    });
+    await SendgridClient.sendRecoveryPassword(username, Buffer.from(token).toString('base64'));
+    user.resetToken = {
+      salt: salt,
+      expiration: Date.now() + ms(EnvironmentConfig.EmailJWTConfig.expiresIn),
     };
-    const token = Jwt.sign(data);
-    const message = {
-      to: username,
-      from: `${process.env.SENDGRID_MAIL_SENDER}`,
-      subject: 'Recuperación de Contraseña',
-      text: `Para recuperar tu contraseña por favor usa el siguiente enlace: ${process.env.FE_RESET_PASSWORD_URL}/restablecer-contrasena?token=${token}`,
-    };
+    user.save();
 
-    Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
-    user.resetToken = data;
-    try {
-      await Sendgrid.send(message);
-      user.save();
-
-      return true;
-    } catch(e) {
-      throw CreateError(
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        'Something went wrong at forgotPassword',
-        {debug_info: {username, error: e}},
-      );
-      return false;
-    }
+    return true;
   }
 
   public static async getAll(pagination: PaginationInputOptions = {}): Promise<Pagination<UserDocument>> {
@@ -98,7 +84,7 @@ export class UserRepository {
       return users;
     }
 
-    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false }
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
   }
 
   public static async getUser(userID: string): Promise<UserDocument> {
@@ -118,26 +104,38 @@ export class UserRepository {
       throw new CreateError.Forbidden('The provided password does not match.');
     }
 
-    const data = {
-      id: user._id,
-      roles: user.roles,
-      scopes: Scopes.createByRoles(user.roles),
+    // NOTE: Only the last successfully logged user is allowed to use the refresh token
+    user.refreshJwtToken = {
+      salt: Crypto.randomBytes(20).toString('hex'),
+      expiration: Date.now() + ms(EnvironmentConfig.RefreshJWTConfig.expiresIn),
     };
+    user.save();
 
     return {
       user: user,
-      jwtToken: Jwt.sign(data),
+      jwtToken: Jwt.sign(EnvironmentConfig.AuthJWTConfig, {
+        id: user._id,
+        roles: user.roles,
+        scopes: Scopes.createByRoles(user.roles),
+      }),
+      refreshJwtToken: Jwt.sign(EnvironmentConfig.RefreshJWTConfig, {
+        id: user._id,
+        salt: user.refreshJwtToken.salt,
+      }),
     };
   }
 
   public static async resetPassword(token: string, newPassword: string): Promise<boolean> {
-    const decodedToken = Jwt.decodeToken(token);
+    const decodedToken = Jwt.decodeToken(
+        EnvironmentConfig.EmailJWTConfig.secret,
+        Buffer.from(token, 'base64').toString()
+    );
     const user = await UserModel.findById({ _id: decodedToken.id });
     if (!user) {
       throw new CreateError.NotFound(`User[${decodedToken.id}] does not exist.`);
-    } else if (user.resetToken.salt !== decodedToken.salt) {
+    } else if (!user.resetToken.expiration || user.resetToken.salt !== decodedToken.salt) {
       throw new CreateError.Forbidden('Token is invalid');
-    } else if(user.resetToken.expiration && user.resetToken.expiration < Date.now()) {
+    } else if(user.resetToken.expiration < Date.now()) {
       throw new CreateError.BadRequest('Token is already expired');
     }
 

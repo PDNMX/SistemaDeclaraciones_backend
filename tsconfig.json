@@ -42,5 +42,6 @@
     "emitDecoratorMetadata": true,            /* Emit design-type metadata for decorated declarations in source. */
 
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["node_modules"]
 }

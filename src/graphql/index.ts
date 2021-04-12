@@ -82,21 +82,28 @@ class GraphqlAPI {
    * Function to format the error before displaying it to the user
    */
   private static formatError(error: GraphQLError): GraphQLFormattedError {
-    console.log(error);
-    console.log(error.originalError);
-    if (!error.originalError) {
-      return error;
-    } else if (CreateError.isHttpError(error.originalError)) {
-      const httpError = error.originalError as CreateError.HttpError;
-      console.log(httpError);
-      console.log(httpError.status);
-      console.log(getReasonPhrase(httpError.status));
-      console.log(httpError.statusCode);
-      return new ApolloError(httpError.message, getReasonPhrase(httpError.status), httpError.properties);
+    if (error.originalError) {
+      if (CreateError.isHttpError(error.originalError)) {
+        const httpError = error.originalError as CreateError.HttpError;
+        return new ApolloError(httpError.message, getReasonPhrase(httpError.status), httpError.properties);
+      }
+
+      if (Object.prototype.hasOwnProperty.call(error.originalError, 'message')
+          && error.originalError.message == 'Your token is expired'
+      ) {
+        const httpError = new CreateError.Unauthorized(error.originalError.message);
+        return new ApolloError(
+            error.originalError.message,
+            getReasonPhrase(httpError.status),
+            httpError.properties
+        );
+      }
+
+      return error.originalError;
     }
 
     return new ApolloError('Something went wrong', 'INTERNAL_SERVER_ERROR', {
-      originalError: error.originalError,
+      error: error,
     });
   }
 }

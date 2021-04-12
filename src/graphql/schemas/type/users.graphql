@@ -13,5 +13,6 @@ type User {
 
 type Login {
   user: User!
+  refreshJwtToken: String!
   jwtToken: String!
 }

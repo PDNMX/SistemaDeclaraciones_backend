@@ -18,7 +18,6 @@ class DBConnection {
   public static async connect(): Promise<void> {
     if (!DBConnection.hasBeenConnected) {
       const uri = DBConnection.buildURI();
-      console.log(uri);
       const options = {
         useNewUrlParser: true,
         // Mongoose will automatically build indexes defined in your schema when it connects.
