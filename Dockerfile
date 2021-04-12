@@ -9,7 +9,7 @@ ARG NODE_ENV
 
 RUN npm install \
 && npm build \
-&& npm cache clean
+&& npm cache clean --force
 
 EXPOSE ${PORT}
 
