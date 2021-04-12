@@ -1,11 +1,13 @@
 import 'reflect-metadata';
+import { EnvironmentConfig, corsOptions } from './config';
+import { ApiRouter } from './routers/api';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
-import DBConnection from './db/Connection';
+import DBConnection from './db/connection';
 import Express from 'express';
 import GraphqlAPI from './graphql';
 import ReportsAPI from './pdf_preview/reports_api';
-import { corsOptions } from './config';
+import Sendgrid from '@sendgrid/mail';
 import path from 'path';
 
 class App {
@@ -23,9 +25,13 @@ class App {
    */
   public static async create(): Promise<Express.Application> {
     if (!App.instance) {
+      EnvironmentConfig.build();
       App.instance = new App();
 
+      ApiRouter.create(App.instance.app);
+      Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
       ReportsAPI.create(App.instance.app);
+
       await GraphqlAPI.create(App.instance.app);
       await DBConnection.connect();
     }

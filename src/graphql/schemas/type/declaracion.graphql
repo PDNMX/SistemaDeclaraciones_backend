@@ -601,8 +601,8 @@ type Fideicomisos {
 
 type DeclaracionMetadata {
   _id: ID!
-  completa: Boolean!
-  simplificada: Boolean!
+  firmada: Boolean!
+  declaracionCompleta: Boolean!
   tipoDeclaracion: TipoDeclaracion!
   createdAt: Date!
   updatedAt: Date!
@@ -611,8 +611,8 @@ type DeclaracionMetadata {
 
 type Declaracion {
   _id: ID!
-  completa: Boolean!
-  simplificada: Boolean!
+  firmada: Boolean!
+  declaracionCompleta: Boolean!
   tipoDeclaracion: TipoDeclaracion!
   createdAt: Date!
   updatedAt: Date!

@@ -1,3 +1,4 @@
+import CreateError from 'http-errors';
 import md5 from 'md5';
 
 
@@ -6,7 +7,7 @@ export interface BCryptOptions {
   salt?: number;
 }
 
-export default class BCrypt {
+export class BCrypt {
 
   public static hash(raw: string, options: BCryptOptions = {}): string {
     const salt = options.salt || new Date().getTime();
@@ -30,7 +31,7 @@ export default class BCrypt {
 
       return hash === hashed;
     } catch (error) {
-      throw Error(error.message);
+      throw new CreateError.Forbidden(error.message);
     }
   }
 }

@@ -11,7 +11,7 @@ async function main(): Promise<void> {
   const app = await App.create();
   await app.listen(PORT);
 
-  console.log(`Server is running on port = ${PORT}`);
+  console.log(`🚀Server is running on port = ${PORT}`);
 }
 
 if (require.main === module) {

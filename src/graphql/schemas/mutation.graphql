@@ -12,14 +12,14 @@ type Mutation {
   deleteDeclaracion(id: ID!): Boolean! @hasRole(roles: [USER])
 
   "Sign declaration"
-  firmarDeclaracion(id: ID!): JSON @hasRole(roles: [USER])
+  firmarDeclaracion(id: ID!, password: String!): JSON @hasRole(roles: [USER])
 
-  "Update user profile"
-  updateUserProfile(profile: UserProfileInput!): User! @isAuthenticated
+  "Reset password"
+  resetPassword(token: String!, newPassword: LimitedString!): Boolean!
 
   "Add new User"
   signup(user: UserSignUpInput!): User!
 
-  "Reset password"
-  resetPassword(token: String!, newPassword: LimitedString!): Boolean!
+  "Update user profile"
+  updateUserProfile(profile: UserProfileInput!): User! @isAuthenticated
 }

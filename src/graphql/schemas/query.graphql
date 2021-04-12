@@ -1,6 +1,6 @@
 type Query {
   "Get or create a new declaration."
-  declaracion(tipoDeclaracion: TipoDeclaracion!, simplificada: Boolean): Declaracion! @hasRole(roles:[USER])
+  declaracion(tipoDeclaracion: TipoDeclaracion!, declaracionCompleta: Boolean): Declaracion! @hasRole(roles:[USER])
 
   "Fetch declaration metadata"
   declaracionesMetadata(userID: LimitedString, filter: DeclaracionesFilterInput, pagination: PaginationOptionsInput): DeclaracionesMetadataPage! @isAuthenticated

@@ -2,10 +2,29 @@ import { Role } from '../types';
 
 export class Scopes {
   private static scopesByRole: Record<Role, string[]> = {
-    [Role.USER]: ['DeclarationMetada:read:mine', 'Stats:read:mine', 'UserProfile:read:mine'],
-    [Role.ADMIN]: ['DeclarationMetada:read:all', 'Stats:read:all', 'UserProfile:read:all'],
-    [Role.SUPER_ADMIN]: ['DeclarationMetada:read:all', 'Stats:read:all', 'UserProfile:read:all'],
-    [Role.ROOT]: ['DeclarationMetada:read:all', 'Stats:read:all', 'UserProfile:read:all'],
+    [Role.USER]: [
+      'DeclarationMetada:read:mine',
+      'Stats:read:mine',
+      'UserProfile:read:mine',
+      'DeclarationPreview:read:mine'
+    ],
+    [Role.ADMIN]: [
+      'DeclarationMetada:read:all',
+      'Stats:read:all',
+      'UserProfile:read:all'
+    ],
+    [Role.SUPER_ADMIN]: [
+      'DeclarationMetada:read:all',
+      'Stats:read:all',
+      'UserProfile:read:all',
+      'DeclarationPreview:read:all',
+    ],
+    [Role.ROOT]: [
+      'DeclarationMetada:read:all',
+      'Stats:read:all',
+      'UserProfile:read:all',
+      'DeclarationPreview:read:all'
+    ],
   };
 
   public static createByRoles(roles: Role[]): string[] {

@@ -59,12 +59,12 @@ export const DeclaracionSchema = new Schema({
     enum: TipoDeclaracion,
     required: true,
   },
-  simplificada: {
+  declaracionCompleta: {
     type: Boolean,
     required: true,
-    default: false,
+    default: true,
   },
-  completa: {
+  firmada: {
     type: Boolean,
     default: false,
     required: true,
