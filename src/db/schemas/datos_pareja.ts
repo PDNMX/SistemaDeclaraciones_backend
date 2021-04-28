@@ -5,6 +5,7 @@ import { CatalogoSchema } from './catalogo';
 import { DomicilioExtranjeroSchema } from './domicilio_extranjero';
 import { DomicilioMexicoSchema } from './domicilio_mexico';
 import { Schema } from 'mongoose';
+import { addNullValue } from '../../library/utils';
 
 
 const string_type = {
@@ -22,7 +23,7 @@ export const DatosParejaSchema = new Schema({
   rfc: string_type,
   relacionConDeclarante: {
     type: String,
-    enum: RelacionConDeclarante,
+    enum: addNullValue(RelacionConDeclarante),
   },
   ciudadanoExtranjero: Boolean,
   curp: string_type,
@@ -30,7 +31,7 @@ export const DatosParejaSchema = new Schema({
   habitaDomicilioDeclarante: Boolean,
   lugarDondeReside: {
     type: String,
-    enum: LugarResidencia
+    enum: addNullValue(LugarResidencia),
   },
   domicilioMexico: DomicilioMexicoSchema,
   domicilioExtranjero: DomicilioExtranjeroSchema,

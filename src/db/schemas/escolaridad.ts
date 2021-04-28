@@ -2,12 +2,13 @@ import { EscolaridadDocumentoObtenido, EscolaridadEstatus, TipoOperacion } from 
 import { CatalogoSchema } from './catalogo';
 import { InstitucionEducativaSchema } from './institucion_educativa';
 import { Schema } from 'mongoose';
+import { addNullValue } from '../../library/utils';
 
 
 export const EscolaridadSchema = new Schema({
   tipoOperacion: {
     type: String,
-    enum: TipoOperacion,
+    enum: addNullValue(TipoOperacion),
   },
   nivel: CatalogoSchema,
   institucionEducativa: InstitucionEducativaSchema,
@@ -18,11 +19,11 @@ export const EscolaridadSchema = new Schema({
   },
   estatus: {
     type: String,
-    enum: EscolaridadEstatus,
+    enum: addNullValue(EscolaridadEstatus),
   },
   documentoObtenido: {
     type: String,
-    enum: EscolaridadDocumentoObtenido,
+    enum: addNullValue(EscolaridadDocumentoObtenido),
   },
   fechaObtencion: Date,
 });

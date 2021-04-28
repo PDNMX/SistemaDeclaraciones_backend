@@ -9,24 +9,25 @@ import { CatalogoSchema } from './catalogo';
 import { FiduciarioSchema } from './fiduciario';
 import { Schema } from 'mongoose';
 import { TerceroSchema } from './tercero';
+import { addNullValue } from '../../library/utils';
 
 
 export const FideicomisoSchema = new Schema({
   tipoOperacion: {
     type: String,
-    enum: TipoOperacion,
+    enum: addNullValue(TipoOperacion),
   },
   tipoRelacion: {
     type: String,
-    enum: TipoRelacion,
+    enum: addNullValue(TipoRelacion),
   },
   tipoFideicomiso: {
     type: String,
-    enum: TipoFideicomiso,
+    enum: addNullValue(TipoFideicomiso),
   },
   tipoParticipacion: {
     type: String,
-    enum: TipoParticipacionFideicomiso,
+    enum: addNullValue(TipoParticipacionFideicomiso),
   },
   rfcFideicomiso: {
     type: String,
@@ -39,6 +40,6 @@ export const FideicomisoSchema = new Schema({
   sector: CatalogoSchema,
   extranjero: {
     type: String,
-    enum: MexicoExtranjero,
+    enum: addNullValue(MexicoExtranjero),
   },
 });

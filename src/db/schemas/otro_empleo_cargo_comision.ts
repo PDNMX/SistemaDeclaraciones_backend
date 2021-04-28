@@ -1,7 +1,10 @@
 import { AmbitoPublico, NivelOrdenGobierno } from '../../types/enums';
-import { MontoSchema } from './monto';
+import { DomicilioExtranjeroSchema } from './domicilio_extranjero';
+import { DomicilioMexicoSchema } from './domicilio_mexico';
 import { Schema } from 'mongoose';
+import { TelefonoOficinaSchema } from './telefono_oficina';
 import { addNullValue } from '../../library/utils';
+
 
 const string_type = {
   type: String,
@@ -9,7 +12,7 @@ const string_type = {
   uppercase: true,
 };
 
-export const ActividadLaboralSectorPublicoSchema = new Schema({
+export const OtroEmpleoCargoComisionSchema = new Schema({
   nivelOrdenGobierno: {
     type: String,
     enum: addNullValue(NivelOrdenGobierno),
@@ -21,7 +24,11 @@ export const ActividadLaboralSectorPublicoSchema = new Schema({
   nombreEntePublico: string_type,
   areaAdscripcion: string_type,
   empleoCargoComision: string_type,
+  contratadoPorHonorarios: Boolean,
+  nivelEmpleoCargoComision: string_type,
   funcionPrincipal: string_type,
-  salarioMensualNeto: MontoSchema,
-  fechaIngreso: Date,
+  fechaTomaPosesion: Date,
+  telefonoOficina: TelefonoOficinaSchema,
+  domicilioMexico: DomicilioMexicoSchema,
+  domicilioExtranjero: DomicilioExtranjeroSchema,
 });

@@ -98,7 +98,24 @@ type DatosEmpleoCargoComision {
   telefonoOficina: TelefonoOficina
   domicilioMexico: DomicilioMexico
   domicilioExtranjero: DomicilioExtranjero
+  cuentaConOtroCargoPublico: Boolean
+  otroEmpleoCargoComision: [OtroEmpleoCargoComision]
   aclaracionesObservaciones: LimitedString
+}
+
+type OtroEmpleoCargoComision {
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: LimitedString
+  areaAdscripcion: LimitedString
+  empleoCargoComision: LimitedString
+  contratadoPorHonorarios: Boolean
+  nivelEmpleoCargoComision: LimitedString
+  funcionPrincipal: LimitedString
+  fechaTomaPosesion: Date
+  telefonoOficina: TelefonoOficina
+  domicilioMexico: DomicilioMexico
+  domicilioExtranjero: DomicilioExtranjero
 }
 
 type Experiencia {
@@ -183,7 +200,6 @@ type DependienteEconomico {
   actividadLaboral: Catalogo
   actividadLaboralSectorPublico: ActividadLaboralSectorPublico
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtro
-  aclaracionesObservaciones: LimitedString
 }
 
 type DatosDependientesEconomicos {

@@ -3,6 +3,7 @@ import { CatalogoSchema } from './catalogo';
 import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
 import { UbicacionSchema } from './ubicacion';
+import { addNullValue } from '../../library/utils';
 
 
 const string_type = {
@@ -14,19 +15,19 @@ const string_type = {
 export const RepresentacionSchema = new Schema({
   tipoOperacion: {
     type: String,
-    enum: TipoOperacion,
+    enum: addNullValue(TipoOperacion),
   },
   tipoRelacion: {
     type: String,
-    enum: TipoRelacion,
+    enum: addNullValue(TipoRelacion),
   },
   tipoRepresentacion: {
     type: String,
-    enum: TipoRepresentacion,
+    enum: addNullValue(TipoRepresentacion),
   },
   tipoPersona: {
     type: String,
-    enum: TipoPersona,
+    enum: addNullValue(TipoPersona),
   },
   nombreRazonSocial: string_type,
   rfc: string_type,
