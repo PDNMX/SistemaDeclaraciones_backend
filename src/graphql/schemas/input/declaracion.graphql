@@ -98,7 +98,24 @@ input DatosEmpleoCargoComisionInput {
   telefonoOficina: TelefonoOficinaInput
   domicilioMexico: DomicilioMexicoInput
   domicilioExtranjero: DomicilioExtranjeroInput
+  cuentaConOtroCargoPublico: Boolean
+  otroEmpleoCargoComision: [OtroEmpleoCargoComisionInput]
   aclaracionesObservaciones: LimitedString
+}
+
+input OtroEmpleoCargoComisionInput {
+  nivelOrdenGobierno: NivelOrdenGobierno
+  ambitoPublico: AmbitoPublico
+  nombreEntePublico: LimitedString
+  areaAdscripcion: LimitedString
+  empleoCargoComision: LimitedString
+  contratadoPorHonorarios: Boolean
+  nivelEmpleoCargoComision: LimitedString
+  funcionPrincipal: LimitedString
+  fechaTomaPosesion: Date
+  telefonoOficina: TelefonoOficinaInput
+  domicilioMexico: DomicilioMexicoInput
+  domicilioExtranjero: DomicilioExtranjeroInput
 }
 
 input ExperienciaInput {
@@ -183,7 +200,6 @@ input DependienteEconomicoInput {
   actividadLaboral: CatalogoInput
   actividadLaboralSectorPublico: ActividadLaboralSectorPublicoInput
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtroInput
-  aclaracionesObservaciones: LimitedString
 }
 
 input DatosDependientesEconomicosInput {

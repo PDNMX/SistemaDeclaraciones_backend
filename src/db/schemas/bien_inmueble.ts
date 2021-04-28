@@ -7,6 +7,7 @@ import { Schema } from 'mongoose';
 import { SuperficieSchema } from './superficie';
 import { TerceroSchema } from './tercero';
 import { TransmisorSchema } from './transmisor';
+import { addNullValue } from '../../library/utils';
 
 
 export const BienInmuebleSchema = new Schema({
@@ -20,7 +21,7 @@ export const BienInmuebleSchema = new Schema({
   formaAdquisicion: CatalogoSchema,
   formaPago: {
     type: String,
-    enum: FormaPago,
+    enum: addNullValue(FormaPago),
   },
   valorAdquisicion: MontoSchema,
   fechaAdquisicion: Date,
@@ -31,7 +32,7 @@ export const BienInmuebleSchema = new Schema({
   },
   valorConformeA: {
     type: String,
-    enum: ValorConformeA,
+    enum: addNullValue(ValorConformeA),
   },
   domicilioMexico: DomicilioMexicoSchema,
   domicilioExtranjero: DomicilioExtranjeroSchema,

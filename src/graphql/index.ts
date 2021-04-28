@@ -82,6 +82,9 @@ class GraphqlAPI {
    * Function to format the error before displaying it to the user
    */
   private static formatError(error: GraphQLError): GraphQLFormattedError {
+    console.log('ERROR');
+    console.log(error);
+
     if (error.originalError) {
       if (CreateError.isHttpError(error.originalError)) {
         const httpError = error.originalError as CreateError.HttpError;

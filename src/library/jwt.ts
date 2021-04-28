@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 export class Jwt {
-  public static sign(config: JWTConfig, data: any): string {
+  public static sign(config: JWTConfig, data: Record<string, unknown>): string { 
     return jwt.sign(data, config.secret, {
       expiresIn: config.expiresIn,
     });

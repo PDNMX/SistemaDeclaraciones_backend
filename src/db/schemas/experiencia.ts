@@ -1,6 +1,7 @@
 import { AmbitoPublico, MexicoExtranjero, NivelOrdenGobierno } from '../../types/enums';
 import { CatalogoSchema } from './catalogo';
 import { Schema } from 'mongoose';
+import { addNullValue } from '../../library/utils';
 
 
 const string_type = {
@@ -13,11 +14,11 @@ export const ExperienciaSchema = new Schema({
   ambitoSector: CatalogoSchema,
   nivelOrdenGobierno: {
     type: String,
-    enum: NivelOrdenGobierno
+    enum: addNullValue(NivelOrdenGobierno),
   },
   ambitoPublico: {
     type: String,
-    enum: AmbitoPublico,
+    enum: addNullValue(AmbitoPublico),
   },
   nombreEntePublico: string_type,
   areaAdscripcion: string_type,
@@ -27,7 +28,7 @@ export const ExperienciaSchema = new Schema({
   fechaEgreso: Date,
   ubicacion: {
     type: String,
-    enum: MexicoExtranjero,
+    enum: addNullValue(MexicoExtranjero),
   },
   nombreEmpresaSociedadAsociacion: string_type,
   rfc: string_type,

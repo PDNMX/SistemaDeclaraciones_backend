@@ -39,6 +39,7 @@ export class DeclaracionRepository {
   }
 
   public static async getAll(filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
+    filter = filter || {};
     const page: number = pagination.page || 0;
     const limit: number = pagination.size || 20;
     const declaraciones = await DeclaracionModel.paginate({
@@ -56,6 +57,7 @@ export class DeclaracionRepository {
   }
 
   public static async getAllByUser(userID: string, filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
+    filter = filter || {};
     const user = await UserModel.findById({ _id: userID });
     if (!user) {
       throw new CreateError.NotFound(`User[${userID}] does not exist.`);

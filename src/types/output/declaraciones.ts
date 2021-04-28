@@ -110,7 +110,24 @@ interface DatosEmpleoCargoComision {
   telefonoOficina?: TelefonoOficina;
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
+  cuentaConOtroCargoPublico?: boolean;
+  otroEmpleoCargoComision?: OtroEmpleoCargoComision[];
   aclaracionesObservaciones?: string;
+}
+
+interface OtroEmpleoCargoComision {
+  nivelOrdenGobierno?: enums.NivelOrdenGobierno;
+  ambitoPublico?: enums.AmbitoPublico;
+  nombreEntePublico?: string;
+  areaAdscripcion?: string;
+  empleoCargoComision?: string;
+  contratadoPorHonorarios?: boolean;
+  nivelEmpleoCargoComision?: string;
+  funcionPrincipal?: string;
+  fechaTomaPosesion?: string;
+  telefonoOficina?: TelefonoOficina;
+  domicilioMexico?: DomicilioMexico;
+  domicilioExtranjero?: DomicilioExtranjero;
 }
 
 interface Experiencia {
@@ -193,7 +210,6 @@ interface DependienteEconomico {
   domicilioExtranjero?: DomicilioExtranjero;
   actividadLaboralSectorPublico?: ActividadLaboralSectorPublico;
   actividadLaboralSectorPrivadoOtro?: ActividadLaboralSectorPrivadoOtro;
-  aclaracionesObservaciones?: string;
 }
 
 interface DatosDependientesEconomicos {
