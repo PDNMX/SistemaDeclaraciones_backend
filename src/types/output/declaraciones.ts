@@ -574,9 +574,8 @@ interface ClientesPrincipales {
 
 interface Beneficio {
   tipoOperacion?: enums.TipoOperacion;
-  tipoPersona?: enums.TipoPersona;
   tipoBeneficio?: Catalogo;
-  beneficiario?: Catalogo;
+  beneficiario?: [Catalogo];
   otorgante?: Tercero;
   formaRecepcion?: enums.FormaRecepcion;
   especifiqueBeneficio?: string;
