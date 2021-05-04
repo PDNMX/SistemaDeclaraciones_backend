@@ -574,9 +574,8 @@ type ClientesPrincipales {
 
 type Beneficio {
  tipoOperacion: TipoOperacion
- tipoPersona: TipoPersona
  tipoBeneficio: Catalogo
- beneficiario: Catalogo
+ beneficiario: [Catalogo]
  otorgante: Tercero
  formaRecepcion: FormaRecepcion
  especifiqueBeneficio: LimitedString

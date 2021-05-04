@@ -574,9 +574,8 @@ input ClientesPrincipalesInput {
 
 input BeneficioInput {
   tipoOperacion: TipoOperacion
-  tipoPersona: TipoPersona
   tipoBeneficio: CatalogoInput
-  beneficiario: CatalogoInput
+  beneficiario: [CatalogoInput]
   otorgante: TerceroInput
   formaRecepcion: FormaRecepcion
   especifiqueBeneficio: LimitedString
