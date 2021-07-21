@@ -6,6 +6,10 @@ export interface UserES {
   nombre: string;
   primerApellido: string;
   segundoApellido?: string;
+  institucion?: {
+    clave: string;
+    valor: string;
+  };
   curp: string;
   rfc: string;
   roles: Role[];
@@ -23,6 +27,10 @@ export interface User {
   nombre: string;
 	primerApellido: string;
 	segundoApellido?: string;
+  institucion?: {
+    clave: string;
+    valor: string;
+  };
 	curp: string;
   rfc: string;
   roles: Role[];

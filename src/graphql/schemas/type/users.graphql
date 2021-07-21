@@ -4,6 +4,7 @@ type User {
   nombre: LimitedString!
   primerApellido: LimitedString!
   segundoApellido: LimitedString
+  institucion: Catalogo
   curp: LimitedString!
   rfc: LimitedString!
   roles: [Role!]!
