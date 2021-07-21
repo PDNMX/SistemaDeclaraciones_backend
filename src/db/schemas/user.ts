@@ -1,3 +1,4 @@
+import { CatalogoSchema } from './catalogo';
 import { ResetTokenSchema } from './reset_token';
 import { Role } from '../../types/enums';
 import { Schema } from 'mongoose';
@@ -26,6 +27,7 @@ export const UserSchema = new Schema({
     type: String,
     uppercase: true,
   },
+  institucion: CatalogoSchema,
 	curp: {
     type: String,
     required: true,

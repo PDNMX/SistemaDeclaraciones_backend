@@ -34,7 +34,7 @@ export default class ReportsAPI {
     }
 
     try {
-      const responsePreview = await ReportsClient.getReport(declaracion);
+      const responsePreview = await ReportsClient.getReport(declaracion, req.query);
       res.contentType('application/pdf');
       res.setHeader('Access-Control-Allow-Origin', '*');
 
