@@ -90,7 +90,13 @@ class ElasticSearchAPI {
 }
 
 const elasticClient: ElasticSearchAPI = new ElasticSearchAPI(
-  new Client({ node: `${process.env.ELASTIC_SEARCH_URL}` })
+  new Client({
+    node: `${process.env.ELASTIC_SEARCH_URL}`,
+    auth: {
+      username: 'elastic',
+      password: `${process.env.ELASTIC_SEARCH_PASSWORD}`
+    }
+  })
 );
 
 export default elasticClient;

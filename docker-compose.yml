@@ -14,7 +14,8 @@ services:
     image: elasticsearch:7.11.1
     restart: unless-stopped
     environment:
-      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=$ELASTIC_SEARCH_PASSWORD
+      - xpack.security.enabled=true
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
