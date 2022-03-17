@@ -1,29 +1,9 @@
-# README #
+# Sistema de Declaraciones - Backend
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## ⚠️ Precauciones
 
-### What is this repository for? ###
+Nunca exponga los puertos de los componentes internos del Sistema de declaraciones a Internet. Los módulos internos del Sistema de Declaraciones como elasticsearch y el módulo de reportes, pueden ser propensos a sufrir ataques informáticos si se exponen abiertamente en Internet.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Si es posible, utilice el Sistema de Declaraciones a través de una red de área local. Se decide exponer el Sistema de Declaraciones a Internet, revise que únicamente se exponen la dirección del Frontend y el Backend a través de HTTPS.
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Evite exponer puertos 9200 (elasticsearch) y 3001 (reporteador) que son usados internamente por el backend del Sistema de Declaraciones.
