@@ -8,7 +8,7 @@ export default class ReportsClient {
     const responsePreview = await Axios({
       method: 'POST',
       url: `${process.env.REPORTS_URL}/acuse-declaracion`,
-      timeout: 5000,
+      timeout: 50000, //
       headers: {
         'X-Api-Key': `${process.env.REPORTS_API_KEY}`,
       },
