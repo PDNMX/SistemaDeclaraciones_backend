@@ -30,6 +30,10 @@ const options = {
 };
 
 export const DeclaracionSchema = new Schema({
+  anioEjercicio: {
+    type: Number,
+    required: false,
+  },
   datosGenerales: DatosGeneralesSchema,
   domicilioDeclarante: DomicilioDeclaranteSchema,
   datosCurricularesDeclarante: DatosCurricularesDeclaranteSchema,
