@@ -2,7 +2,6 @@ import CreateError from 'http-errors';
 import { JWTConfig } from '../types';
 import jwt from 'jsonwebtoken';
 
-
 export class Jwt {
   public static sign(config: JWTConfig, data: Record<string, unknown>): string { 
     return jwt.sign(data, config.secret, {
@@ -15,7 +14,7 @@ export class Jwt {
       return jwt.verify(token, secret, {
         algorithms: ['HS256', 'RS256']
       });
-    } catch(err) {
+    } catch(err:any) {
       if (err.name === 'TokenExpiredError') {
         throw new CreateError.Unauthorized('Your token is expired');
       }

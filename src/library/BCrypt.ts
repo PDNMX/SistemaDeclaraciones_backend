@@ -30,7 +30,7 @@ export class BCrypt {
       });
 
       return hash === hashed;
-    } catch (error) {
+    } catch (error:any) {
       throw new CreateError.Forbidden(error.message);
     }
   }
