@@ -7,7 +7,7 @@ const string_type = {
 };
 
 export const LocalizacionInversionSchema = new Schema({
-  pais: string_type,
+  pais: String,
   institucionRazonSocial: string_type,
   rfc: string_type,
 });

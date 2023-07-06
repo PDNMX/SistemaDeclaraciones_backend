@@ -4,16 +4,20 @@ import JWTMiddleware from 'express-jwt';
 import ReportsClient from './reports_client';
 import { StatusCodes } from 'http-status-codes';
 
+// import {Escolaridad} from '../types/output/declaraciones';
+// import { EscolaridadSchema } from '../db/schemas/escolaridad';
+
 export default class ReportsAPI {
   private router: Express.Router;
 
   public constructor() {
     this.router = Express.Router();
     this.router.get(
-      '/declaracion-preview/:id',
+      '/declaracion-preview/:id/:publica',
       JWTMiddleware({ secret: `${process.env.JWT_SECRET}`, algorithms: ['HS256', 'RS256'] }),
       ReportsAPI.declaracionPreview,
     );
+    
   }
 
   private static async declaracionPreview(req: Express.Request, res: Express.Response): Promise<any> {
@@ -33,8 +37,41 @@ export default class ReportsAPI {
       });
     }
 
+    // let escolaridades: any;
+    // if(declaracion.datosCurricularesDeclarante){
+    //   escolaridades = declaracion.datosCurricularesDeclarante.escolaridad;
+    //   if(escolaridades) {
+    //     for(let i=0;i < escolaridades.length; i++) {
+    //       const e = escolaridades[i];
+    //       if(!e || !e.institucionEducativa)
+    //         continue;
+
+    //       for(let j = i + 1;j < escolaridades.length;j++){
+    //         let e2 = escolaridades[j];
+    //         if(!e2 || !e2.institucionEducativa)
+    //           continue;
+
+    //         if(e.institucionEducativa.nombre == e2.institucionEducativa.nombre &&  
+    //           e.carreraAreaConocimiento == e2.carreraAreaConocimiento) {
+    //           escolaridades[j] = undefined;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
     try {
-      const responsePreview = await ReportsClient.getReport(declaracion, req.query);
+      // console.log("Parametros:");
+      // console.log(req.params);
+
+      let responsePreview;
+      if(req.params.publica === "true"){
+        responsePreview = await ReportsClient.getDeclaracionPublica(declaracion);
+      }
+      else{
+        responsePreview = await ReportsClient.getReport(declaracion);
+      }
+
       res.contentType('application/pdf');
       res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -42,7 +79,7 @@ export default class ReportsAPI {
     } catch(err) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
         success: false,
-        message: 'Something went wrong',
+        message: err,
       });
     }
   }

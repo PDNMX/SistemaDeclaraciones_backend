@@ -25,7 +25,7 @@ export const ApoyoSchema = new Schema({
   institucionOtorgante: string_type,
   nivelOrdenGobierno: {
     type: String,
-    enum: addNullValue(NivelOrdenGobierno),
+    enum: NivelOrdenGobierno
   },
   tipoApoyo: CatalogoSchema,
   formaRecepcion: {

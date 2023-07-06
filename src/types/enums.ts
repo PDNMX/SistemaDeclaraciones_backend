@@ -2,7 +2,7 @@ export enum AmbitoPublico {
   EJECUTIVO = 'EJECUTIVO',
   LEGISLATIVO = 'LEGISLATIVO',
   JUDICIAL = 'JUDICIAL',
-  ORGANO_AUTONOMO = 'ORGANO_AUTONOMO',
+  ORGANO_AUTONOMO = 'ORGANO_AUTONOMO'
 }
 
 export enum EscolaridadEstatus {

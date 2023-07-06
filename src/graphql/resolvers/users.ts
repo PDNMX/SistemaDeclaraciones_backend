@@ -62,5 +62,8 @@ export default {
     updateUserProfile(_: unknown, args: { profile: UserProfileInput }, context: Context): Promise<UserDocument> {
       return UserRepository.updateProfile(args.profile, context);
     },
+    restaurarContrasena(_: unknown, args: { usuario: string, nuevaContrasena: string }): Promise<boolean> {
+      return UserRepository.restaurarContrasena(args.usuario, args.nuevaContrasena);
+    },
   }
 };

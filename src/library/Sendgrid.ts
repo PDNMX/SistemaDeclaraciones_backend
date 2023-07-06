@@ -11,7 +11,7 @@ export class SendgridClient {
     } catch(e) {
       throw CreateError(
         StatusCodes.INTERNAL_SERVER_ERROR,
-        'Something went wrong at forgotPassword',
+        'Error enviando el mensaje con sendGrid: ' + e,
         {debug_info: {error: e}},
       );
     }

@@ -17,7 +17,7 @@ class ScalarDefinitions {
       Date: GraphQLDateTime,
       Email: GraphQLEmail,
       JSON: GraphQLJSON,
-      LimitedString: new GraphQLLimitedString(0, 500), //255
+      LimitedString: new GraphQLLimitedString(0, 1000),
       UUID: GraphQLUUID,
     };
   }

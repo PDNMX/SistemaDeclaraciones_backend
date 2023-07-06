@@ -385,9 +385,17 @@ type LocalizacionInversion {
   rfc: LimitedString
 }
 
+# Se agrega el tipo SibtipoInversion para satisfacer el campo tipoInversion que se envia en el frontend
+type SubTipoInversion {
+  clave: LimitedString!
+  valor: LimitedString!
+  tipoInversion: LimitedString!
+}
+
 type Inversion {
   tipoInversion: Catalogo
-  subTipoInversion: Catalogo
+  #subTipoInversion: Catalogo
+  subTipoInversion: SubTipoInversion
   titular: [Catalogo]
   tercero: [Tercero]
   numeroCuentaContrato: LimitedString
@@ -621,7 +629,8 @@ type DeclaracionMetadata {
   tipoDeclaracion: TipoDeclaracion!
   createdAt: Date!
   updatedAt: Date!
-  owner: User!
+  owner: User
+  autorizaPublica: Boolean
 }
 
 type Declaracion {
@@ -656,4 +665,5 @@ type Declaracion {
   clientesPrincipales: ClientesPrincipales
   beneficiosPrivados: BeneficiosPrivados
   fideicomisos: Fideicomisos
+  autorizaPublica: Boolean
 }

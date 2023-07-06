@@ -53,5 +53,8 @@ export default {
     firmarDeclaracion(_: unknown, args: { id: string, password: string }, context: Context): Promise<Record<string, any> | null> {
       return DeclaracionRepository.sign(args.id, args.password, context.user.id);
     },
+    autorizarPublica (_: unknown, args: { id: string, autoriza: boolean }, context: Context): Promise<boolean | null>  {
+      return DeclaracionRepository.autorizarPublica(args.id, args.autoriza, context.user.id);
+    }
   }
 };

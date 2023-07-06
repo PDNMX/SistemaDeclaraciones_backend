@@ -30,11 +30,13 @@ export const UserSchema = new Schema({
   institucion: CatalogoSchema,
 	curp: {
     type: String,
+    unique: true,
     required: true,
     uppercase: true,
   },
   rfc: {
     type: String,
+    unique: true,
     required: true,
     uppercase: true,
   },

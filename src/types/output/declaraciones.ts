@@ -76,7 +76,7 @@ interface InstitucionEducativa {
   ubicacion?: string;
 }
 
-interface Escolaridad {
+export interface Escolaridad {
   tipoOperacion?: string;
   nivel?: Catalogo;
   institucionEducativa?: InstitucionEducativa;
@@ -389,10 +389,16 @@ interface LocalizacionInversion {
   institucionRazonSocial?: string;
   rfc?: string;
 }
+// se agrega interfaz subtipoInversion
+interface SubTipoIversion {
+  clave: string;
+  valor: string;
+  tipoInversion: string;
+}
 
 interface Inversion {
   tipoInversion?: Catalogo;
-  subTipoInversion?: Catalogo;
+  subTipoInversion?: SubTipoIversion; // SE CAMBIA DE CATALOGO A SUBTIPOINVERSION
   titular?: Catalogo[];
   tercero?: Tercero[];
   numeroCuentaContrato?: string;
@@ -642,7 +648,8 @@ export interface DeclaracionSecciones {
 export interface Declaracion extends DeclaracionSecciones {
   tipoDeclaracion: enums.TipoDeclaracion;
   declaracionCompleta: boolean;
-  firmada: boolean;
+  firmada: boolean,
+  autorizaPublica?: boolean;
   createAt: Date;
   updatedAt: Date;
 }

@@ -1,4 +1,4 @@
-import { TipoOperacion, TipoRelacion } from '../../types/enums';
+import { TipoRelacion } from '../../types/enums';
 import { CatalogoSchema } from './catalogo';
 import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
@@ -13,10 +13,11 @@ const string_type = {
 };
 
 export const ParticipacionSchema = new Schema({
-  tipoOperacion: {
-    type: String,
-    enum: addNullValue(TipoOperacion),
-  },
+  // tipoOperacion: {
+  //   type: String,
+  //   enum: TipoOperacion,
+  // },
+  tipoOperacion: string_type,
   tipoRelacion: {
     type: String,
     enum: addNullValue(TipoRelacion),

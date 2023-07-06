@@ -153,7 +153,7 @@ export class UserRepository {
 
       return createdUser;
     } catch(err) {
-      throw new CreateError.BadRequest(`User with username: ${user.username} already exist`);
+      throw new CreateError.BadRequest(err);
     }
   }
 
@@ -178,5 +178,19 @@ export class UserRepository {
 
     await ElasticSearchAPI.update(updatedProfile);
     return updatedProfile;
+  }
+
+  public static async restaurarContrasena(usuario: string, nuevaContrasena: string) {
+    console.log("Restaurando contraseña de " + usuario + " a: " + nuevaContrasena)
+    const user = await UserModel.findOne({ username: usuario });
+    
+    if (!user) {
+      throw new CreateError.NotFound(`User[${usuario}] does not exist.`);
+    }
+
+    user.password = BCrypt.hash(nuevaContrasena);
+    user.resetToken = {};
+    user.save();
+    return true;
   }
 }

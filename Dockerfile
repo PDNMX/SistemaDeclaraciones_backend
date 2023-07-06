@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14.21-alpine
 
 #MAINTAINER Sergio Rodríguez <sergio.rdzsg@gmail.com>
 

@@ -56,7 +56,7 @@ export const DeclaracionSchema = new Schema({
   clientesPrincipales: ClientesPrincipalesSchema,
   beneficiosPrivados: BeneficiosPrivadosSchema,
   fideicomisos: FideicomisosSchema,
-
+  autorizaPublica: Boolean,
   // ----- READ ONLY ------
   tipoDeclaracion: {
     type: String,
@@ -76,5 +76,10 @@ export const DeclaracionSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-  }
+  },
+  // autorizaPublica: {
+  //   type: Boolean,
+  //   default: false,
+  //   required: false,
+  // },
 }, options);

@@ -35,6 +35,7 @@ class DBConnection {
         console.log('MongoDB is connected.');
         DBConnection.hasBeenConnected = true;
       } catch(err) {
+        console.log("Error al conectarse a la base de datos");
         console.log(err);
       }
     }

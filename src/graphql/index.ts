@@ -82,8 +82,7 @@ class GraphqlAPI {
    * Function to format the error before displaying it to the user
    */
   private static formatError(error: GraphQLError): GraphQLFormattedError {
-    console.log('ERROR');
-    console.log(error);
+    console.error(error);  
 
     if (error.originalError) {
       if (CreateError.isHttpError(error.originalError)) {
@@ -102,10 +101,12 @@ class GraphqlAPI {
         );
       }
 
-      return error.originalError;
+      return error;
     }
 
-    return new ApolloError('Something went wrong', 'INTERNAL_SERVER_ERROR', {
+    console.log("Error");
+
+    return new ApolloError('Error desconocido', 'INTERNAL_SERVER_ERROR', {
       error: error,
     });
   }

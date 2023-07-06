@@ -9,10 +9,14 @@ import { addNullValue } from '../../library/utils';
 export const BeneficioSchema = new Schema({
   tipoOperacion: {
     type: String,
-    enum: addNullValue(TipoOperacion),
+    enum: TipoOperacion,
+  },
+  tipoPersona: {
+    type: String,
+    // enum: TipoPersona,
   },
   tipoBeneficio: CatalogoSchema,
-  beneficiario: [CatalogoSchema],
+  beneficiario: CatalogoSchema, //Estaba como arreglo, se le quitó el arreglo
   otorgante: TerceroSchema,
   formaRecepcion: {
     type: String,

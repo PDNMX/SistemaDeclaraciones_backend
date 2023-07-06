@@ -14,6 +14,8 @@ type Mutation {
   "Sign declaration"
   firmarDeclaracion(id: ID!, password: String!): JSON @hasRole(roles: [USER])
 
+  autorizarPublica(id: ID!, autoriza: Boolean!): Boolean! @hasRole(roles: [USER])
+
   "Reset password"
   resetPassword(token: String!, newPassword: LimitedString!): Boolean!
 
@@ -22,4 +24,7 @@ type Mutation {
 
   "Update user profile"
   updateUserProfile(profile: UserProfileInput!): User! @isAuthenticated
+
+  "Reestablecer contrasena"
+  restaurarContrasena(usuario: String!, nuevaContrasena: LimitedString!): Boolean!
 }
