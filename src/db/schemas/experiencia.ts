@@ -1,7 +1,6 @@
 import { MexicoExtranjero } from '../../types/enums';
 import { CatalogoSchema } from './catalogo';
 import { Schema } from 'mongoose';
-import { addNullValue } from '../../library/utils';
 
 
 const string_type = {
@@ -12,7 +11,7 @@ const string_type = {
 
 export const ExperienciaSchema = new Schema({
   ambitoSector: CatalogoSchema,
-  nivelOrdenGobierno: string_type,  //Se cambia a string_type porque con el enum no acepta nulos y se están enviando nulos
+  nivelOrdenGobierno: string_type,  // Se cambia a string_type porque con el enum no acepta nulos y se están enviando nulos
   ambitoPublico:  string_type,
   nombreEntePublico: string_type,
   areaAdscripcion: string_type,
@@ -22,7 +21,7 @@ export const ExperienciaSchema = new Schema({
   fechaEgreso: Date,
   ubicacion: {
     type: String,
-    enum: addNullValue(MexicoExtranjero),
+    enum: MexicoExtranjero,
   },
   nombreEmpresaSociedadAsociacion: string_type,
   rfc: string_type,

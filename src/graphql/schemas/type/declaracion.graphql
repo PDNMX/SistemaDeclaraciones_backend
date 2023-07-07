@@ -98,24 +98,7 @@ type DatosEmpleoCargoComision {
   telefonoOficina: TelefonoOficina
   domicilioMexico: DomicilioMexico
   domicilioExtranjero: DomicilioExtranjero
-  cuentaConOtroCargoPublico: Boolean
-  otroEmpleoCargoComision: [OtroEmpleoCargoComision]
   aclaracionesObservaciones: LimitedString
-}
-
-type OtroEmpleoCargoComision {
-  nivelOrdenGobierno: NivelOrdenGobierno
-  ambitoPublico: AmbitoPublico
-  nombreEntePublico: LimitedString
-  areaAdscripcion: LimitedString
-  empleoCargoComision: LimitedString
-  contratadoPorHonorarios: Boolean
-  nivelEmpleoCargoComision: LimitedString
-  funcionPrincipal: LimitedString
-  fechaTomaPosesion: Date
-  telefonoOficina: TelefonoOficina
-  domicilioMexico: DomicilioMexico
-  domicilioExtranjero: DomicilioExtranjero
 }
 
 type Experiencia {
@@ -200,6 +183,7 @@ type DependienteEconomico {
   actividadLaboral: Catalogo
   actividadLaboralSectorPublico: ActividadLaboralSectorPublico
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtro
+  aclaracionesObservaciones: LimitedString
 }
 
 type DatosDependientesEconomicos {
@@ -385,7 +369,7 @@ type LocalizacionInversion {
   rfc: LimitedString
 }
 
-# Se agrega el tipo SibtipoInversion para satisfacer el campo tipoInversion que se envia en el frontend
+#  Se agrega el tipo SibtipoInversion para satisfacer el campo tipoInversion que se envia en el frontend
 type SubTipoInversion {
   clave: LimitedString!
   valor: LimitedString!
@@ -582,8 +566,9 @@ type ClientesPrincipales {
 
 type Beneficio {
  tipoOperacion: TipoOperacion
+ tipoPersona: TipoPersona
  tipoBeneficio: Catalogo
- beneficiario: [Catalogo]
+ beneficiario: Catalogo
  otorgante: Tercero
  formaRecepcion: FormaRecepcion
  especifiqueBeneficio: LimitedString
@@ -641,8 +626,6 @@ type Declaracion {
   createdAt: Date!
   updatedAt: Date!
   owner: User!
-
-  anioEjercicio: Int
   datosGenerales: DatosGenerales
   domicilioDeclarante: DomicilioDeclarante
   datosCurricularesDeclarante: DatosCurricularesDeclarante

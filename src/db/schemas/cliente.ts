@@ -5,18 +5,17 @@ import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
 import { TerceroSchema } from './tercero';
 import { UbicacionSchema } from './ubicacion';
-import { addNullValue } from '../../library/utils';
 
 
 export const ClienteSchema = new Schema({
   tipoOperacion: {
     type: String,
-    enum: addNullValue(TipoOperacion),
+    enum: TipoOperacion,
   },
   realizaActividadLucrativa: Boolean,
   tipoRelacion: {
     type: String,
-    enum: addNullValue(TipoRelacion),
+    enum: TipoRelacion,
   },
   empresa: EmpresaSchema,
   clientePrincipal: TerceroSchema,

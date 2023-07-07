@@ -1,5 +1,5 @@
 {
-  "name": "Declaracion Servidores Publicos",
+  "name": "declaracion-servidores-publicos",
   "version": "1.0.0",
   "private": true,
   "description": "Graphql API",
@@ -19,12 +19,11 @@
     "node": "^14"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "~7.12.0",
     "@graphql-tools/load-files": "~6.3.1",
     "@graphql-tools/merge": "~6.2.11",
     "@graphql-tools/stitch": "~7.4.0",
-    "@sendgrid/mail": "~7.4.2",
     "@types/http-errors": "~1.8.0",
+    "@types/nodemailer": "^6.4.7",
     "apollo-server-express": "~2.22.2",
     "axios": "~0.21.1",
     "body-parser": "1.19.0",
@@ -47,6 +46,7 @@
     "mongoose": "5.12.3",
     "mongoose-paginate-ts": "1.2.0",
     "ms": "~2.1.2",
+    "nodemailer": "^6.9.1",
     "reflect-metadata": "~0.1.13"
   },
   "devDependencies": {

@@ -110,24 +110,7 @@ interface DatosEmpleoCargoComision {
   telefonoOficina?: TelefonoOficina;
   domicilioMexico?: DomicilioMexico;
   domicilioExtranjero?: DomicilioExtranjero;
-  cuentaConOtroCargoPublico?: boolean;
-  otroEmpleoCargoComision?: OtroEmpleoCargoComision[];
   aclaracionesObservaciones?: string;
-}
-
-interface OtroEmpleoCargoComision {
-  nivelOrdenGobierno?: enums.NivelOrdenGobierno;
-  ambitoPublico?: enums.AmbitoPublico;
-  nombreEntePublico?: string;
-  areaAdscripcion?: string;
-  empleoCargoComision?: string;
-  contratadoPorHonorarios?: boolean;
-  nivelEmpleoCargoComision?: string;
-  funcionPrincipal?: string;
-  fechaTomaPosesion?: string;
-  telefonoOficina?: TelefonoOficina;
-  domicilioMexico?: DomicilioMexico;
-  domicilioExtranjero?: DomicilioExtranjero;
 }
 
 interface Experiencia {
@@ -210,6 +193,7 @@ interface DependienteEconomico {
   domicilioExtranjero?: DomicilioExtranjero;
   actividadLaboralSectorPublico?: ActividadLaboralSectorPublico;
   actividadLaboralSectorPrivadoOtro?: ActividadLaboralSectorPrivadoOtro;
+  aclaracionesObservaciones?: string;
 }
 
 interface DatosDependientesEconomicos {
@@ -389,7 +373,7 @@ interface LocalizacionInversion {
   institucionRazonSocial?: string;
   rfc?: string;
 }
-// se agrega interfaz subtipoInversion
+//  se agrega interfaz subtipoInversion
 interface SubTipoIversion {
   clave: string;
   valor: string;
@@ -398,7 +382,7 @@ interface SubTipoIversion {
 
 interface Inversion {
   tipoInversion?: Catalogo;
-  subTipoInversion?: SubTipoIversion; // SE CAMBIA DE CATALOGO A SUBTIPOINVERSION
+  subTipoInversion?: SubTipoIversion; //  SE CAMBIA DE CATALOGO A SUBTIPOINVERSION
   titular?: Catalogo[];
   tercero?: Tercero[];
   numeroCuentaContrato?: string;
@@ -580,8 +564,9 @@ interface ClientesPrincipales {
 
 interface Beneficio {
   tipoOperacion?: enums.TipoOperacion;
+  tipoPersona?: enums.TipoPersona;
   tipoBeneficio?: Catalogo;
-  beneficiario?: [Catalogo];
+  beneficiario?: Catalogo;
   otorgante?: Tercero;
   formaRecepcion?: enums.FormaRecepcion;
   especifiqueBeneficio?: string;
@@ -620,7 +605,6 @@ interface Fideicomisos {
 }
 
 export interface DeclaracionSecciones {
-  anioEjercicio?: number;
   datosGenerales?: DatosGenerales;
   domicilioDeclarante?: DomicilioDeclarante;
   datosCurricularesDeclarante?: DatosCurricularesDeclarante;

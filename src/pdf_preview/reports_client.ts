@@ -24,7 +24,7 @@ export default class ReportsClient {
     return responsePreview.data;
   }
 
-  //declaración pública:
+  // declaración pública:
   public static async getDeclaracionPublica(declaracion: DeclaracionDocument): Promise<Buffer> {
     console.log("getDeclaracionPublica");
 

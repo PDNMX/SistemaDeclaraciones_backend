@@ -2,7 +2,6 @@ input UserProfileInput {
   nombre: LimitedString!
   primerApellido: LimitedString!
   segundoApellido: LimitedString
-  institucion: CatalogoInput
   curp: LimitedString!
   rfc: LimitedString!
 }
@@ -13,7 +12,6 @@ input UserSignUpInput {
   nombre: LimitedString!
   primerApellido: LimitedString!
   segundoApellido: LimitedString
-  institucion: CatalogoInput
   curp: LimitedString!
   rfc: LimitedString!
 }

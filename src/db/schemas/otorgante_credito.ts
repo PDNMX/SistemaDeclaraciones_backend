@@ -1,7 +1,5 @@
 import { Schema } from 'mongoose';
 import { TipoPersona } from '../../types/enums';
-import { addNullValue } from '../../library/utils';
-
 
 const string_type = {
   type: String,
@@ -12,7 +10,7 @@ const string_type = {
 export const OtorganteCreditoSchema = new Schema({
   tipoPersona: {
     type: String,
-    enum: addNullValue(TipoPersona),
+    enum: TipoPersona,
   },
   nombreInstitucion: string_type,
   rfc: string_type,

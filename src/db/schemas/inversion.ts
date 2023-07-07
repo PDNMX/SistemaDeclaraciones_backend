@@ -8,7 +8,7 @@ import { SubTipoInversionSchema } from './sub_tipo_inversion';
 
 export const InversionSchema = new Schema({
   tipoInversion: CatalogoSchema,
-  subTipoInversion: SubTipoInversionSchema, //Se cambia a subtipoinversion
+  subTipoInversion: SubTipoInversionSchema, // Se cambia a subtipoinversion
   titular: [CatalogoSchema],
   tercero: [TerceroSchema],
   numeroCuentaContrato: {

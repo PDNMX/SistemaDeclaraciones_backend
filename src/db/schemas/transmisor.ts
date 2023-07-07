@@ -1,13 +1,12 @@
 import { CatalogoSchema } from './catalogo';
 import { Schema } from 'mongoose';
 import { TipoPersona } from '../../types/enums';
-import { addNullValue } from '../../library/utils';
 
 
 export const TransmisorSchema = new Schema({
   tipoPersona: {
     type: String,
-    enum: addNullValue(TipoPersona),
+    enum: TipoPersona,
   },
   nombreRazonSocial: {
     type: String,

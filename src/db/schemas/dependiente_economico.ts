@@ -5,7 +5,6 @@ import { DomicilioExtranjeroSchema } from './domicilio_extranjero';
 import { DomicilioMexicoSchema } from './domicilio_mexico';
 import { LugarResidencia } from '../../types/enums';
 import { Schema } from 'mongoose';
-import { addNullValue } from '../../library/utils';
 
 
 const string_type = {
@@ -36,11 +35,15 @@ export const DependienteEconomicoSchema = new Schema({
   habitaDomicilioDeclarante: Boolean,
   lugarDondeReside: {
     type: String,
-    enum: addNullValue(LugarResidencia),
+    enum: LugarResidencia,
   },
   domicilioMexico: DomicilioMexicoSchema,
   domicilioExtranjero: DomicilioExtranjeroSchema,
   actividadLaboral: CatalogoSchema,
   actividadLaboralSectorPublico: ActividadLaboralSectorPublicoSchema,
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoSchema,
+  aclaracionesObservaciones: {
+    type: String,
+    trim: true,
+  },
 });

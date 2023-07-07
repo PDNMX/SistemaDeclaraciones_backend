@@ -98,24 +98,7 @@ input DatosEmpleoCargoComisionInput {
   telefonoOficina: TelefonoOficinaInput
   domicilioMexico: DomicilioMexicoInput
   domicilioExtranjero: DomicilioExtranjeroInput
-  cuentaConOtroCargoPublico: Boolean
-  otroEmpleoCargoComision: [OtroEmpleoCargoComisionInput]
   aclaracionesObservaciones: LimitedString
-}
-
-input OtroEmpleoCargoComisionInput {
-  nivelOrdenGobierno: NivelOrdenGobierno
-  ambitoPublico: AmbitoPublico
-  nombreEntePublico: LimitedString
-  areaAdscripcion: LimitedString
-  empleoCargoComision: LimitedString
-  contratadoPorHonorarios: Boolean
-  nivelEmpleoCargoComision: LimitedString
-  funcionPrincipal: LimitedString
-  fechaTomaPosesion: Date
-  telefonoOficina: TelefonoOficinaInput
-  domicilioMexico: DomicilioMexicoInput
-  domicilioExtranjero: DomicilioExtranjeroInput
 }
 
 input ExperienciaInput {
@@ -200,6 +183,7 @@ input DependienteEconomicoInput {
   actividadLaboral: CatalogoInput
   actividadLaboralSectorPublico: ActividadLaboralSectorPublicoInput
   actividadLaboralSectorPrivadoOtro: ActividadLaboralSectorPrivadoOtroInput
+  aclaracionesObservaciones: LimitedString
 }
 
 input DatosDependientesEconomicosInput {
@@ -385,7 +369,7 @@ input LocalizacionInversionInput {
   rfc: LimitedString
 }
 
-# Se agrega el tipo SibtipoInversionInput para satisfacer el campo tipoInversion que se envia en el frontend
+#  Se agrega el tipo SibtipoInversionInput para satisfacer el campo tipoInversion que se envia en el frontend
 input SubTipoInversionInput {
   clave: LimitedString!
   valor: LimitedString!
@@ -581,8 +565,9 @@ input ClientesPrincipalesInput {
 
 input BeneficioInput {
   tipoOperacion: TipoOperacion
+  tipoPersona: TipoPersona
   tipoBeneficio: CatalogoInput
-  beneficiario: [CatalogoInput]
+  beneficiario: CatalogoInput
   otorgante: TerceroInput
   formaRecepcion: FormaRecepcion
   especifiqueBeneficio: LimitedString
@@ -628,7 +613,6 @@ input DeclaracionesFilterInput {
 }
 
 input DeclaracionSeccionesInput {
-  anioEjercicio: Int
   datosGenerales: DatosGeneralesInput
   domicilioDeclarante: DomicilioDeclaranteInput
   datosCurricularesDeclarante: DatosCurricularesDeclaranteInput

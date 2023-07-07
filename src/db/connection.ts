@@ -30,14 +30,14 @@ class DBConnection {
         useFindAndModify: false,
       };
 
-      try {
+      //try {
         await mongoose.connect(uri, options);
         console.log('MongoDB is connected.');
         DBConnection.hasBeenConnected = true;
-      } catch(err) {
-        console.log("Error al conectarse a la base de datos");
-        console.log(err);
-      }
+      // } catch(err) {
+      //   console.log("Error al conectarse a la base de datos");
+      //   console.log(err);
+      // }
     }
   }
 }

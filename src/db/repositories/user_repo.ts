@@ -13,7 +13,7 @@ import {
 import { EnvironmentConfig, Scopes } from '../../config';
 import CreateError from 'http-errors';
 import Crypto from 'crypto';
-import ElasticSearchAPI from '../../elasticsearch/es_api';
+// import ElasticSearchAPI from '../../elasticsearch/es_api';
 import { Jwt } from '../../library';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
@@ -29,7 +29,7 @@ export class UserRepository {
 
     user.roles = roles;
     user.save();
-    await ElasticSearchAPI.update(user);
+    //await ElasticSearchAPI.update(user);
 
     return user;
   }
@@ -62,14 +62,18 @@ export class UserRepository {
       id: user._id,
       salt: salt,
     });
-    await SendgridClient.sendRecoveryPassword(username, Buffer.from(token).toString('base64'));
+    var enviado = await SendgridClient.sendRecoveryPassword(username, Buffer.from(token).toString('base64'));
     user.resetToken = {
       salt: salt,
       expiration: Date.now() + ms(EnvironmentConfig.EmailJWTConfig.expiresIn),
     };
-    user.save();
 
-    return true;
+    if(enviado){
+      user.save();
+      return enviado;
+    }
+    else
+      throw new CreateError.BadRequest("Error al enviar el correo electrónico");
   }
 
   public static async getAll(pagination: PaginationInputOptions = {}): Promise<Pagination<UserDocument>> {
@@ -147,18 +151,66 @@ export class UserRepository {
 
   public static async signup(user: UserSignUpInput): Promise<UserDocument> {
     user.password = BCrypt.hash(user.password);
+
+    var existe = await UserModel.findOne({ $or: [{username: user.username}, {curp: user.curp}, {rfc: user.rfc}] });
+    if(existe != null)
+      throw new CreateError.BadRequest("El usuario ya está registrado en el sistema, los campos CURP, RFC y correo electrónico deben ser únicos");
+
     try {
       const createdUser = await UserModel.create(user);
-      await ElasticSearchAPI.add(createdUser);
+      //await ElasticSearchAPI.add(createdUser);
 
       return createdUser;
-    } catch(err) {
+    } catch(err: any) {
       throw new CreateError.BadRequest(err);
     }
   }
 
-  public static search(keyword: string, pagination: PaginationInputOptions = {}): Promise<Pagination<UserES>> {
-    return ElasticSearchAPI.search(keyword, pagination);
+  public static async  search(keyword: string, pagination: PaginationInputOptions = {}): Promise<Pagination<UserES>> {
+    var filtro = {$or: [
+      {"username": {'$regex': keyword, "$options": "i"} },
+      {"nombre": {'$regex': keyword, "$options": "i"}},
+      {"primerApellido": {'$regex': keyword, "$options": "i"}},
+      {"segundoApellido": {'$regex': keyword, "$options": "i"}}
+    ]};
+
+    var retorno = UserModel.find(filtro).sort({
+      "primerApellido": 1,
+      "segundoApellio": 1,
+      "nombre": 1
+    })
+    .skip((pagination.page || 0) * (pagination.size || 1))
+    .limit(pagination.size || 1)
+    ;
+
+    var total = (await UserModel.find(filtro)).length;
+
+    var usrsES: Array<UserES> = [];
+
+    (await retorno).forEach((val,index,todos)=> {
+      var u: UserES = {
+        _id: val.id,
+        nombre: val.nombre,
+        primerApellido: val.primerApellido,
+        segundoApellido: val.segundoApellido,
+        curp: val.curp,
+        rfc: val.rfc,
+        createdAt: val.createdAt.toString(),
+        roles: val.roles,
+        updatedAt: val.updatedAt.toString(),
+        username: val.username
+      }
+
+      usrsES.push(u);
+    });
+    
+    return {
+      totalDocs: total,
+      docs: usrsES,
+      page: pagination.page,
+      limit: pagination.size,
+    };
+    //return ElasticSearchAPI.search(keyword, pagination);
   }
 
   public static async updateProfile(profile: UserProfileInput, context: Context): Promise<UserDocument> {
@@ -176,12 +228,11 @@ export class UserRepository {
       );
     }
 
-    await ElasticSearchAPI.update(updatedProfile);
+    //await ElasticSearchAPI.update(updatedProfile);
     return updatedProfile;
   }
 
   public static async restaurarContrasena(usuario: string, nuevaContrasena: string) {
-    console.log("Restaurando contraseña de " + usuario + " a: " + nuevaContrasena)
     const user = await UserModel.findOne({ username: usuario });
     
     if (!user) {

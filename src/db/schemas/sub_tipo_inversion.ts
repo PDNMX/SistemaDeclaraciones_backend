@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-//Se crea esta clase
+// Se crea esta clase
 export const SubTipoInversionSchema = new Schema({
   clave: {
     type: String,

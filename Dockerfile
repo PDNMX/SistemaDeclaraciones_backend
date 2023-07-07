@@ -7,7 +7,8 @@ WORKDIR /backend
 
 ARG NODE_ENV
 
-RUN yarn add global yarn \
+RUN yarn cache clean \
+&& yarn add global yarn \
 && yarn install \
 && yarn build \
 && yarn cache clean

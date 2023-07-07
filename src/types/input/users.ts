@@ -2,10 +2,6 @@ export interface UserProfileInput {
   nombre: string;
 	primerApellido: string;
 	segundoApellido?: string;
-  institucion?: {
-    clave: string;
-    valor: string;
-  };
 	curp: string;
   rfc: string;
 }

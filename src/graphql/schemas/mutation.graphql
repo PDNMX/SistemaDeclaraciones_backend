@@ -16,6 +16,8 @@ type Mutation {
 
   autorizarPublica(id: ID!, autoriza: Boolean!): Boolean! @hasRole(roles: [USER])
 
+  enviarDeclaracion(id: ID!): Boolean! @hasRole(roles: [USER])
+
   "Reset password"
   resetPassword(token: String!, newPassword: LimitedString!): Boolean!
 

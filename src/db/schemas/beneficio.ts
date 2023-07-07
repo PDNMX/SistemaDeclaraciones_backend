@@ -3,7 +3,6 @@ import { CatalogoSchema } from './catalogo';
 import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
 import { TerceroSchema } from './tercero';
-import { addNullValue } from '../../library/utils';
 
 
 export const BeneficioSchema = new Schema({
@@ -16,11 +15,11 @@ export const BeneficioSchema = new Schema({
     // enum: TipoPersona,
   },
   tipoBeneficio: CatalogoSchema,
-  beneficiario: CatalogoSchema, //Estaba como arreglo, se le quitó el arreglo
+  beneficiario: CatalogoSchema, // Estaba como arreglo, se le quitó el arreglo
   otorgante: TerceroSchema,
   formaRecepcion: {
     type: String,
-    enum: addNullValue(FormaRecepcion),
+    enum: FormaRecepcion,
   },
   especifiqueBeneficio: {
     type: String,

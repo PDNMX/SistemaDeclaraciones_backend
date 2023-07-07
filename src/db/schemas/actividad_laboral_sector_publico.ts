@@ -1,7 +1,6 @@
 import { AmbitoPublico, NivelOrdenGobierno } from '../../types/enums';
 import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
-import { addNullValue } from '../../library/utils';
 
 const string_type = {
   type: String,
@@ -12,11 +11,11 @@ const string_type = {
 export const ActividadLaboralSectorPublicoSchema = new Schema({
   nivelOrdenGobierno: {
     type: String,
-    enum: addNullValue(NivelOrdenGobierno),
+    enum: NivelOrdenGobierno,
   },
   ambitoPublico: {
     type: String,
-    enum: addNullValue(AmbitoPublico),
+    enum: AmbitoPublico,
   },
   nombreEntePublico: string_type,
   areaAdscripcion: string_type,

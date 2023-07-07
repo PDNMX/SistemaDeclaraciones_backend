@@ -4,7 +4,6 @@ import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
 import { TerceroSchema } from './tercero';
 import { TransmisorSchema } from './transmisor';
-import { addNullValue } from '../../library/utils';
 
 
 export const BienMuebleSchema = new Schema({
@@ -20,7 +19,7 @@ export const BienMuebleSchema = new Schema({
   formaAdquisicion: CatalogoSchema,
   formaPago: {
     type: String,
-    enum: addNullValue(FormaPago),
+    enum: FormaPago,
   },
   valorAdquisicion: MontoSchema,
   fechaAdquisicion: Date,

@@ -55,6 +55,8 @@ export default {
     },
     autorizarPublica (_: unknown, args: { id: string, autoriza: boolean }, context: Context): Promise<boolean | null>  {
       return DeclaracionRepository.autorizarPublica(args.id, args.autoriza, context.user.id);
-    }
-  }
+    },
+    enviarDeclaracion (_: unknown, args: { id: string }, context: Context): Promise<boolean | null>  { 
+      return DeclaracionRepository.enviarDeclaracion(args.id, context.user.id);
+    }   }
 };

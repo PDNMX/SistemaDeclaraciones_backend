@@ -5,7 +5,7 @@ import { StatsRepository } from '../../db/repositories/stats_repo';
 export default {
   Query: {
     stats(_: unknown, args: unknown, context: Context): Promise<Stats> {
-      //QUE PRIMERO LEA LAS PROPIAS
+      // QUE PRIMERO LEA LAS PROPIAS
       const scopes = context.user.scopes;
       if (scopes.includes('Stats:read:mine'))  {
         return StatsRepository.get(context.user.id);

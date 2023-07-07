@@ -2,7 +2,6 @@ import { FormaRecepcion, NivelOrdenGobierno, TipoOperacion, TipoPersona } from '
 import { CatalogoSchema } from './catalogo';
 import { MontoSchema } from './monto';
 import { Schema } from 'mongoose';
-import { addNullValue } from '../../library/utils';
 
 
 const string_type = {
@@ -14,11 +13,11 @@ const string_type = {
 export const ApoyoSchema = new Schema({
   tipoOperacion: {
     type: String,
-    enum: addNullValue(TipoOperacion),
+    enum: TipoOperacion,
   },
   tipoPersona: {
     type: String,
-    enum: addNullValue(TipoPersona),
+    enum: TipoPersona,
   },
   beneficiarioPrograma: CatalogoSchema,
   nombrePrograma: string_type,
@@ -30,7 +29,7 @@ export const ApoyoSchema = new Schema({
   tipoApoyo: CatalogoSchema,
   formaRecepcion: {
     type: String,
-    enum: addNullValue(FormaRecepcion),
+    enum: FormaRecepcion,
   },
   montoApoyoMensual: MontoSchema,
   especifiqueApoyo: string_type,
