@@ -1,15 +1,5 @@
 import { BCrypt, SendgridClient } from '../../library';
-import {
-  Context,
-  Login,
-  Pagination,
-  PaginationInputOptions,
-  Role,
-  UserDocument,
-  UserES,
-  UserProfileInput,
-  UserSignUpInput,
-} from '../../types';
+import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserES, UserProfileInput, UserSignUpInput } from '../../types';
 import { EnvironmentConfig, Scopes } from '../../config';
 import CreateError from 'http-errors';
 import Crypto from 'crypto';
@@ -20,8 +10,7 @@ import UserModel from '../models/user_model';
 import ms from 'ms';
 
 export class UserRepository {
-
-  public static async changeRoles(userID: string, roles:[Role]): Promise<UserDocument> {
+  public static async changeRoles(userID: string, roles: [Role]): Promise<UserDocument> {
     const user = await UserModel.findById({ _id: userID });
     if (!user) {
       throw new CreateError.NotFound(`User[${userID}] does not exist.`);
@@ -60,12 +49,12 @@ export class UserRepository {
     const salt = Crypto.randomBytes(20).toString('hex');
     const token = Jwt.sign(EnvironmentConfig.EmailJWTConfig, {
       id: user._id,
-      salt: salt,
+      salt: salt
     });
     await SendgridClient.sendRecoveryPassword(username, Buffer.from(token).toString('base64'));
     user.resetToken = {
       salt: salt,
-      expiration: Date.now() + ms(EnvironmentConfig.EmailJWTConfig.expiresIn),
+      expiration: Date.now() + ms(EnvironmentConfig.EmailJWTConfig.expiresIn)
     };
     user.save();
 
@@ -76,9 +65,9 @@ export class UserRepository {
     const page: number = pagination.page || 0;
     const limit: number = pagination.size || 20;
     const users = await UserModel.paginate({
-      sort: { createdAt: 'desc'},
+      sort: { createdAt: 'desc' },
       page: page + 1,
-      limit: Math.min(limit, 100),
+      limit: Math.min(limit, 100)
     });
     if (users) {
       return users;
@@ -107,7 +96,7 @@ export class UserRepository {
     // NOTE: Only the last successfully logged user is allowed to use the refresh token
     user.refreshJwtToken = {
       salt: Crypto.randomBytes(20).toString('hex'),
-      expiration: Date.now() + ms(EnvironmentConfig.RefreshJWTConfig.expiresIn),
+      expiration: Date.now() + ms(EnvironmentConfig.RefreshJWTConfig.expiresIn)
     };
     user.save();
 
@@ -116,26 +105,23 @@ export class UserRepository {
       jwtToken: Jwt.sign(EnvironmentConfig.AuthJWTConfig, {
         id: user._id,
         roles: user.roles,
-        scopes: Scopes.createByRoles(user.roles),
+        scopes: Scopes.createByRoles(user.roles)
       }),
       refreshJwtToken: Jwt.sign(EnvironmentConfig.RefreshJWTConfig, {
         id: user._id,
-        salt: user.refreshJwtToken.salt,
-      }),
+        salt: user.refreshJwtToken.salt
+      })
     };
   }
 
   public static async resetPassword(token: string, newPassword: string): Promise<boolean> {
-    const decodedToken = Jwt.decodeToken(
-        EnvironmentConfig.EmailJWTConfig.secret,
-        Buffer.from(token, 'base64').toString()
-    );
+    const decodedToken = Jwt.decodeToken(EnvironmentConfig.EmailJWTConfig.secret, Buffer.from(token, 'base64').toString());
     const user = await UserModel.findById({ _id: decodedToken.id });
     if (!user) {
       throw new CreateError.NotFound(`User[${decodedToken.id}] does not exist.`);
     } else if (!user.resetToken.expiration || user.resetToken.salt !== decodedToken.salt) {
       throw new CreateError.Forbidden('Token is invalid');
-    } else if(user.resetToken.expiration < Date.now()) {
+    } else if (user.resetToken.expiration < Date.now()) {
       throw new CreateError.BadRequest('Token is already expired');
     }
 
@@ -152,7 +138,7 @@ export class UserRepository {
       await ElasticSearchAPI.add(createdUser);
 
       return createdUser;
-    } catch(err) {
+    } catch (err) {
       throw new CreateError.BadRequest(`User with username: ${user.username} already exist`);
     }
   }
@@ -162,18 +148,10 @@ export class UserRepository {
   }
 
   public static async updateProfile(profile: UserProfileInput, context: Context): Promise<UserDocument> {
-    const updatedProfile = await UserModel.findOneAndUpdate(
-      { _id: context.user.id },
-      { $set: profile },
-      { new: true, runValidators: true, context: 'query'},
-    );
+    const updatedProfile = await UserModel.findOneAndUpdate({ _id: context.user.id }, { $set: profile }, { new: true, runValidators: true, context: 'query' });
 
     if (!updatedProfile) {
-      throw CreateError(
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        'Something went wrong on updateProfile',
-        { debug_info: { profile, context } },
-      );
+      throw CreateError(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong on updateProfile', { debug_info: { profile, context } });
     }
 
     await ElasticSearchAPI.update(updatedProfile);
