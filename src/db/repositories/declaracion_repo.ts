@@ -1,18 +1,10 @@
 import { BCrypt, SendgridClient } from '../../library';
-import {
-  DeclaracionDocument,
-  DeclaracionSecciones,
-  DeclaracionesFilterInput,
-  Pagination,
-  PaginationInputOptions,
-  TipoDeclaracion,
-} from '../../types';
+import { DeclaracionDocument, DeclaracionSecciones, DeclaracionesFilterInput, Pagination, PaginationInputOptions, TipoDeclaracion } from '../../types';
 import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
 import ReportsClient from '../../pdf_preview/reports_client';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
-
 
 export class DeclaracionRepository {
   public static async delete(declaracionID: string, userID: string): Promise<boolean> {
@@ -44,10 +36,10 @@ export class DeclaracionRepository {
     const limit: number = pagination.size || 20;
     const declaraciones = await DeclaracionModel.paginate({
       query: { ...filter },
-      sort: { createdAt: 'desc'},
+      sort: { createdAt: 'desc' },
       populate: 'owner',
       page: page + 1,
-      limit: Math.min(limit, 100),
+      limit: Math.min(limit, 100)
     });
     if (declaraciones) {
       return declaraciones;
@@ -67,10 +59,10 @@ export class DeclaracionRepository {
     const limit: number = pagination.size || 20;
     const declaraciones = await DeclaracionModel.paginate({
       query: { owner: user, ...filter },
-      sort: { createdAt: 'desc'},
+      sort: { createdAt: 'desc' },
       populate: 'owner',
       page: page + 1,
-      limit: Math.min(limit, 100),
+      limit: Math.min(limit, 100)
     });
     if (declaraciones) {
       return declaraciones;
@@ -79,11 +71,7 @@ export class DeclaracionRepository {
     return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
   }
 
-  public static async getOrCreate(
-    userID: string,
-    tipoDeclaracion: TipoDeclaracion,
-    declaracionCompleta = true,
-  ): Promise<DeclaracionDocument> {
+  public static async getOrCreate(userID: string, tipoDeclaracion: TipoDeclaracion, declaracionCompleta = true): Promise<DeclaracionDocument> {
     const user = await UserModel.findById({ _id: userID });
     if (!user) {
       throw new CreateError.NotFound(`User[${userID}] does not exist.`);
@@ -92,10 +80,10 @@ export class DeclaracionRepository {
       tipoDeclaracion: tipoDeclaracion,
       declaracionCompleta: declaracionCompleta,
       firmada: false,
-      owner: user,
+      owner: user
     };
 
-    const declaracion = await DeclaracionModel.findOneAndUpdate(filter, {}, {new: true, upsert: true});
+    const declaracion = await DeclaracionModel.findOneAndUpdate(filter, {}, { new: true, upsert: true });
     user.declaraciones.push(declaracion);
     user.save();
 
@@ -123,7 +111,7 @@ export class DeclaracionRepository {
     try {
       const responsePreview = await ReportsClient.getReport(declaracion);
       await SendgridClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));
-    } catch(e) {
+    } catch (e) {
       throw new CreateError.InternalServerError('There was a problem sending the Report');
     }
 
@@ -143,21 +131,17 @@ export class DeclaracionRepository {
 
     const filter = {
       _id: declaracionID,
-      firmada: false,
+      firmada: false
     };
     const options = {
       new: true,
       runValidators: true,
-      context: 'query',
+      context: 'query'
     };
 
-    const updatedDeclaracion = await DeclaracionModel.findOneAndUpdate(filter, {$set: props}, options);
+    const updatedDeclaracion = await DeclaracionModel.findOneAndUpdate(filter, { $set: props }, options);
     if (!updatedDeclaracion) {
-      throw CreateError(
-          StatusCodes.INTERNAL_SERVER_ERROR,
-          'Something went wrong at Declaracion.update',
-          { debug_info: { declaracionID, userID, props }},
-      );
+      throw CreateError(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong at Declaracion.update', { debug_info: { declaracionID, userID, props } });
     }
 
     return updatedDeclaracion;
