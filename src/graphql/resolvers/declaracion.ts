@@ -8,6 +8,10 @@ export default {
       return DeclaracionRepository.getOrCreate(context.user.id, args.tipoDeclaracion, args.declaracionCompleta);
     },
 
+    lastDeclaracion(_: unknown, args: unknown, context: Context): Promise<Declaracion> {
+      return DeclaracionRepository.lastDeclaracion(context.user.id);
+    },
+
     declaracionesMetadata(_: unknown, args: { userID?: string; filter?: DeclaracionesFilterInput; pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<DeclaracionDocument>> {
       const scopes = context.user.scopes;
       if (args.userID) {
