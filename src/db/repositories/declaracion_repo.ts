@@ -90,6 +90,21 @@ export class DeclaracionRepository {
     return declaracion;
   }
 
+  public static async lastDeclaracion(userID: string): Promise<DeclaracionDocument> {
+    const user = await UserModel.findById({ _id: userID });
+    if (!user) {
+      throw new CreateError.NotFound(`User[${userID}] does not exist.`);
+    }
+
+    const filter = {
+      owner: user,
+      firmada: true
+    };
+
+    const declaracion = await DeclaracionModel.findOne(filter, {}, { sort: { updatedAt: -1 } });
+    return declaracion as any;
+  }
+
   public static async sign(declaracionID: string, password: string, userID: string): Promise<Record<string, any> | null> {
     const declaracion = await DeclaracionModel.findById({ _id: declaracionID });
     if (!declaracion) {
