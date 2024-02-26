@@ -1,14 +1,4 @@
-import {
-  Context,
-  Login,
-  Pagination,
-  PaginationInputOptions,
-  Role,
-  UserDocument,
-  UserES,
-  UserProfileInput,
-  UserSignUpInput,
-} from '../../types';
+import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserES, UserProfileInput, UserSignUpInput } from '../../types';
 import CreateError from 'http-errors';
 import { UserRepository } from '../../db/repositories/user_repo';
 
@@ -18,11 +8,11 @@ export default {
       return UserRepository.forgotPassword(args.username);
     },
 
-    login(_: unknown, args: { username: string, password: string }): Promise<Login> {
+    login(_: unknown, args: { username: string; password: string }): Promise<Login> {
       return UserRepository.login(args.username, args.password);
     },
 
-    search(_: unknown, args: { keyword: string, pagination?: PaginationInputOptions }): Promise<Pagination<UserES>> {
+    search(_: unknown, args: { keyword: string; pagination?: PaginationInputOptions }): Promise<Pagination<UserES>> {
       return UserRepository.search(args.keyword, args.pagination);
     },
 
@@ -39,19 +29,19 @@ export default {
 
     users(_: unknown, args: { pagination?: PaginationInputOptions }): Promise<Pagination<UserDocument>> {
       return UserRepository.getAll(args.pagination);
-    },
+    }
   },
 
   Mutation: {
-    changeRoles(_: unknown, args: { userID: string, roles:[Role] }): Promise<UserDocument> {
+    changeRoles(_: unknown, args: { userID: string; roles: [Role] }): Promise<UserDocument> {
       return UserRepository.changeRoles(args.userID, args.roles);
     },
 
-    changePassword(_: unknown, args: { oldPassword: string, newPassword: string }, context: Context): Promise<boolean> {
+    changePassword(_: unknown, args: { oldPassword: string; newPassword: string }, context: Context): Promise<boolean> {
       return UserRepository.changePassword(context.user.id, args.oldPassword, args.newPassword);
     },
 
-    resetPassword(_: unknown, args: { token: string, newPassword: string }): Promise<boolean> {
+    resetPassword(_: unknown, args: { token: string; newPassword: string }): Promise<boolean> {
       return UserRepository.resetPassword(args.token, args.newPassword);
     },
 
@@ -61,6 +51,6 @@ export default {
 
     updateUserProfile(_: unknown, args: { profile: UserProfileInput }, context: Context): Promise<UserDocument> {
       return UserRepository.updateProfile(args.profile, context);
-    },
+    }
   }
 };

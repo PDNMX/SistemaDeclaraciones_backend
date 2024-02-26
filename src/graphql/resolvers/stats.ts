@@ -13,6 +13,6 @@ export default {
       }
 
       throw new CreateError.Unauthorized(`User[${context.user.id}] is not allowed to perform this operation.`);
-    },
-  },
+    }
+  }
 };

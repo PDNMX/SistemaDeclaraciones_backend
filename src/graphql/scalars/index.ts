@@ -1,12 +1,6 @@
-import {
-  GraphQLDateTime,
-  GraphQLEmail,
-  GraphQLLimitedString,
-  GraphQLUUID
-} from 'graphql-custom-types';
+import { GraphQLDateTime, GraphQLEmail, GraphQLLimitedString, GraphQLUUID } from 'graphql-custom-types';
 import GraphQLJSON from 'graphql-type-json';
 import { GraphQLScalarType } from 'graphql';
-
 
 class ScalarDefinitions {
   /*
@@ -18,7 +12,7 @@ class ScalarDefinitions {
       Email: GraphQLEmail,
       JSON: GraphQLJSON,
       LimitedString: new GraphQLLimitedString(0, 500), //255
-      UUID: GraphQLUUID,
+      UUID: GraphQLUUID
     };
   }
 }
