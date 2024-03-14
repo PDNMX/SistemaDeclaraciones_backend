@@ -1,8 +1,9 @@
 import { BCrypt, SendgridClient } from '../../library';
-import { DeclaracionDocument, DeclaracionSecciones, DeclaracionesFilterInput, Pagination, PaginationInputOptions, TipoDeclaracion } from '../../types';
+import { Context, DeclaracionDocument, DeclaracionSecciones, DeclaracionesFilterInput, Pagination, PaginationInputOptions, TipoDeclaracion } from '../../types';
 import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
 import ReportsClient from '../../pdf_preview/reports_client';
+import { Role } from './../../types/enums';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
 
@@ -30,22 +31,77 @@ export class DeclaracionRepository {
     return declaracion;
   }
 
-  public static async getAll(filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
-    filter = filter || {};
+  public static async getAll(filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}, context?: Context): Promise<Pagination<DeclaracionDocument>> {
+    const filters: Record<string, any> = { ...filter };
     const page: number = pagination.page || 0;
     const limit: number = pagination.size || 20;
-    const declaraciones = await DeclaracionModel.paginate({
-      query: { ...filter },
-      sort: { createdAt: 'desc' },
-      populate: 'owner',
-      page: page + 1,
-      limit: Math.min(limit, 100)
-    });
-    if (declaraciones) {
-      return declaraciones;
+
+    let data: Pagination<DeclaracionDocument> = { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
+
+    const id = context?.user.id;
+    const user = await UserModel.findById({ _id: id });
+    if (!user?.roles.includes(Role.ROOT)) {
+      const institucion = user?.institucion?.clave;
+      if (institucion) {
+        filters['institucion'] = institucion;
+      }
     }
 
-    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
+    const results = await DeclaracionModel.aggregate([
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'owner',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: '$user' },
+      {
+        $project: { tipoDeclaracion: 1, firmada: 1, declaracionCompleta: 1, createdAt: 1, updatedAt: 1, user: 1, institucion: '$user.institucion.clave' }
+      },
+      {
+        $match: { ...filters }
+      },
+      {
+        $project: { tipoDeclaracion: 1, firmada: 1, declaracionCompleta: 1, createdAt: 1, updatedAt: 1, user: 1 }
+      },
+      {
+        $skip: limit * page
+      },
+      {
+        $limit: limit
+      }
+    ]);
+
+    if (results.length > 0) {
+      const docs = results.map(e => ({ ...e, owner: e.user }));
+      data = { docs };
+      return data;
+    }
+
+    // TODO: validaciones para regresar los valores correctos para hasMore, hasNextPage, hasPrevPage
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+
+    // filter = filter || {};
+
+    // const declaraciones = await DeclaracionModel.paginate({
+    //   query: { ...filter },
+    //   sort: { createdAt: 'desc' },
+    //   populate: 'owner',
+    //   page: page + 1,
+    //   limit: Math.min(limit, 100)
+    // });
+    // if (declaraciones) {
+    //   return declaraciones;
+    // }
+
+    // return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
+    return data;
   }
 
   public static async getAllByUser(userID: string, filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
