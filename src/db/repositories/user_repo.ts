@@ -1,15 +1,31 @@
 import { BCrypt, SendgridClient } from '../../library';
-import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserES, UserProfileInput, UserSignUpInput } from '../../types';
+import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserProfileInput, UserSignUpInput } from '../../types';
 import { EnvironmentConfig, Scopes } from '../../config';
 import CreateError from 'http-errors';
 import Crypto from 'crypto';
-import ElasticSearchAPI from '../../elasticsearch/es_api';
+// import ElasticSearchAPI from '../../elasticsearch/es_api';
 import { Jwt } from '../../library';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
 import ms from 'ms';
 
 export class UserRepository {
+  public static queryString = (cadena: string): any => {
+    cadena = cadena
+      .toLowerCase()
+      .replace('ñ', '#')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/a/g, '[a,á,à,ä]')
+      .replace(/e/g, '[e,é,ë]')
+      .replace(/i/g, '[i,í,ï]')
+      .replace(/o/g, '[o,ó,ö,ò]')
+      .replace(/u/g, '[u,ü,ú,ù]')
+      .replace(/#/g, 'ñ');
+
+    return { $regex: cadena, $options: 'i' };
+  };
+
   public static async changeRoles(userID: string, roles: [Role]): Promise<UserDocument> {
     const user = await UserModel.findById({ _id: userID });
     if (!user) {
@@ -18,7 +34,7 @@ export class UserRepository {
 
     user.roles = roles;
     user.save();
-    await ElasticSearchAPI.update(user);
+    // await ElasticSearchAPI.update(user);
 
     return user;
   }
@@ -61,14 +77,29 @@ export class UserRepository {
     return true;
   }
 
-  public static async getAll(pagination: PaginationInputOptions = {}): Promise<Pagination<UserDocument>> {
+  public static async getAll(query = {}, pagination: PaginationInputOptions = {}, context: Context): Promise<Pagination<UserDocument>> {
+    let institucion = '';
+    if (!context.user.roles.includes(Role.ROOT)) {
+      const user = await UserRepository.getUser(context.user.id);
+
+      institucion = user.institucion?.clave || '';
+    }
+
     const page: number = pagination.page || 0;
     const limit: number = pagination.size || 20;
-    const users = await UserModel.paginate({
+
+    const q = {
+      query,
       sort: { createdAt: 'desc' },
       page: page + 1,
       limit: Math.min(limit, 100)
-    });
+    };
+
+    if (institucion !== '') {
+      q.query = { ...q.query, 'institucion.clave': institucion };
+    }
+
+    const users = await UserModel.paginate(q);
     if (users) {
       return users;
     }
@@ -135,7 +166,7 @@ export class UserRepository {
     user.password = BCrypt.hash(user.password);
     try {
       const createdUser = await UserModel.create(user);
-      await ElasticSearchAPI.add(createdUser);
+      // await ElasticSearchAPI.add(createdUser);
 
       return createdUser;
     } catch (err) {
@@ -143,9 +174,9 @@ export class UserRepository {
     }
   }
 
-  public static search(keyword: string, pagination: PaginationInputOptions = {}): Promise<Pagination<UserES>> {
-    return ElasticSearchAPI.search(keyword, pagination);
-  }
+  // public static search(keyword: string, pagination: PaginationInputOptions = {}): Promise<Pagination<UserES>> {
+  //   return ElasticSearchAPI.search(keyword, pagination);
+  // }
 
   public static async updateProfile(profile: UserProfileInput, context: Context): Promise<UserDocument> {
     const updatedProfile = await UserModel.findOneAndUpdate({ _id: context.user.id }, { $set: profile }, { new: true, runValidators: true, context: 'query' });
@@ -154,7 +185,7 @@ export class UserRepository {
       throw CreateError(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong on updateProfile', { debug_info: { profile, context } });
     }
 
-    await ElasticSearchAPI.update(updatedProfile);
+    // await ElasticSearchAPI.update(updatedProfile);
     return updatedProfile;
   }
 }

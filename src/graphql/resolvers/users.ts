@@ -1,4 +1,4 @@
-import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserES, UserProfileInput, UserSignUpInput } from '../../types';
+import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserProfileInput, UserSignUpInput } from '../../types';
 import CreateError from 'http-errors';
 import { UserRepository } from '../../db/repositories/user_repo';
 
@@ -12,8 +12,12 @@ export default {
       return UserRepository.login(args.username, args.password);
     },
 
-    search(_: unknown, args: { keyword: string; pagination?: PaginationInputOptions }): Promise<Pagination<UserES>> {
-      return UserRepository.search(args.keyword, args.pagination);
+    // search(_: unknown, args: { keyword: string; pagination?: PaginationInputOptions }): Promise<Pagination<UserES>> {
+    search(_: unknown, args: { keyword: string; pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<UserDocument>> {
+      // return UserRepository.search(args.keyword, args.pagination);
+      const q = args.keyword;
+      const query = { $or: [{ username: UserRepository.queryString(q) }, { nombre: UserRepository.queryString(q) }, { primerApellido: UserRepository.queryString(q) }, { segundoApellido: UserRepository.queryString(q) }, { curp: UserRepository.queryString(q) }, { rfc: UserRepository.queryString(q) }] };
+      return UserRepository.getAll({ ...query }, args.pagination, context);
     },
 
     userProfile(_: unknown, args: { id?: string }, context: Context): Promise<UserDocument> {
@@ -27,8 +31,8 @@ export default {
       throw new CreateError.Unauthorized(`User[${context.user.id}] is not allowed to perform this operation.`);
     },
 
-    users(_: unknown, args: { pagination?: PaginationInputOptions }): Promise<Pagination<UserDocument>> {
-      return UserRepository.getAll(args.pagination);
+    users(_: unknown, args: { pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<UserDocument>> {
+      return UserRepository.getAll({}, args.pagination, context);
     }
   },
 

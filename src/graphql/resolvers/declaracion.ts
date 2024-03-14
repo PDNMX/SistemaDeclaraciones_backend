@@ -25,7 +25,8 @@ export default {
       }
 
       if (scopes.includes('DeclarationMetada:read:all')) {
-        return DeclaracionRepository.getAll(args.filter, args.pagination);
+        // user admin
+        return DeclaracionRepository.getAll(args.filter, args.pagination, context);
       } else if (scopes.includes('DeclarationMetada:read:mine')) {
         return DeclaracionRepository.getAllByUser(context.user.id, args.filter, args.pagination);
       }
