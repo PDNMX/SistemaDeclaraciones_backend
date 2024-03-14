@@ -3,7 +3,7 @@ import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument,
 import { EnvironmentConfig, Scopes } from '../../config';
 import CreateError from 'http-errors';
 import Crypto from 'crypto';
-import ElasticSearchAPI from '../../elasticsearch/es_api';
+// import ElasticSearchAPI from '../../elasticsearch/es_api';
 import { Jwt } from '../../library';
 import { StatusCodes } from 'http-status-codes';
 import UserModel from '../models/user_model';
@@ -34,7 +34,7 @@ export class UserRepository {
 
     user.roles = roles;
     user.save();
-    await ElasticSearchAPI.update(user);
+    // await ElasticSearchAPI.update(user);
 
     return user;
   }
@@ -166,7 +166,7 @@ export class UserRepository {
     user.password = BCrypt.hash(user.password);
     try {
       const createdUser = await UserModel.create(user);
-      await ElasticSearchAPI.add(createdUser);
+      // await ElasticSearchAPI.add(createdUser);
 
       return createdUser;
     } catch (err) {
@@ -185,7 +185,7 @@ export class UserRepository {
       throw CreateError(StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong on updateProfile', { debug_info: { profile, context } });
     }
 
-    await ElasticSearchAPI.update(updatedProfile);
+    // await ElasticSearchAPI.update(updatedProfile);
     return updatedProfile;
   }
 }
