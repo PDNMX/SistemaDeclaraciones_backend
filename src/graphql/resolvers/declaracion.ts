@@ -12,6 +12,10 @@ export default {
       return DeclaracionRepository.lastDeclaracion(context.user.id);
     },
 
+    myDeclaracionesMetadata(_: unknown, args: { userID?: string; filter?: DeclaracionesFilterInput; pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<DeclaracionDocument>> {
+      return DeclaracionRepository.getAllByUser(context.user.id, args.filter, args.pagination);
+    },
+
     declaracionesMetadata(_: unknown, args: { userID?: string; filter?: DeclaracionesFilterInput; pagination?: PaginationInputOptions }, context: Context): Promise<Pagination<DeclaracionDocument>> {
       const scopes = context.user.scopes;
       if (args.userID) {
