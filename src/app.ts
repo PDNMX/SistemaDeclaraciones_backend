@@ -53,7 +53,6 @@ class App {
     this.app.use(BodyParser.urlencoded({ extended: false }));
 
     // To mount static files
-    // TODO: This does not work
     this.app.use('/static', Express.static(path.join(__dirname, './static')));
 
     // parse application/json
