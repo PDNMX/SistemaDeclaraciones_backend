@@ -2,6 +2,7 @@ import { BCrypt, SendgridClient } from '../../library';
 import { Context, DeclaracionDocument, DeclaracionSecciones, DeclaracionesFilterInput, Pagination, PaginationInputOptions, TipoDeclaracion } from '../../types';
 import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
+import InstitucionesAPI from '../../routers/instituciones_api';
 import ReportsClient from '../../pdf_preview/reports_client';
 import { Role } from './../../types/enums';
 import { StatusCodes } from 'http-status-codes';
@@ -179,6 +180,10 @@ export class DeclaracionRepository {
 
     declaracion.firmada = true;
     declaracion.save();
+
+    const insData = InstitucionesAPI.getInstitucionDataByClave(user.institucion?.clave || '', declaracion.tipoDeclaracion);
+    await InstitucionesAPI.recordUserDec(declaracion._id, user._id, insData);
+
     try {
       const responsePreview = await ReportsClient.getReport(declaracion);
       await SendgridClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));

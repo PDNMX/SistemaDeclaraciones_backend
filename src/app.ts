@@ -6,6 +6,7 @@ import Cors from 'cors';
 import DBConnection from './db/connection';
 import Express from 'express';
 import GraphqlAPI from './graphql';
+import InstitucionesAPI from './routers/instituciones_api';
 import ReportsAPI from './pdf_preview/reports_api';
 import Sendgrid from '@sendgrid/mail';
 import path from 'path';
@@ -31,6 +32,7 @@ class App {
       ApiRouter.create(App.instance.app);
       Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
       ReportsAPI.create(App.instance.app);
+      InstitucionesAPI.create(App.instance.app);
 
       await GraphqlAPI.create(App.instance.app);
       await DBConnection.connect();
@@ -51,8 +53,7 @@ class App {
     this.app.use(BodyParser.urlencoded({ extended: false }));
 
     // To mount static files
-    // TODO: This does not work
-    this.app.use('/static', Express.static(path.join(__dirname,'./static')));
+    this.app.use('/static', Express.static(path.join(__dirname, './static')));
 
     // parse application/json
     this.app.use(BodyParser.json());
