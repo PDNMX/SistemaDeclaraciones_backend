@@ -1,6 +1,6 @@
 type Query {
   "Get or create a new declaration."
-  declaracion(tipoDeclaracion: TipoDeclaracion!, declaracionCompleta: Boolean): Declaracion! @hasRole(roles:[USER])
+  declaracion(tipoDeclaracion: TipoDeclaracion!, declaracionCompleta: Boolean): Declaracion! @hasRole(roles: [USER])
 
   "Fetch declaration metadata"
   declaracionesMetadata(userID: LimitedString, filter: DeclaracionesFilterInput, pagination: PaginationOptionsInput): DeclaracionesMetadataPage! @isAuthenticated
@@ -22,4 +22,10 @@ type Query {
 
   "Get all the users"
   users(pagination: PaginationOptionsInput): UsersPage! @hasRole(roles: [ADMIN, SUPER_ADMIN, ROOT])
+
+  "Get last declaration."
+  lastDeclaracion: Declaracion! @hasRole(roles: [USER])
+
+  "Fetch my declaration's metadata "
+  myDeclaracionesMetadata(userID: LimitedString, filter: DeclaracionesFilterInput, pagination: PaginationOptionsInput): DeclaracionesMetadataPage! @isAuthenticated
 }

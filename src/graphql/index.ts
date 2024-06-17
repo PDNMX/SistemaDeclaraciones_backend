@@ -7,9 +7,8 @@ import GlobalSchema from './schemas';
 import Resolvers from './resolvers';
 import { getReasonPhrase } from 'http-status-codes';
 import { makeExecutableSchema } from 'graphql-tools';
-import { schemaComposer} from 'graphql-compose';
+import { schemaComposer } from 'graphql-compose';
 import { stitchSchemas } from '@graphql-tools/stitch';
-
 
 class GraphqlAPI {
   public static PATH = '/graphql';
@@ -24,7 +23,7 @@ class GraphqlAPI {
       debug: process.env.NODE_ENV == 'development',
       playground: process.env.NODE_ENV == 'development',
       formatError: GraphqlAPI.formatError,
-      context: ({ req }) => req,
+      context: ({ req }) => req
     });
   }
 
@@ -38,21 +37,18 @@ class GraphqlAPI {
         typeDefs: GlobalSchema.build(),
         resolvers: Resolvers.merge(),
         inheritResolversFromInterfaces: true,
-        schemaDirectives: Directives.build(),
+        schemaDirectives: Directives.build()
       });
 
       schemaComposer.Query.addFields({
         hello2: {
           type: 'String',
-          resolve: () => 'HELLO WORD FROM 3',
-        },
+          resolve: () => 'HELLO WORD FROM 3'
+        }
       });
       const schemaTwo = schemaComposer.buildSchema();
       const schema = stitchSchemas({
-        subschemas: [
-          {schema: schemaOne },
-          {schema: schemaTwo},
-        ]
+        subschemas: [{ schema: schemaOne }, { schema: schemaTwo }]
       });
 
       GraphqlAPI.instance = new GraphqlAPI(schema);
@@ -91,22 +87,16 @@ class GraphqlAPI {
         return new ApolloError(httpError.message, getReasonPhrase(httpError.status), httpError.properties);
       }
 
-      if (Object.prototype.hasOwnProperty.call(error.originalError, 'message')
-          && error.originalError.message == 'Your token is expired'
-      ) {
+      if (Object.prototype.hasOwnProperty.call(error.originalError, 'message') && error.originalError.message == 'Your token is expired') {
         const httpError = new CreateError.Unauthorized(error.originalError.message);
-        return new ApolloError(
-            error.originalError.message,
-            getReasonPhrase(httpError.status),
-            httpError.properties
-        );
+        return new ApolloError(error.originalError.message, getReasonPhrase(httpError.status), httpError.properties);
       }
 
       return error.originalError;
     }
 
     return new ApolloError('Something went wrong', 'INTERNAL_SERVER_ERROR', {
-      error: error,
+      error: error
     });
   }
 }

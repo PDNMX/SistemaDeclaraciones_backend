@@ -200,3 +200,6 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+
+# remove instituciones local data from git
+src/data/instituciones.json

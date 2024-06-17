@@ -9,11 +9,7 @@ export default class ReportsAPI {
 
   public constructor() {
     this.router = Express.Router();
-    this.router.get(
-      '/declaracion-preview/:id',
-      JWTMiddleware({ secret: `${process.env.JWT_SECRET}`, algorithms: ['HS256', 'RS256'] }),
-      ReportsAPI.declaracionPreview,
-    );
+    this.router.get('/declaracion-preview/:id', JWTMiddleware({ secret: `${process.env.JWT_SECRET}`, algorithms: ['HS256', 'RS256'] }), ReportsAPI.declaracionPreview);
   }
 
   private static async declaracionPreview(req: Express.Request, res: Express.Response): Promise<any> {
@@ -21,7 +17,7 @@ export default class ReportsAPI {
     if (!scopes.includes('DeclarationPreview:read:mine') && !scopes.includes('DeclarationPreview:read:all')) {
       return res.status(StatusCodes.UNAUTHORIZED).send({
         success: false,
-        message: `User: ${req.user.id} is not AUTHORIZED to perform this operation.`,
+        message: `User: ${req.user.id} is not AUTHORIZED to perform this operation.`
       });
     }
 
@@ -29,7 +25,7 @@ export default class ReportsAPI {
     if (!scopes.includes('DeclarationPreview:read:all') && req.user.id != declaracion.owner._id) {
       return res.status(StatusCodes.UNAUTHORIZED).send({
         success: false,
-        message: `User: ${req.user.id} is not AUTHORIZED to perform this operation on declaracion: ${req.params.id}.`,
+        message: `User: ${req.user.id} is not AUTHORIZED to perform this operation on declaracion: ${req.params.id}.`
       });
     }
 
@@ -39,10 +35,11 @@ export default class ReportsAPI {
       res.setHeader('Access-Control-Allow-Origin', '*');
 
       return res.status(StatusCodes.OK).send(responsePreview);
-    } catch(err) {
+    } catch (err) {
+      console.log('err: ', err);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
         success: false,
-        message: 'Something went wrong',
+        message: 'Something went wrong'
       });
     }
   }
