@@ -8,7 +8,7 @@ import Express from 'express';
 import GraphqlAPI from './graphql';
 import InstitucionesAPI from './routers/instituciones_api';
 import ReportsAPI from './pdf_preview/reports_api';
-import Sendgrid from '@sendgrid/mail';
+//import Sendgrid from '@sendgrid/mail';
 import path from 'path';
 
 class App {
@@ -30,7 +30,7 @@ class App {
       App.instance = new App();
 
       ApiRouter.create(App.instance.app);
-      Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
+      //Sendgrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
       ReportsAPI.create(App.instance.app);
       InstitucionesAPI.create(App.instance.app);
 

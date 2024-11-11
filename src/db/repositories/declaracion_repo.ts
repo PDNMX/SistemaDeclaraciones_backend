@@ -1,4 +1,4 @@
-import { BCrypt, SendgridClient } from '../../library';
+import { BCrypt, SMTPClient } from '../../library';
 import { Context, DeclaracionDocument, DeclaracionSecciones, DeclaracionesFilterInput, Pagination, PaginationInputOptions, TipoDeclaracion } from '../../types';
 import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
@@ -186,7 +186,7 @@ export class DeclaracionRepository {
 
     try {
       const responsePreview = await ReportsClient.getReport(declaracion);
-      await SendgridClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));
+      await SMTPClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));
     } catch (e) {
       throw new CreateError.InternalServerError('There was a problem sending the Report');
     }
