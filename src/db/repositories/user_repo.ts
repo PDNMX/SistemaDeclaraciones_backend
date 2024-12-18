@@ -1,4 +1,4 @@
-import { BCrypt, SMTPClient } from '../../library';
+import { BCrypt, emailService } from '../../library';
 //import { BCrypt, SendgridClient } from '../../library';
 import { Context, Login, Pagination, PaginationInputOptions, Role, UserDocument, UserProfileInput, UserSignUpInput } from '../../types';
 import { EnvironmentConfig, Scopes } from '../../config';
@@ -68,7 +68,7 @@ export class UserRepository {
       id: user._id,
       salt: salt
     });
-    await SMTPClient.sendRecoveryPassword(username, Buffer.from(token).toString('base64'));
+    await emailService.sendRecoveryPassword(username, Buffer.from(token).toString('base64'));
     user.resetToken = {
       salt: salt,
       expiration: Date.now() + ms(EnvironmentConfig.EmailJWTConfig.expiresIn)
