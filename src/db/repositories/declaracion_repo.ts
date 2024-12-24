@@ -1,4 +1,5 @@
-import { BCrypt, SendgridClient } from '../../library';
+//import { BCrypt, SendgridClient } from '../../library';
+import { BCrypt, emailService } from '../../library';
 import { Context, DeclaracionDocument, DeclaracionSecciones, DeclaracionesFilterInput, Pagination, PaginationInputOptions, TipoDeclaracion } from '../../types';
 import CreateError from 'http-errors';
 import DeclaracionModel from '../models/declaracion_model';
@@ -185,8 +186,10 @@ export class DeclaracionRepository {
     await InstitucionesAPI.recordUserDec(declaracion._id, user._id, insData);
 
     try {
+      //const responsePreview = await ReportsClient.getReport(declaracion);
+      //await SendgridClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));
       const responsePreview = await ReportsClient.getReport(declaracion);
-      await SendgridClient.sendDeclarationFile(user.username, responsePreview.toString('base64'));
+      await emailService.sendDeclarationFile(user.username, responsePreview.toString('base64'));
     } catch (e) {
       throw new CreateError.InternalServerError('There was a problem sending the Report');
     }

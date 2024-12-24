@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import * as dotenv from 'dotenv';
 import { EnvironmentConfig, corsOptions } from './config';
 import { ApiRouter } from './routers/api';
 import BodyParser from 'body-parser';
@@ -10,6 +11,11 @@ import InstitucionesAPI from './routers/instituciones_api';
 import ReportsAPI from './pdf_preview/reports_api';
 import Sendgrid from '@sendgrid/mail';
 import path from 'path';
+
+
+dotenv.config({
+  path: path.resolve(__dirname, '../.env')
+});
 
 class App {
   private static instance: App;
