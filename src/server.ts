@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 async function main(): Promise<void> {
   dotenv.config();
 
-  const PORT = process.env.PORT;
+  const PORT = process.env.PORT || 3000;
   const app = await App.create();
   await app.listen(PORT);
 
