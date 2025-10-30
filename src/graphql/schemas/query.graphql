@@ -24,7 +24,7 @@ type Query {
   users(pagination: PaginationOptionsInput): UsersPage! @hasRole(roles: [ADMIN, SUPER_ADMIN, ROOT])
 
   "Get last declaration."
-  lastDeclaracion: Declaracion! @hasRole(roles: [USER])
+  lastDeclaracion: Declaracion @hasRole(roles: [USER])
 
   "Fetch my declaration's metadata "
   myDeclaracionesMetadata(userID: LimitedString, filter: DeclaracionesFilterInput, pagination: PaginationOptionsInput): DeclaracionesMetadataPage! @isAuthenticated
