@@ -8,7 +8,7 @@ export default {
       return DeclaracionRepository.getOrCreate(context.user.id, args.tipoDeclaracion, args.declaracionCompleta);
     },
 
-    lastDeclaracion(_: unknown, args: unknown, context: Context): Promise<Declaracion> {
+    lastDeclaracion(_: unknown, args: unknown, context: Context): Promise<Declaracion | null> {
       return DeclaracionRepository.lastDeclaracion(context.user.id);
     },
 

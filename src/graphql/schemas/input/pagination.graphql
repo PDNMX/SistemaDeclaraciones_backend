@@ -1,4 +1,8 @@
 input PaginationOptionsInput {
   page: Int
   size: Int
+  # Nuevo: Campo por el cual se ordenarán los resultados.
+  sort: String
+  # Nuevo: Dirección del ordenamiento ('asc' o 'desc').
+  direction: String
 }

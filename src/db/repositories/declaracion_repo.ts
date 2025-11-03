@@ -34,76 +34,85 @@ export class DeclaracionRepository {
   }
 
   public static async getAll(filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}, context?: Context): Promise<Pagination<DeclaracionDocument>> {
-    const filters: Record<string, any> = { ...filter };
+    // Se mantiene la lógica de filtros existente.
+    const query: Record<string, any> = { ...filter };
     const page: number = pagination.page || 0;
     const limit: number = pagination.size || 20;
-
-    let data: Pagination<DeclaracionDocument> = { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
+    // Nuevo: Se obtienen los parámetros de ordenamiento. Por defecto, ordena por 'updatedAt' de más reciente a más antiguo.
+    const sortField = pagination.sort || 'updatedAt';
+    const sortDirection = pagination.direction === 'asc' ? 1 : -1;
 
     const id = context?.user.id;
     const user = await UserModel.findById({ _id: id });
     if (!user?.roles.includes(Role.ROOT)) {
       const institucion = user?.institucion?.clave;
       if (institucion) {
-        filters['institucion'] = institucion;
+        // Se ajusta el filtro para que funcione con el modelo de Declaracion, buscando por el 'owner' que pertenece a la institución.
+        const usersInInstitucion = await UserModel.find({ 'institucion.clave': institucion }).select('_id');
+        const userIds = usersInInstitucion.map(u => u._id);
+        query['owner'] = { $in: userIds };
       }
     }
 
-    const results = await DeclaracionModel.aggregate([
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'owner',
-          foreignField: '_id',
-          as: 'user'
-        }
-      },
-      { $unwind: '$user' },
-      {
-        $project: { tipoDeclaracion: 1, firmada: 1, declaracionCompleta: 1, createdAt: 1, updatedAt: 1, user: 1, institucion: '$user.institucion.clave' }
-      },
-      {
-        $match: { ...filters }
-      },
-      {
-        $project: { tipoDeclaracion: 1, firmada: 1, declaracionCompleta: 1, createdAt: 1, updatedAt: 1, user: 1 }
-      },
-      {
-        $skip: limit * page
-      },
-      {
-        $limit: limit
-      }
-    ]);
-
-    if (results.length > 0) {
-      const docs = results.map(e => ({ ...e, owner: e.user }));
-      data = { docs };
-      return data;
+    // Para ordenar por un campo en una colección relacionada (como 'owner.username'),
+    // necesitamos usar una agregación de MongoDB.
+    const aggregate = DeclaracionModel.aggregate();
+    
+    // 1. Unir la colección de 'users' con 'declaraciones' usando el campo 'owner'.
+    aggregate.lookup({
+      from: 'users',
+      localField: 'owner',
+      foreignField: '_id',
+      as: 'ownerInfo'
+    });
+    
+    // 2. Descomponer el array resultante para tener un solo objeto de usuario por declaración.
+    aggregate.unwind('$ownerInfo');
+    
+    // 3. Aplicar los filtros de la consulta.
+    aggregate.match(query);
+    
+    // 4. Reemplazar el campo 'owner' (que es solo un ID) con el objeto completo del usuario.
+    aggregate.addFields({
+      owner: '$ownerInfo'
+    });
+    
+    // 5. Contar el total de documentos que coinciden con el filtro (para la paginación).
+    const totalDocs = (await DeclaracionModel.aggregate(aggregate.pipeline()).count("totalDocs"))[0]?.totalDocs || 0;
+    
+    // 6. Aplicar ordenamiento, salto y límite para la paginación.
+    aggregate.sort({ [sortField]: sortDirection });
+    aggregate.skip(page * limit);
+    aggregate.limit(limit);
+    
+    // 7. Ejecutar la consulta de agregación final para obtener los documentos de la página actual.
+    const docs = await aggregate.exec();
+    
+    const totalPages = Math.ceil(totalDocs / limit);
+    const hasNextPage = page + 1 < totalPages;
+    const hasPrevPage = page > 0;
+    
+    const declaraciones = {
+      docs,
+      totalDocs,
+      limit,
+      page: page,
+      totalPages,
+      hasNextPage,
+      hasPrevPage,
+      pagingCounter: page * limit + 1,
+      prevPage: hasPrevPage ? page - 1 : undefined,
+      nextPage: hasNextPage ? page + 1 : undefined,
+      hasMore: hasNextPage
+    };
+    
+    if (declaraciones) {
+      // La librería ya devuelve el objeto con el formato de paginación correcto.
+      return declaraciones;
     }
 
-    // TODO: validaciones para regresar los valores correctos para hasMore, hasNextPage, hasPrevPage
-
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////
-
-    // filter = filter || {};
-
-    // const declaraciones = await DeclaracionModel.paginate({
-    //   query: { ...filter },
-    //   sort: { createdAt: 'desc' },
-    //   populate: 'owner',
-    //   page: page + 1,
-    //   limit: Math.min(limit, 100)
-    // });
-    // if (declaraciones) {
-    //   return declaraciones;
-    // }
-
-    // return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
-    return data;
+    // En caso de error o si no hay resultados, devolvemos una estructura de paginación vacía.
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false, totalDocs: 0, totalPages: 0, pagingCounter: 0, prevPage: undefined, nextPage: undefined };
   }
 
   public static async getAllByUser(userID: string, filter?: DeclaracionesFilterInput, pagination: PaginationInputOptions = {}): Promise<Pagination<DeclaracionDocument>> {
@@ -115,18 +124,48 @@ export class DeclaracionRepository {
 
     const page: number = pagination.page || 0;
     const limit: number = pagination.size || 20;
-    const declaraciones = await DeclaracionModel.paginate({
-      query: { owner: user, ...filter },
-      sort: { createdAt: 'desc' },
-      populate: 'owner',
-      page: page + 1,
-      limit: Math.min(limit, 100)
+    // Nuevo: Se añade la lógica de ordenamiento también a esta función.
+    const sortField = pagination.sort || 'updatedAt';
+    const sortDirection = pagination.direction === 'asc' ? 1 : -1;
+
+    const query = { owner: user._id, ...filter };
+    
+    const aggregate = DeclaracionModel.aggregate();
+    aggregate.match(query);
+    
+    aggregate.lookup({
+      from: 'users',
+      localField: 'owner',
+      foreignField: '_id',
+      as: 'ownerInfo'
     });
+    
+    aggregate.unwind('$ownerInfo');
+    
+    aggregate.addFields({
+      owner: '$ownerInfo'
+    });
+    
+    const totalDocs = (await DeclaracionModel.aggregate(aggregate.pipeline()).count("totalDocs"))[0]?.totalDocs || 0;
+    
+    aggregate.sort({ [sortField]: sortDirection });
+    aggregate.skip(page * limit);
+    aggregate.limit(limit);
+    
+    const docs = await aggregate.exec();
+    
+    const totalPages = Math.ceil(totalDocs / limit);
+    const hasNextPage = page + 1 < totalPages;
+    const hasPrevPage = page > 0;
+    
+    const declaraciones = { docs, totalDocs, limit, page, totalPages, hasNextPage, hasPrevPage, pagingCounter: page * limit + 1, prevPage: hasPrevPage ? page - 1 : undefined, nextPage: hasNextPage ? page + 1 : undefined, hasMore: hasNextPage };
+    
     if (declaraciones) {
       return declaraciones;
     }
 
-    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false };
+    // Se actualiza el objeto de retorno para que coincida con la estructura completa de paginación.
+    return { docs: [], page, limit, hasMore: false, hasNextPage: false, hasPrevPage: false, totalDocs: 0, totalPages: 0, pagingCounter: 0, prevPage: undefined, nextPage: undefined };
   }
 
   public static async getOrCreate(userID: string, tipoDeclaracion: TipoDeclaracion, declaracionCompleta = true): Promise<DeclaracionDocument> {
@@ -148,7 +187,7 @@ export class DeclaracionRepository {
     return declaracion;
   }
 
-  public static async lastDeclaracion(userID: string): Promise<DeclaracionDocument> {
+  public static async lastDeclaracion(userID: string): Promise<DeclaracionDocument | null> {
     const user = await UserModel.findById({ _id: userID });
     if (!user) {
       throw new CreateError.NotFound(`User[${userID}] does not exist.`);
@@ -160,7 +199,7 @@ export class DeclaracionRepository {
     };
 
     const declaracion = await DeclaracionModel.findOne(filter, {}, { sort: { updatedAt: -1 } });
-    return declaracion as any;
+    return declaracion || null;
   }
 
   public static async sign(declaracionID: string, password: string, userID: string): Promise<Record<string, any> | null> {
