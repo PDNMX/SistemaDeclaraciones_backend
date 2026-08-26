@@ -6,7 +6,7 @@ services:
       args:
         - NODE_ENV=${NODE_ENV}
     ports:
-      - 3001:3001
+      - 127.0.0.1:3001:3001
     restart: unless-stopped
 
   app:
@@ -21,7 +21,7 @@ services:
     volumes:
       - .:/usr/app
     ports:
-      - 3000:3000
+      - 127.0.0.1:3000:3000
     networks:
       - default
       - s1-net
