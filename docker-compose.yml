@@ -2,7 +2,7 @@
 services:
   reports:
     build:
-      context: ../SistemaDeclaraciones_reportes
+      context: ${REPORTS_PATH:-../s1-reportes}
       args:
         - NODE_ENV=${NODE_ENV}
     ports:
