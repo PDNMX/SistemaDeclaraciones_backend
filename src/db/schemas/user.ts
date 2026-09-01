@@ -15,26 +15,33 @@ export const UserSchema = new Schema({
   },
   nombre: {
     type: String,
+    trim: true,
     required: true,
     uppercase: true,
   },
 	primerApellido: {
     type: String,
+    trim: true,
     required: true,
     uppercase: true,
   },
 	segundoApellido: {
     type: String,
+    trim: true,
     uppercase: true,
   },
   institucion: CatalogoSchema,
 	curp: {
     type: String,
+    trim: true,
+    set: (valor: string) => (valor || '').replace(/[\s-]/g, ''),
     required: true,
     uppercase: true,
   },
   rfc: {
     type: String,
+    trim: true,
+    set: (valor: string) => (valor || '').replace(/[\s-]/g, ''),
     required: true,
     uppercase: true,
   },
